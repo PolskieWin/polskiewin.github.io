@@ -36,7 +36,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 
   <!-- Cache-Busted Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="stylesheet" href="styles.css?v=4">
 
   <!-- Structured Data: SoftwareApplication Schema.org JSON-LD -->
   <script type="application/ld+json">
@@ -198,29 +198,28 @@
                 </a>
               </div>
 
-              <!-- Quick Specs Chips -->
-              <div class="hero-specs-chips">
-                <div class="spec-chip">Size: <strong>21 MB</strong></div>
-                <div class="spec-chip">Input Latency: <strong>&lt; 2 ms</strong></div>
-                <div class="spec-chip">Architecture: <strong>arm64-v8a</strong></div>
-                <div class="spec-chip">Java: <strong>21 &amp; 25 Built-in</strong></div>
-                <div class="spec-chip">License: <strong>LGPLv3</strong></div>
+              <!-- Quick Specs Chips & Hero Spec Pills -->
+              <div class="hero-specs-chips hero-pills">
+                <div class="spec-chip hero-pill">Size: <strong>21 MB</strong></div>
+                <div class="spec-chip hero-pill">Input Latency: <strong>&lt; 2 ms</strong></div>
+                <div class="spec-chip hero-pill">Architecture: <strong>arm64-v8a</strong></div>
+                <div class="spec-chip hero-pill">Java: <strong>21 &amp; 25 Built-in</strong></div>
+                <div class="spec-chip hero-pill">License: <strong>LGPLv3</strong></div>
               </div>
             </div>
 
           </div>
 
-          <!-- Hero Media Card (Non-Overlapping Bottom Status Bar) -->
-          <div class="hero-media-card">
+          <!-- Hero Showcase Card (PolskieMC / Quick Actions Preview) -->
+          <div class="hero-media-card hero-preview-card">
             <div class="hero-img-wrap">
               <img src="assets/screenshots/home_hub.jpg" alt="Libre Launcher Android Material You Interface" loading="eager">
             </div>
-            <div class="media-card-status-bar">
+            <div class="media-card-status-bar hero-preview-footer">
               <div class="status-indicator">
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                <span>Libre Launcher v2.80 • Material You UI</span>
+                <span>Libre Launcher v2.80 • Material You UI • arm64-v8a</span>
               </div>
-              <span class="status-arch mono">arm64-v8a</span>
             </div>
           </div>
 
@@ -526,9 +525,9 @@
                   <span class="table-feature-desc">Pre-integrated runtime execution</span>
                 </td>
                 <td class="col-highlight">
-                  <span class="badge-tag-libre">Java 21 &amp; Java 25</span>
+                  <span class="badge-tag-libre">Java 21 &amp; Java 25 (Bundled)</span>
                 </td>
-                <td><span class="badge-tag-alt">External Download</span></td>
+                <td><span class="badge-tag-alt">Installable in Runtime Tab</span></td>
                 <td><span class="badge-tag-alt">Java 17/21 Bundle</span></td>
                 <td><span class="badge-tag-alt">Bloated Multi-GB</span></td>
               </tr>
@@ -550,10 +549,10 @@
                   <span class="table-feature-desc">GPU translation &amp; backend pipeline</span>
                 </td>
                 <td class="col-highlight">
-                  <strong style="color: var(--md-sys-color-primary);">LibreMobile (Vulkan + GLES)</strong>
+                  <strong style="color: var(--md-sys-color-primary);">LibreMobile Vulkan</strong>
                 </td>
-                <td>GLES / VirGL wrapper</td>
-                <td>gl4es / Zink wrapper</td>
+                <td>MobileGlues / GLES / VirGL</td>
+                <td>Holy GL4ES / Zink</td>
                 <td>Legacy GL4ES</td>
               </tr>
               <tr>
@@ -574,11 +573,11 @@
                   <span class="table-feature-desc">Mod downloading &amp; profile packs</span>
                 </td>
                 <td class="col-highlight">
-                  <span class="badge-tag-libre">Direct API + .librepack</span>
+                  <span class="badge-tag-libre">Modrinth API + .librepack</span>
                 </td>
-                <td>Partial / In-app</td>
-                <td>Manual Web Browser</td>
-                <td>Manual File Manager</td>
+                <td>File Browser + Modrinth</td>
+                <td>File Browser</td>
+                <td>Manual File Copy</td>
               </tr>
               <tr>
                 <td>
@@ -629,11 +628,11 @@
             </div>
             <div class="matrix-row libre-highlight">
               <span class="matrix-label">Libre Launcher (Android)</span>
-              <span class="matrix-val badge-tag-libre">Java 21 &amp; Java 25</span>
+              <span class="matrix-val badge-tag-libre">Java 21 &amp; Java 25 (Bundled)</span>
             </div>
             <div class="matrix-row">
               <span class="matrix-label">Amethyst Launcher</span>
-              <span class="matrix-val">External Download</span>
+              <span class="matrix-val">Installable in Runtime Tab</span>
             </div>
             <div class="matrix-row">
               <span class="matrix-label">PojavLauncher</span>
@@ -679,11 +678,11 @@
             </div>
             <div class="matrix-row">
               <span class="matrix-label">Amethyst Launcher</span>
-              <span class="matrix-val">GLES / VirGL</span>
+              <span class="matrix-val">MobileGlues / GLES / VirGL</span>
             </div>
             <div class="matrix-row">
               <span class="matrix-label">PojavLauncher</span>
-              <span class="matrix-val">gl4es / Zink</span>
+              <span class="matrix-val">Holy GL4ES / Zink</span>
             </div>
             <div class="matrix-row">
               <span class="matrix-label">Desktop Fat Forks</span>
@@ -721,15 +720,15 @@
             </div>
             <div class="matrix-row libre-highlight">
               <span class="matrix-label">Libre Launcher (Android)</span>
-              <span class="matrix-val badge-tag-libre">API + .librepack</span>
+              <span class="matrix-val badge-tag-libre">Modrinth API + .librepack</span>
             </div>
             <div class="matrix-row">
               <span class="matrix-label">Amethyst Launcher</span>
-              <span class="matrix-val">Partial In-app</span>
+              <span class="matrix-val">File Browser + Modrinth</span>
             </div>
             <div class="matrix-row">
               <span class="matrix-label">PojavLauncher</span>
-              <span class="matrix-val">Manual Browser</span>
+              <span class="matrix-val">File Browser</span>
             </div>
             <div class="matrix-row">
               <span class="matrix-label">Desktop Fat Forks</span>
@@ -959,7 +958,7 @@
   </footer>
 
   <!-- Cache-Busted Script -->
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=4"></script>
 
   <!-- Cloudflare Web Analytics -->
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5a9eb8c618674fe9803bcbbfe78318b9"}'></script>
