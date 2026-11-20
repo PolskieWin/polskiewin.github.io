@@ -1,7 +1,7 @@
 /* ==========================================================================
    Libre Launcher & Ecosystem — Material You (Material Design 3) Theme
    Palette: Dark Espresso & Vibrant Amber
-   Version: 4.0 (Mobile Overflow Fixes & Ecosystem Comparison Alignment)
+   Version: 5.0 (Lightbox Header & Screenshot Containment Alignment)
    ========================================================================== */
 
 :root {
@@ -1121,7 +1121,7 @@ img {
   z-index: 10;
   max-width: 880px;
   width: 100%;
-  max-height: 92vh;
+  max-height: 94vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1135,10 +1135,16 @@ img {
   box-sizing: border-box;
 }
 
+.lightbox-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
 .lightbox-close-btn {
-  position: absolute;
-  top: 12px;
-  right: 14px;
+  position: static;
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -1146,12 +1152,13 @@ img {
   border: 1px solid var(--md-sys-color-outline-subtle);
   color: var(--md-sys-color-on-surface);
   font-size: 1.5rem;
+  line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all var(--motion-duration-quick) var(--motion-easing);
-  z-index: 20;
+  flex-shrink: 0;
 }
 
 .lightbox-close-btn:hover {
@@ -1160,22 +1167,23 @@ img {
 }
 
 .lightbox-image-wrapper {
-  max-height: 70vh;
+  max-height: 75vh;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border-radius: 12px;
-  margin-top: 8px;
+  border-radius: 16px;
   margin-bottom: 12px;
   width: 100%;
 }
 
 .lightbox-image-wrapper img {
-  max-height: 70vh;
+  max-height: 75vh;
+  width: auto;
   max-width: 100%;
   object-fit: contain;
-  border-radius: 12px;
+  border-radius: 16px;
+  display: block;
 }
 
 .lightbox-caption {

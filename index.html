@@ -36,7 +36,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 
   <!-- Cache-Busted Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=5">
 
   <!-- Structured Data: SoftwareApplication Schema.org JSON-LD -->
   <script type="application/ld+json">
@@ -920,7 +920,9 @@
   <div id="screenshot-lightbox" class="lightbox-modal" aria-hidden="true" role="dialog" aria-label="Screenshot Preview">
     <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
     <div class="lightbox-content">
-      <button type="button" class="lightbox-close-btn" id="lightbox-close-btn" aria-label="Close screenshot preview">&times;</button>
+      <div class="lightbox-header">
+        <button type="button" class="lightbox-close-btn" id="lightbox-close-btn" aria-label="Close screenshot preview">&times;</button>
+      </div>
       <div class="lightbox-image-wrapper">
         <img id="lightbox-img" src="" alt="Enlarged screenshot preview">
       </div>
