@@ -5,6 +5,7 @@
  * 2. GitHub Releases API auto-updating download buttons and runtime variants
  * 3. Animated comparison benchmark storage bars
  * 4. Dropdown toggle interaction and outside-click dismiss
+ * 5. Tap-to-expand responsive screenshot lightbox preview
  */
 
 (() => {
@@ -28,6 +29,15 @@
   const variantNoruntime = document.getElementById('variant-noruntime');
   const variantNoruntimeSize = document.getElementById('variant-noruntime-size');
   const storageFills = document.querySelectorAll('.storage-fill');
+
+  // Lightbox Elements
+  const lightboxModal = document.getElementById('screenshot-lightbox');
+  const lightboxBackdrop = document.getElementById('lightbox-backdrop');
+  const lightboxCloseBtn = document.getElementById('lightbox-close-btn');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxTitle = document.getElementById('lightbox-title');
+  const lightboxDesc = document.getElementById('lightbox-desc');
+  const galleryCards = document.querySelectorAll('.gallery-card');
 
   /**
    * Format bytes into a human-readable MB string.
@@ -83,7 +93,6 @@
   function animateStorageBars() {
     storageFills.forEach(fill => {
       const targetWidth = fill.getAttribute('data-width') || '0%';
-      // Reset width briefly then animate
       fill.style.width = '0%';
       requestAnimationFrame(() => {
         setTimeout(() => {
@@ -145,7 +154,6 @@
       }
 
     } catch (err) {
-      // Graceful fallback to default values
       if (primaryDownloadBtn) {
         primaryDownloadBtn.href = FALLBACK_RELEASE_URL;
       }
@@ -153,6 +161,34 @@
         downloadBtnText.textContent = `Download ${FALLBACK_VERSION} • ${FALLBACK_STRIPPED_SIZE} Stripped APK`;
       }
     }
+  }
+
+  /**
+   * Open Screenshot Lightbox Modal
+   * @param {string} fullUrl 
+   * @param {string} title 
+   * @param {string} desc 
+   */
+  function openLightbox(fullUrl, title, desc) {
+    if (!lightboxModal || !lightboxImg) return;
+    lightboxImg.src = fullUrl;
+    lightboxImg.alt = title;
+    if (lightboxTitle) lightboxTitle.textContent = title;
+    if (lightboxDesc) lightboxDesc.textContent = desc;
+
+    lightboxModal.classList.add('active');
+    lightboxModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  /**
+   * Close Screenshot Lightbox Modal
+   */
+  function closeLightbox() {
+    if (!lightboxModal) return;
+    lightboxModal.classList.remove('active');
+    lightboxModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
   }
 
   /**
@@ -196,14 +232,38 @@
           closeVariantMenu();
         }
       });
+    }
 
-      // Close dropdown on Escape key
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && variantMenu.classList.contains('show')) {
-          closeVariantMenu();
+    // Gallery Lightbox Handlers
+    galleryCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const full = card.getAttribute('data-full');
+        const title = card.getAttribute('data-title') || 'Libre Launcher';
+        const desc = card.getAttribute('data-desc') || '';
+        if (full) {
+          openLightbox(full, title, desc);
         }
       });
+    });
+
+    if (lightboxCloseBtn) {
+      lightboxCloseBtn.addEventListener('click', closeLightbox);
     }
+
+    if (lightboxBackdrop) {
+      lightboxBackdrop.addEventListener('click', closeLightbox);
+    }
+
+    // Keyboard Shortcuts (Escape to dismiss dropdown & lightbox)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (lightboxModal && lightboxModal.classList.contains('active')) {
+          closeLightbox();
+        } else if (variantMenu && variantMenu.classList.contains('show')) {
+          closeVariantMenu();
+        }
+      }
+    });
   }
 
   function openVariantMenu() {
