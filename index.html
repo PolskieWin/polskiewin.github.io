@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Canonical & SEO Metadata -->
+  <link rel="canonical" href="https://polskiewin.github.io/">
+  <title>Libre Launcher (Android) — 21 MB Open-Source Minecraft: Java Edition Launcher</title>
+  <meta name="description" content="Libre Launcher (Android) is an ultra-lightweight, 21 MB open-source Minecraft: Java Edition launcher for Android by PolskieWin. Bundled Java 21 &amp; 25, LibreMobile renderer, sub-2ms native Rust controls, and Turnip driver manager.">
+  <meta name="keywords" content="Libre Launcher, Libre Launcher Android, Minecraft Java Android, PolskieWin, LibreMobile, Turnip drivers Android, Rust touch controls, Java 21 Android, Java 25 Android, lightweight Minecraft launcher">
+  <meta name="author" content="PolskieWin">
+  <meta name="theme-color" content="#14110F">
+
+  <!-- OpenGraph Metadata -->
+  <meta property="og:title" content="Libre Launcher (Android) — 21 MB Open-Source Minecraft: Java Edition Launcher">
+  <meta property="og:description" content="Ultra-lightweight 21 MB Minecraft: Java Edition launcher for Android. Bundled Java 21 &amp; 25, LibreMobile renderer, native Rust controls (<2 ms latency), Adreno Turnip manager.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://polskiewin.github.io/">
+  <meta property="og:image" content="assets/1_new_ui.jpg">
+  <meta property="og:site_name" content="Libre Ecosystem by PolskieWin">
+
+  <!-- Twitter Card Metadata -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Libre Launcher (Android) — 21 MB Open-Source Minecraft: Java Edition Launcher">
+  <meta name="twitter:description" content="Ultra-lightweight 21 MB Minecraft: Java Edition launcher for Android with bundled Java 21/25 runtimes and native Rust controls.">
+  <meta name="twitter:image" content="assets/1_new_ui.jpg">
+
+  <!-- Favicon & Icons -->
+  <link rel="icon" type="image/png" href="assets/libre-launcher-icon.png">
+  <link rel="apple-touch-icon" href="assets/libre-launcher-icon.png">
+
+  <!-- Typography: Plus Jakarta Sans, Inter, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Structured Data: SoftwareApplication Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Libre Launcher (Android)",
+    "alternateName": [
+      "LibreLauncher Mobile",
+      "Libre Launcher Minecraft Java Edition Android"
+    ],
+    "description": "Libre Launcher (Android) is an ultra-lightweight, 21 MB open-source Minecraft: Java Edition launcher for Android (arm64-v8a) developed by PolskieWin. Features bundled Java 21 & Java 25 runtimes, LibreMobile renderer, native Rust controls with sub-2ms input latency, Adreno Turnip GPU driver manager, Modrinth modpack integration, and Material You live widgets.",
+    "url": "https://polskiewin.github.io/",
+    "operatingSystem": "Android 10+",
+    "applicationCategory": "GameApplication",
+    "softwareVersion": "2.80",
+    "author": {
+      "@type": "Person",
+      "name": "PolskieWin",
+      "url": "https://github.com/PolskieWin"
+    },
+    "codeRepository": "https://github.com/PolskieWin/libre-launcher",
+    "license": "https://www.gnu.org/licenses/lgpl-3.0.html",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "downloadUrl": "https://github.com/PolskieWin/libre-launcher/releases"
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Sticky Material You Pill Navigation Bar -->
+  <header class="header-wrapper">
+    <nav class="nav-pill-bar" aria-label="Main Navigation">
+      <!-- Brand Pill -->
+      <a href="#overview" class="brand-pill" title="Libre Launcher Android Home">
+        <img src="assets/libre-launcher-icon.png" alt="Libre Launcher Icon" class="brand-icon-img" width="24" height="24">
+        <span class="brand-name">Libre Launcher</span>
+        <span class="brand-badge">Android</span>
+      </a>
+
+      <!-- Central Pill Navigation Tabs -->
+      <div class="nav-tabs" role="tablist">
+        <button class="nav-tab-btn active" role="tab" aria-selected="true" data-tab="overview" id="tab-overview">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3z"/></svg>
+          <span>Overview</span>
+        </button>
+        <button class="nav-tab-btn" role="tab" aria-selected="false" data-tab="comparison" id="tab-comparison">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H7v-4h5v4zm0-6H7V7h5v4zm5 6h-4v-8h4v8z"/></svg>
+          <span>Comparison</span>
+        </button>
+        <button class="nav-tab-btn" role="tab" aria-selected="false" data-tab="ecosystem" id="tab-ecosystem">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg>
+          <span>Libre Ecosystem</span>
+        </button>
+      </div>
+
+      <!-- Top-Right Pill Action CTAs -->
+      <div class="nav-actions">
+        <a href="https://discord.gg/KJpCVzRzRy" target="_blank" rel="noopener noreferrer" class="btn-pill-cta btn-discord" title="Join Libre Community Discord">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.893.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+          <span>Discord</span>
+        </a>
+        <a href="https://github.com/PolskieWin/libre-launcher" target="_blank" rel="noopener noreferrer" class="btn-pill-cta" title="View Source on GitHub">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+
+    <!-- ======================================================================
+         TAB 1: OVERVIEW
+         ====================================================================== -->
+    <section id="panel-overview" class="tab-panel active" role="tabpanel" aria-labelledby="tab-overview">
+      
+      <!-- Hero Section -->
+      <div class="hero-section">
+        <div class="hero-grid">
+          
+          <div class="hero-content">
+            <div class="hero-pill-badge">
+              <span class="dot"></span>
+              <span>Next-Gen Android Minecraft: Java Edition Client</span>
+            </div>
+
+            <h1 class="hero-title">
+              21 MB Pure Performance. <br>
+              <span class="gradient-text">Zero Compromises.</span>
+            </h1>
+
+            <p class="hero-subtitle">
+              <strong>Libre Launcher (Android)</strong> packs bundled <strong>Java 21 &amp; Java 25</strong>, the high-throughput <strong>LibreMobile</strong> Vulkan renderer, native <strong>Rust</strong> touch controls (<2 ms latency), Adreno Turnip driver manager, and dynamic Material You home-screen widgets into a featherweight 21 MB APK.
+            </p>
+
+            <!-- Dynamic Split-Pill Download Button (GitHub Releases API) -->
+            <div class="download-action-group">
+              <div class="split-pill-container" id="split-pill-wrapper">
+                <a href="https://github.com/PolskieWin/libre-launcher/releases/latest" class="split-pill-primary" id="primary-download-btn">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+                  <span id="download-btn-text">Download v2.80 • 21 MB Stripped APK</span>
+                </a>
+                <div class="split-pill-divider"></div>
+                <button type="button" class="split-pill-dropdown-btn" id="dropdown-toggle-btn" aria-haspopup="true" aria-expanded="false" title="Other download options &amp; runtimes">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5z"/></svg>
+                </button>
+              </div>
+
+              <!-- Variant Selector Pill Dropdown Menu -->
+              <div class="variant-dropdown-menu" id="variant-menu" role="menu">
+                <a href="https://github.com/PolskieWin/libre-launcher/releases/latest" class="variant-item" id="variant-full" role="menuitem">
+                  <div class="variant-item-left">
+                    <span class="variant-item-title">Full Release (All Runtimes)</span>
+                    <span class="variant-item-desc">LibreLauncher-release.apk • Standard bundle</span>
+                  </div>
+                  <span class="variant-badge" id="variant-full-size">~71 MB</span>
+                </a>
+
+                <a href="https://github.com/PolskieWin/libre-launcher/releases/latest" class="variant-item" id="variant-noruntime" role="menuitem">
+                  <div class="variant-item-left">
+                    <span class="variant-item-title">No-Runtime (BYO Java)</span>
+                    <span class="variant-item-desc">LibreLauncher-noruntime-release.apk</span>
+                  </div>
+                  <span class="variant-badge" id="variant-noruntime-size">~43 MB</span>
+                </a>
+
+                <a href="https://codeberg.org/PolskieWin/libre-launcher" target="_blank" rel="noopener noreferrer" class="variant-item" role="menuitem">
+                  <div class="variant-item-left">
+                    <span class="variant-item-title">Codeberg Mirror</span>
+                    <span class="variant-item-desc">European FOSS Git repository</span>
+                  </div>
+                  <span class="variant-badge">Codeberg</span>
+                </a>
+
+                <a href="obtainium://app/https://github.com/PolskieWin/libre-launcher" class="variant-item" role="menuitem">
+                  <div class="variant-item-left">
+                    <span class="variant-item-title">Obtainium 1-Tap Tracker</span>
+                    <span class="variant-item-desc">Direct APK background updates</span>
+                  </div>
+                  <span class="variant-badge">Obtainium</span>
+                </a>
+
+                <a href="https://gitlab.com/fdroid/fdroiddata/-/merge_requests/58168" target="_blank" rel="noopener noreferrer" class="variant-item" role="menuitem">
+                  <div class="variant-item-left">
+                    <span class="variant-item-title">F-Droid Repository</span>
+                    <span class="variant-item-desc">Official fdroiddata MR #58168</span>
+                  </div>
+                  <span class="variant-badge">F-Droid</span>
+                </a>
+              </div>
+
+              <!-- Quick Specs Chips -->
+              <div class="hero-specs-chips">
+                <div class="spec-chip">Size: <strong>21 MB</strong></div>
+                <div class="spec-chip">Input Latency: <strong>&lt; 2 ms</strong></div>
+                <div class="spec-chip">Architecture: <strong>arm64-v8a</strong></div>
+                <div class="spec-chip">Java: <strong>21 &amp; 25 Built-in</strong></div>
+                <div class="spec-chip">License: <strong>LGPLv3</strong></div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Hero Media Card -->
+          <div class="hero-media-card">
+            <img src="assets/1_new_ui.jpg" alt="Libre Launcher Android Material You Interface" loading="eager">
+            <div class="media-badge-overlay">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+              <span>Libre Launcher v2.80 • Material You UI</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Disambiguation Card -->
+      <div class="disambiguation-card">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 17h2v-6h-2v6zm1-15C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 9h2V7h-2v2z"/></svg>
+        <div>
+          <h4>Project Disambiguation Notice</h4>
+          <p>
+            <strong>Libre Launcher (Android)</strong> is an independent, mobile-first Minecraft: Java Edition launcher engineered specifically for Android (arm64-v8a) by <strong>PolskieWin</strong>. It is not affiliated with, nor derived from, unrelated desktop PC launchers that share the name.
+          </p>
+        </div>
+      </div>
+
+      <!-- 6 Key Architectural Pillars (24px–28px Squircles) -->
+      <div class="section-header">
+        <span class="section-tag">Core Architecture</span>
+        <h2 class="section-title">Engineered for Raw Mobile Power</h2>
+        <p class="section-description">Every byte in Libre Launcher serves a purpose. No bloated webviews, no heavy desktop emulators, and zero unnecessary dependencies.</p>
+      </div>
+
+      <div class="features-grid">
+        
+        <!-- Feature 1: Stripped APK -->
+        <article class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+          </div>
+          <h3 class="feature-title">21 MB Dual-Runtime APK</h3>
+          <p class="feature-body">Through aggressive stripped packaging, dead-code elimination, and bytecode trimming, both <strong>Java 21</strong> and bleeding-edge <strong>Java 25</strong> fit within a clean 21 MB download.</p>
+          <div class="feature-metric-pill">21 MB • Java 21 + 25</div>
+        </article>
+
+        <!-- Feature 2: LibreMobile Renderer -->
+        <article class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM5 15h14l-4.5-6-3.5 4.5-2.5-3z"/></svg>
+          </div>
+          <h3 class="feature-title">LibreMobile Renderer</h3>
+          <p class="feature-body">Zero-overhead Vulkan pipeline and optimized GLES translation directly targeting mobile tiled GPUs. Drastically reduces thermal throttling and frame pacing spikes during heavy rendering.</p>
+          <div class="feature-metric-pill">Direct Vulkan Pipeline</div>
+        </article>
+
+        <!-- Feature 3: Native Rust Controls -->
+        <article class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11H19V7c0-1.1-.9-2-2-2h-4V3.5C13 2.12 11.88 1 10.5 1S8 2.12 8 3.5V5H4c-1.1 0-1.99.9-1.99 2v3.8H3.5c1.49 0 2.7 1.21 2.7 2.7s-1.21 2.7-2.7 2.7H2V20c0 1.1.9 2 2 2h3.8v-1.5c0-1.49 1.21-2.7 2.7-2.7 1.49 0 2.7 1.21 2.7 2.7V22H17c1.1 0 2-.9 2-2v-4h1.5c1.38 0 2.5-1.12 2.5-2.5s-1.12-2.5-2.5-2.5z"/></svg>
+          </div>
+          <h3 class="feature-title">Native Rust Touch Controls</h3>
+          <p class="feature-body">Sub-2ms input latency via <code>libre_controls</code> built in pure Rust. Bypasses Android UI thread queues for zero ghost touches, instant drag-aiming, gyro steering, and hardware controller mapping.</p>
+          <div class="feature-metric-pill">&lt; 2 ms Latency • Rust</div>
+        </article>
+
+        <!-- Feature 4: Adreno Turnip Driver Manager -->
+        <article class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+          </div>
+          <h3 class="feature-title">Adreno Turnip Driver Manager</h3>
+          <p class="feature-body">Built-in hot-swappable Mesa Turnip driver manager tailored for Qualcomm Snapdragon GPUs. Switch between Turnip Vulkan, system proprietary drivers, Freedreno, and Zink in one tap.</p>
+          <div class="feature-metric-pill">Mesa Turnip Hot-Swap</div>
+        </article>
+
+        <!-- Feature 5: Modrinth & .librepack -->
+        <article class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l-5.5 9h11L12 2zm0 3.84L13.93 9h-3.86L12 5.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM3 21.5h8v-8H3v8zm2-6h4v4H5v-4z"/></svg>
+          </div>
+          <h3 class="feature-title">Modrinth &amp; .librepack</h3>
+          <p class="feature-body">Full native Modrinth ecosystem browser for Fabric, Quilt, and NeoForge mods, resource packs, and shaders. Export entire instances and custom control layouts into single-click <code>.librepack</code> archives.</p>
+          <div class="feature-metric-pill">Modrinth Direct API</div>
+        </article>
+
+        <!-- Feature 6: Material You Widgets -->
+        <article class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm10 0h8v8h-8z"/></svg>
+          </div>
+          <h3 class="feature-title">Material You Live Widgets</h3>
+          <p class="feature-body">Native 2x1 and 2x2 Android home-screen widgets providing live playtime counters, quick launch for last-played worlds or servers, active driver profiles, and battery drain telemetry.</p>
+          <div class="feature-metric-pill">2x1 &amp; 2x2 Widgets</div>
+        </article>
+
+      </div>
+
+      <!-- In-Game Showcase Gallery -->
+      <div class="screenshots-section">
+        <div class="section-header">
+          <span class="section-tag">Interface Showcase</span>
+          <h2 class="section-title">Designed for Modern Android</h2>
+          <p class="section-description">A fluid, clean interface following the latest Material Design 3 guidelines with rich telemetry and skin customization.</p>
+        </div>
+
+        <div class="gallery-grid">
+          <div class="gallery-item">
+            <img src="assets/1_new_ui.jpg" alt="Libre Launcher Material You Main UI" loading="lazy">
+            <div class="gallery-caption">
+              <strong>Material You Hub</strong>
+              <span>Clean Design</span>
+            </div>
+          </div>
+          <div class="gallery-item">
+            <img src="assets/3_rust_controls.jpg" alt="Rust Native Touch Controls Layout" loading="lazy">
+            <div class="gallery-caption">
+              <strong>Rust Touch Controls</strong>
+              <span>&lt;2ms Response</span>
+            </div>
+          </div>
+          <div class="gallery-item">
+            <img src="assets/2_skin_manager.jpg" alt="3D Skin and Cape Manager" loading="lazy">
+            <div class="gallery-caption">
+              <strong>Skin &amp; Cape Manager</strong>
+              <span>3D Canvas</span>
+            </div>
+          </div>
+          <div class="gallery-item">
+            <img src="assets/4_gameplay_telemetry.jpg" alt="In-Game Gameplay Telemetry and Frame Rates" loading="lazy">
+            <div class="gallery-caption">
+              <strong>Gameplay Telemetry</strong>
+              <span>Vulkan FPS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ======================================================================
+         TAB 2: COMPARISON
+         ====================================================================== -->
+    <section id="panel-comparison" class="tab-panel" role="tabpanel" aria-labelledby="tab-comparison">
+      
+      <div class="comparison-section">
+        
+        <div class="section-header">
+          <span class="section-tag">Benchmark Analysis</span>
+          <h2 class="section-title">How Libre Launcher Compares</h2>
+          <p class="section-description">Side-by-side technical comparison with legacy Minecraft launchers on Android.</p>
+        </div>
+
+        <!-- Storage Footprint Benchmark Animated Bars -->
+        <div class="storage-benchmark-card">
+          <div class="benchmark-header">
+            <div class="benchmark-title-wrap">
+              <h3>Storage Footprint (Install APK Size)</h3>
+              <p>Smaller is better. Lower download time, zero bloatware, and maximum storage savings.</p>
+            </div>
+            <div class="spec-chip">Benchmark Metric: <strong>Base APK Download</strong></div>
+          </div>
+
+          <div class="storage-bars-list">
+            
+            <!-- Libre Launcher -->
+            <div class="storage-bar-row">
+              <div class="storage-bar-labels">
+                <div class="storage-target-name">
+                  <strong>Libre Launcher (Android)</strong>
+                  <span class="storage-target-badge">Includes Java 21 + 25</span>
+                </div>
+                <span class="storage-size-val" style="color: var(--md-sys-color-primary);">~21 MB</span>
+              </div>
+              <div class="storage-track">
+                <div class="storage-fill libre" data-width="7%" style="width: 7%;"></div>
+              </div>
+            </div>
+
+            <!-- Amethyst Launcher -->
+            <div class="storage-bar-row">
+              <div class="storage-bar-labels">
+                <div class="storage-target-name">
+                  <span>Amethyst Launcher</span>
+                </div>
+                <span class="storage-size-val" style="color: #B0A093;">~149 MB</span>
+              </div>
+              <div class="storage-track">
+                <div class="storage-fill competitor-1" data-width="50%" style="width: 50%;"></div>
+              </div>
+            </div>
+
+            <!-- PojavLauncher -->
+            <div class="storage-bar-row">
+              <div class="storage-bar-labels">
+                <div class="storage-target-name">
+                  <span>PojavLauncher</span>
+                </div>
+                <span class="storage-size-val" style="color: #8F8175;">~176 MB</span>
+              </div>
+              <div class="storage-track">
+                <div class="storage-fill competitor-2" data-width="59%" style="width: 59%;"></div>
+              </div>
+            </div>
+
+            <!-- Fat Multi-Runtime Forks -->
+            <div class="storage-bar-row">
+              <div class="storage-bar-labels">
+                <div class="storage-target-name">
+                  <span>Desktop-Style Fat Multi-Runtime Forks</span>
+                </div>
+                <span class="storage-size-val" style="color: #6D6056;">~259–300 MB</span>
+              </div>
+              <div class="storage-track">
+                <div class="storage-fill competitor-3" data-width="95%" style="width: 95%;"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Comprehensive Comparison Table -->
+        <div class="table-wrapper">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th style="width: 25%;">Feature / Spec</th>
+                <th class="col-highlight" style="width: 25%;">Libre Launcher (Android)</th>
+                <th style="width: 17%;">Amethyst Launcher</th>
+                <th style="width: 17%;">PojavLauncher</th>
+                <th style="width: 16%;">Desktop Fat Forks</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <span class="table-feature-title">APK Size</span>
+                  <span class="table-feature-desc">Base stripped download footprint</span>
+                </td>
+                <td class="col-highlight">
+                  <span class="badge-tag-libre">~21 MB (Stripped)</span>
+                </td>
+                <td><span class="badge-tag-alt">~149 MB</span></td>
+                <td><span class="badge-tag-alt">~176 MB</span></td>
+                <td><span class="badge-tag-alt">~259–300 MB</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="table-feature-title">Bundled Java Runtimes</span>
+                  <span class="table-feature-desc">Pre-integrated runtime execution</span>
+                </td>
+                <td class="col-highlight">
+                  <span class="badge-tag-libre">Java 21 &amp; Java 25</span>
+                </td>
+                <td><span class="badge-tag-alt">External Download</span></td>
+                <td><span class="badge-tag-alt">Java 17/21 Bundle</span></td>
+                <td><span class="badge-tag-alt">Bloated Multi-GB</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="table-feature-title">Native Core Engine</span>
+                  <span class="table-feature-desc">Touch pipeline &amp; input latency</span>
+                </td>
+                <td class="col-highlight">
+                  <strong style="color: var(--md-sys-color-primary);">Rust + C++ JNI (&lt;2 ms)</strong>
+                </td>
+                <td>Standard Java / Kotlin</td>
+                <td>C / Java Legacy JNI</td>
+                <td>Heavy Emulated Wrapper</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="table-feature-title">Graphics Renderer</span>
+                  <span class="table-feature-desc">GPU translation &amp; backend pipeline</span>
+                </td>
+                <td class="col-highlight">
+                  <strong style="color: var(--md-sys-color-primary);">LibreMobile (Vulkan + GLES)</strong>
+                </td>
+                <td>GLES / VirGL wrapper</td>
+                <td>gl4es / Zink wrapper</td>
+                <td>Legacy GL4ES</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="table-feature-title">Home-Screen Widgets</span>
+                  <span class="table-feature-desc">Live playtime &amp; instant launch</span>
+                </td>
+                <td class="col-highlight">
+                  <span class="badge-tag-libre">2x1 &amp; 2x2 Material You</span>
+                </td>
+                <td>None</td>
+                <td>None</td>
+                <td>None</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="table-feature-title">Modrinth &amp; Sharing</span>
+                  <span class="table-feature-desc">Mod downloading &amp; profile packs</span>
+                </td>
+                <td class="col-highlight">
+                  <span class="badge-tag-libre">Direct API + .librepack</span>
+                </td>
+                <td>Partial / In-app</td>
+                <td>Manual Web Browser</td>
+                <td>Manual File Manager</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="table-feature-title">License &amp; Privacy</span>
+                  <span class="table-feature-desc">Telemetry and distribution freedom</span>
+                </td>
+                <td class="col-highlight">
+                  <span class="badge-tag-libre">LGPLv3 • Zero Telemetry</span>
+                </td>
+                <td>GPLv3</td>
+                <td>GPLv3</td>
+                <td>Proprietary / Ad-supported</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ======================================================================
+         TAB 3: LIBRE ECOSYSTEM
+         ====================================================================== -->
+    <section id="panel-ecosystem" class="tab-panel" role="tabpanel" aria-labelledby="tab-ecosystem">
+      
+      <div class="ecosystem-section">
+        
+        <div class="section-header">
+          <span class="section-tag">PolskieWin Open Source</span>
+          <h2 class="section-title">The Complete Libre Ecosystem</h2>
+          <p class="section-description">High-performance native utilities, zero-telemetry engines, and stripped tools built in Rust, C++, and Kotlin.</p>
+        </div>
+
+        <div class="ecosystem-grid">
+          
+          <!-- Card 1: Libre Launcher -->
+          <article class="ecosystem-card">
+            <div class="ecosystem-card-top">
+              <div class="ecosystem-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg>
+              </div>
+              <span class="ecosystem-badge">Flagship Android</span>
+            </div>
+            <h3 class="ecosystem-title">Libre Launcher (Android)</h3>
+            <p class="ecosystem-desc">21 MB stripped Minecraft: Java Edition launcher for Android. Features bundled Java 21 &amp; 25, LibreMobile Vulkan renderer, native Rust controls, and Turnip driver manager.</p>
+            <div class="ecosystem-meta-chips">
+              <span class="eco-chip">Rust</span>
+              <span class="eco-chip">C++ JNI</span>
+              <span class="eco-chip">Java 21/25</span>
+              <span class="eco-chip">LGPLv3</span>
+            </div>
+            <a href="https://github.com/PolskieWin/libre-launcher" target="_blank" rel="noopener noreferrer" class="ecosystem-btn">
+              <span>View Repository</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+            </a>
+          </article>
+
+          <!-- Card 2: LibreCut RS -->
+          <article class="ecosystem-card">
+            <div class="ecosystem-card-top">
+              <div class="ecosystem-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>
+              </div>
+              <span class="ecosystem-badge">2.94 MB Editor</span>
+            </div>
+            <h3 class="ecosystem-title">LibreCut RS</h3>
+            <p class="ecosystem-desc">Ultra-fast, 2.94 MB video editing engine built in Rust &amp; Vulkan for Android. Features modular <code>.lcplugin</code> architecture, hardware decoding, and zero quality loss.</p>
+            <div class="ecosystem-meta-chips">
+              <span class="eco-chip">Rust</span>
+              <span class="eco-chip">Vulkan</span>
+              <span class="eco-chip">Android NDK</span>
+            </div>
+            <a href="https://github.com/PolskieWin/librecuts-rust" target="_blank" rel="noopener noreferrer" class="ecosystem-btn">
+              <span>View Repository</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+            </a>
+          </article>
+
+          <!-- Card 3: Polskie Frame Window Counter -->
+          <article class="ecosystem-card">
+            <div class="ecosystem-card-top">
+              <div class="ecosystem-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H7v-4h5v4zm0-6H7V7h5v4zm5 6h-4v-8h4v8z"/></svg>
+              </div>
+              <span class="ecosystem-badge">Geode Mod</span>
+            </div>
+            <h3 class="ecosystem-title">Polskie Frame Window Counter</h3>
+            <p class="ecosystem-desc">Geometry Dash Geode C++ mod offering microsecond-precise frame delta timing, input polling telemetry, and minimal-overhead HUD overlay.</p>
+            <div class="ecosystem-meta-chips">
+              <span class="eco-chip">C++20</span>
+              <span class="eco-chip">Geode SDK</span>
+              <span class="eco-chip">OpenGL</span>
+            </div>
+            <a href="https://github.com/PolskieWin/LibreCounter" target="_blank" rel="noopener noreferrer" class="ecosystem-btn">
+              <span>View Repository</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+            </a>
+          </article>
+
+          <!-- Card 4: LibreCar RS -->
+          <article class="ecosystem-card">
+            <div class="ecosystem-card-top">
+              <div class="ecosystem-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+              </div>
+              <span class="ecosystem-badge">CarPlay Dashboard</span>
+            </div>
+            <h3 class="ecosystem-title">LibreCar RS</h3>
+            <p class="ecosystem-desc">Tiny, zero-tracker CarPlay &amp; automotive dashboard for Android 14+ in Rust. Includes offline 3D maps, fuel track optimizer, media player, and EN/PL voice commands.</p>
+            <div class="ecosystem-meta-chips">
+              <span class="eco-chip">Rust</span>
+              <span class="eco-chip">Kotlin</span>
+              <span class="eco-chip">Android 14+</span>
+            </div>
+            <a href="https://github.com/PolskieWin/librecar-rs" target="_blank" rel="noopener noreferrer" class="ecosystem-btn">
+              <span>View Repository</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+            </a>
+          </article>
+
+          <!-- Card 5: LibreChess RS -->
+          <article class="ecosystem-card">
+            <div class="ecosystem-card-top">
+              <div class="ecosystem-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 22H5V20H19V22M17.5 18H6.5C6.1 18 5.7 17.7 5.6 17.3L5 15.1C4.7 14.1 5.5 13 6.6 13H8.3C8.8 11.5 10.2 10.4 12 10.1V8.5C11.1 8.2 10.5 7.4 10.5 6.5C10.5 5.4 11.4 4.5 12.5 4.5S14.5 5.4 14.5 6.5C14.5 7.4 13.9 8.2 13 8.5V10.1C14.8 10.4 16.2 11.5 16.7 13H17.4C18.5 13 19.3 14.1 19 15.1L18.4 17.3C18.3 17.7 17.9 18 17.5 18Z"/></svg>
+              </div>
+              <span class="ecosystem-badge">Native Chess</span>
+            </div>
+            <h3 class="ecosystem-title">LibreChess RS</h3>
+            <p class="ecosystem-desc">100% native Android Canvas GUI chess app and sub-15MB Axum/Tokio Rust matchmaking server with Shakmaty move validation and zero analytics.</p>
+            <div class="ecosystem-meta-chips">
+              <span class="eco-chip">Rust</span>
+              <span class="eco-chip">Axum</span>
+              <span class="eco-chip">Canvas GUI</span>
+            </div>
+            <a href="https://github.com/PolskieWin/librechess-rs" target="_blank" rel="noopener noreferrer" class="ecosystem-btn">
+              <span>View Repository</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+            </a>
+          </article>
+
+          <!-- Card 6: LibreDrop -->
+          <article class="ecosystem-card">
+            <div class="ecosystem-card-top">
+              <div class="ecosystem-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+              </div>
+              <span class="ecosystem-badge">Local Drop</span>
+            </div>
+            <h3 class="ecosystem-title">LibreDrop</h3>
+            <p class="ecosystem-desc">Ultra-fast, zero-downscale local network file and message drop engine in Rust &amp; Kotlin. Encrypted peer-to-peer transfers with zero reliance on cloud servers.</p>
+            <div class="ecosystem-meta-chips">
+              <span class="eco-chip">Rust</span>
+              <span class="eco-chip">Kotlin</span>
+              <span class="eco-chip">P2P Network</span>
+            </div>
+            <a href="https://github.com/PolskieWin/libredrop" target="_blank" rel="noopener noreferrer" class="ecosystem-btn">
+              <span>View Repository</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+            </a>
+          </article>
+
+          <!-- Card 7: Windows 11 Nuclear Purge (libreScript) -->
+          <article class="ecosystem-card">
+            <div class="ecosystem-card-top">
+              <div class="ecosystem-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 2H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V7.5L14.5 2zM16 18H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+              </div>
+              <span class="ecosystem-badge">Zero Bloat</span>
+            </div>
+            <h3 class="ecosystem-title">Windows 11 Nuclear Purge</h3>
+            <p class="ecosystem-desc">Native, self-elevating optimization framework (<code>libreScript</code>) stripping Windows 11 &amp; 10 of background telemetry, Recall AI, unparking CPU cores, and tuning frame latency.</p>
+            <div class="ecosystem-meta-chips">
+              <span class="eco-chip">Batch</span>
+              <span class="eco-chip">PowerShell</span>
+              <span class="eco-chip">Win11 Tuner</span>
+            </div>
+            <a href="https://github.com/PolskieWin/libreScript" target="_blank" rel="noopener noreferrer" class="ecosystem-btn">
+              <span>View Repository</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+            </a>
+          </article>
+
+          <!-- Card 8: LibreCrash -->
+          <article class="ecosystem-card">
+            <div class="ecosystem-card-top">
+              <div class="ecosystem-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+              </div>
+              <span class="ecosystem-badge">Crash Analysis</span>
+            </div>
+            <h3 class="ecosystem-title">LibreCrash</h3>
+            <p class="ecosystem-desc">Lightweight, client-side Minecraft mod crash report and bytecode analyzer. Pinpoints conflicting Mixins, missing dependencies, and OpenGL driver failures without cloud logs.</p>
+            <div class="ecosystem-meta-chips">
+              <span class="eco-chip">Java</span>
+              <span class="eco-chip">Bytecode ASM</span>
+              <span class="eco-chip">Diagnostic</span>
+            </div>
+            <a href="https://github.com/PolskieWin/LibreCrash" target="_blank" rel="noopener noreferrer" class="ecosystem-btn">
+              <span>View Repository</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+            </a>
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="footer-brand-title">Libre Ecosystem • PolskieWin</span>
+          <span class="footer-brand-tag">Free &amp; Open Source Software built for raw performance and privacy.</span>
+        </div>
+        <div class="footer-links">
+          <a href="https://github.com/PolskieWin" target="_blank" rel="noopener noreferrer" class="footer-link-pill">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            <span>GitHub @PolskieWin</span>
+          </a>
+          <a href="https://discord.gg/KJpCVzRzRy" target="_blank" rel="noopener noreferrer" class="footer-link-pill">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.893.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+            <span>Discord</span>
+          </a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>Canonical deployment: <a href="https://polskiewin.github.io/" style="color: var(--md-sys-color-primary);">https://polskiewin.github.io/</a></div>
+        <div>Licensed under LGPLv3 • Zero telemetry • Pure open source</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
