@@ -1,0 +1,2376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#090a0f">
+  <meta name="description" content="LibreCrash — Minecraft Mod Crash &amp; Bytecode Analyzer. Fast client-side diagnostic tool for Fabric, Quilt, Forge, NeoForge, JDK 17/21/25 bytecode mismatches, and driver errors.">
+  <title>LibreCrash — Minecraft Crash &amp; Log Analyzer</title>
+  <style>
+    :root {
+      --bg-canvas: #090a0f;
+      --bg-surface: #11141c;
+      --bg-elevated: #161a24;
+      --bg-input: #0a0d13;
+      --border-subtle: #232a38;
+      --border-focus: #3b82f6;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --accent-blue: #3b82f6;
+      --accent-blue-hover: #2563eb;
+      --badge-critical-bg: #2d1215;
+      --badge-critical-border: #5f1a23;
+      --badge-critical-text: #fca5a5;
+      --badge-error-bg: #2b170c;
+      --badge-error-border: #632a13;
+      --badge-error-text: #fdba74;
+      --badge-compat-bg: #281d0a;
+      --badge-compat-border: #5c3e10;
+      --badge-compat-text: #fde047;
+      --badge-config-bg: #21132f;
+      --badge-config-border: #4d236f;
+      --badge-config-text: #d8b4fe;
+      --badge-success-bg: #0d281e;
+      --badge-success-border: #16533c;
+      --badge-success-text: #86efac;
+      --badge-info-bg: #0f2438;
+      --badge-info-border: #1a4968;
+      --badge-info-text: #7dd3fc;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-mono: "JetBrains Mono", "Fira Code", Consolas, Menlo, Monaco, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: var(--accent-blue);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-canvas);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #273145;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3b4760;
+    }
+
+    /* App Header */
+    header.app-header {
+      background-color: var(--bg-surface);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 12px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(8px);
+    }
+
+    .header-content {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      background: #1e2433;
+      border: 1px solid #2d374d;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .brand-title h1 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-title p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-elevated);
+      color: var(--text-muted);
+    }
+
+    /* Main Container */
+    main.app-container {
+      max-width: 1300px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Panels & Cards */
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 12px 16px;
+      background: var(--bg-elevated);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-main);
+    }
+
+    .card-body {
+      padding: 18px;
+    }
+
+    /* Input Section */
+    .sample-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .sample-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .sample-btn {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .sample-btn:hover {
+      background: #222b3d;
+      color: var(--text-main);
+      border-color: #3b4760;
+    }
+
+    /* Drag & Drop Upload Zone */
+    .dropzone {
+      border: 2px dashed var(--border-subtle);
+      border-radius: 10px;
+      background: var(--bg-input);
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .dropzone:hover, .dropzone.dragover {
+      border-color: var(--accent-blue);
+      background: #0f172a;
+    }
+
+    .dropzone-icon {
+      width: 32px;
+      height: 32px;
+      color: var(--accent-blue);
+    }
+
+    .dropzone-text {
+      font-size: 0.85rem;
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .dropzone-subtext {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    #fileInput {
+      display: none;
+    }
+
+    /* Textarea */
+    .textarea-wrap {
+      position: relative;
+    }
+
+    textarea.log-textarea {
+      width: 100%;
+      height: 210px;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      color: #e2e8f0;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      padding: 12px;
+      resize: vertical;
+      line-height: 1.5;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    textarea.log-textarea:focus {
+      border-color: var(--border-focus);
+    }
+
+    .textarea-stats {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      margin-top: 6px;
+    }
+
+    /* Action Buttons */
+    .actions-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+      min-height: 38px;
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: #fff;
+      border-color: #3b82f6;
+    }
+
+    .btn-primary:hover {
+      background: #1d4ed8;
+      border-color: #2563eb;
+    }
+
+    .btn-secondary {
+      background: var(--bg-elevated);
+      color: var(--text-main);
+      border-color: var(--border-subtle);
+    }
+
+    .btn-secondary:hover {
+      background: #1f2533;
+      border-color: #323b4e;
+    }
+
+    .btn-privacy {
+      background: #133323;
+      color: #86efac;
+      border-color: #1e4e34;
+    }
+
+    .btn-privacy:hover {
+      background: #17422c;
+      color: #bbf7d0;
+    }
+
+    .btn-danger {
+      background: #271416;
+      color: #fca5a5;
+      border-color: #4c1d24;
+    }
+
+    .btn-danger:hover {
+      background: #381a1d;
+    }
+
+    /* Environment Badges Grid */
+    .env-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .env-item {
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .env-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .env-value {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      word-break: break-all;
+    }
+
+    .env-chip {
+      display: inline-block;
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: var(--bg-elevated);
+      color: var(--text-muted);
+    }
+
+    /* Diagnostic Result Cards */
+    .diag-card {
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      background: var(--bg-elevated);
+      margin-bottom: 16px;
+      overflow: hidden;
+      transition: border-color 0.2s ease;
+    }
+
+    .diag-card.sev-critical {
+      border-left: 4px solid #ef4444;
+    }
+    .diag-card.sev-error {
+      border-left: 4px solid #f97316;
+    }
+    .diag-card.sev-compat {
+      border-left: 4px solid #eab308;
+    }
+    .diag-card.sev-config {
+      border-left: 4px solid #a855f7;
+    }
+
+    .diag-header {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .diag-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .diag-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .sev-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .sev-badge.sev-critical {
+      background: var(--badge-critical-bg);
+      border: 1px solid var(--badge-critical-border);
+      color: var(--badge-critical-text);
+    }
+    .sev-badge.sev-error {
+      background: var(--badge-error-bg);
+      border: 1px solid var(--badge-error-border);
+      color: var(--badge-error-text);
+    }
+    .sev-badge.sev-compat {
+      background: var(--badge-compat-bg);
+      border: 1px solid var(--badge-compat-border);
+      color: var(--badge-compat-text);
+    }
+    .sev-badge.sev-config {
+      background: var(--badge-config-bg);
+      border: 1px solid var(--badge-config-border);
+      color: var(--badge-config-text);
+    }
+
+    .diag-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .diag-section {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .diag-section-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .diag-cause {
+      font-size: 0.88rem;
+      color: var(--text-main);
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 10px 14px;
+      line-height: 1.6;
+    }
+
+    .culprit-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--text-main);
+    }
+
+    .culprit-tag {
+      background: #27272a;
+      color: #e4e4e7;
+      border: 1px solid #3f3f46;
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      font-family: var(--font-sans);
+    }
+
+    .fix-list {
+      list-style-type: none;
+      counter-reset: fix-counter;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .fix-item {
+      counter-increment: fix-counter;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 10px 12px;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    .fix-item::before {
+      content: counter(fix-counter);
+      background: #1e2433;
+      border: 1px solid #2d374d;
+      color: #93c5fd;
+      font-weight: 600;
+      font-size: 0.72rem;
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Snippet Box */
+    details.diag-details {
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    details.diag-details summary {
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      user-select: none;
+    }
+    details.diag-details summary:hover {
+      color: var(--text-main);
+    }
+
+    pre.diag-code {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 12px;
+      color: #e2e8f0;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+      background: #06080c;
+      border-top: 1px solid var(--border-subtle);
+      max-height: 250px;
+    }
+
+    /* JDK Bytecode Table Card */
+    .bytecode-matrix {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      margin-top: 10px;
+    }
+
+    .bytecode-matrix th, .bytecode-matrix td {
+      border: 1px solid var(--border-subtle);
+      padding: 8px 12px;
+      text-align: left;
+    }
+
+    .bytecode-matrix th {
+      background: var(--bg-elevated);
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .bytecode-matrix tr.active-target {
+      background: rgba(59, 130, 246, 0.16) !important;
+      outline: 2px solid var(--accent-blue);
+    }
+
+    /* Mod List Collapsible / Searchable */
+    .mods-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .search-input {
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      color: var(--text-main);
+      outline: none;
+      min-width: 200px;
+    }
+    .search-input:focus {
+      border-color: var(--border-focus);
+    }
+
+    .mods-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 8px;
+      max-height: 320px;
+      overflow-y: auto;
+      padding: 2px;
+    }
+
+    .mod-pill {
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.8rem;
+    }
+
+    .mod-id {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: #93c5fd;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .mod-ver {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      flex-shrink: 0;
+    }
+
+    /* Toast Notification */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #f8fafc;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: toastIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      pointer-events: auto;
+    }
+
+    .toast.toast-success {
+      border-color: #059669;
+      background: #064e3b;
+      color: #ecfdf5;
+    }
+
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      z-index: 90;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      width: 100%;
+      max-width: 800px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 14px 18px;
+      background: var(--bg-elevated);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+    .modal-close:hover {
+      color: var(--text-main);
+    }
+
+    .modal-body {
+      padding: 16px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .modal-footer {
+      padding: 12px 18px;
+      background: var(--bg-elevated);
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    /* Footer */
+    footer.app-footer {
+      border-top: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      padding: 14px 20px;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      main.app-container {
+        padding: 12px;
+        gap: 14px;
+      }
+      .actions-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .btn {
+        width: 100%;
+      }
+      .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .header-badges {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-content">
+      <div class="brand-wrap">
+        <div class="brand-icon">
+          <!-- Cube/Terminal SVG -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e2e8f0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m21.12 6.4-6.05-4.06a2 2 0 0 0-2.17-.05L2.95 6.23a2 2 0 0 0-1.07 1.76v8.02a2 2 0 0 0 1.07 1.76l9.9 5.86a2 2 0 0 0 2.14 0l6.13-4.1a2 2 0 0 0 1.07-1.76V8.16a2 2 0 0 0-.96-1.76z"></path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
+        </div>
+        <div class="brand-title">
+          <h1>LibreCrash</h1>
+          <p>Minecraft Crash Report &amp; Bytecode Analyzer</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="app-container">
+
+    <!-- Input Card -->
+    <section class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          Input Crash Log
+        </div>
+        <span style="font-size: 0.75rem; color: var(--text-dim);">Supports .log, .txt, .gz, or hs_err_pid*.log</span>
+      </div>
+      <div class="card-body">
+
+        <!-- Sample Crashes Bar -->
+        <div class="sample-bar">
+          <span class="sample-label">Samples:</span>
+          <button type="button" class="sample-btn" data-sample="mixin">Fabric Mixin Conflict</button>
+          <button type="button" class="sample-btn" data-sample="jdk21">JDK 21 vs 17 Bytecode</button>
+          <button type="button" class="sample-btn" data-sample="jdk25">MC 26.x on JDK 21</button>
+          <button type="button" class="sample-btn" data-sample="missing_dep">Missing Dependency</button>
+          <button type="button" class="sample-btn" data-sample="wrong_loader">Wrong Loader Mod</button>
+          <button type="button" class="sample-btn" data-sample="duplicate">Duplicate Mod ID</button>
+          <button type="button" class="sample-btn" data-sample="pojav_driver">Pojav / Zink Driver Crash</button>
+          <button type="button" class="sample-btn" data-sample="oom">JVM Heap OOM</button>
+        </div>
+
+        <!-- Drag & Drop Zone -->
+        <div class="dropzone" id="dropzone">
+          <svg class="dropzone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          <div class="dropzone-text">Drop crash log, latest.log, or .gz file here</div>
+          <div class="dropzone-subtext">or click to browse local files</div>
+          <input type="file" id="fileInput" accept=".log,.txt,.gz">
+        </div>
+
+        <!-- Textarea -->
+        <div class="textarea-wrap">
+          <textarea id="logInput" class="log-textarea" placeholder="Paste full crash-report, latest.log, or hs_err_pid log here..."></textarea>
+          <div class="textarea-stats">
+            <span id="charCount">0 characters &bull; 0 lines</span>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="actions-bar">
+          <button type="button" id="btnAnalyze" class="btn btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            Analyze Log
+          </button>
+          <button type="button" id="btnPrivacyRedact" class="btn btn-privacy">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            Privacy Redact &amp; Copy Report
+          </button>
+          <button type="button" id="btnViewRedacted" class="btn btn-secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            Preview Redacted Report
+          </button>
+          <button type="button" id="btnClear" class="btn btn-danger" style="margin-left: auto;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            Clear
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Results Container (Initially hidden until analyzed) -->
+    <section id="resultsSection" style="display: none; display: flex; flex-direction: column; gap: 20px;">
+
+      <!-- Environment & System Detection Card -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+            Environment &amp; Runtime Summary
+          </div>
+          <span id="detectedStatusBadge" class="badge-pill">Analyzing...</span>
+        </div>
+        <div class="card-body">
+          <div class="env-grid" id="envGrid">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Diagnostic Results Section -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            Diagnostic Findings &amp; Step-by-Step Fixes
+          </div>
+          <span id="findingsCount" class="badge-pill">0 Issues Detected</span>
+        </div>
+        <div class="card-body" id="diagnosticsList">
+          <!-- Diagnostic cards injected here -->
+        </div>
+      </div>
+
+      <!-- JDK Bytecode Compatibility Card -->
+      <div class="card" id="bytecodeCard">
+        <div class="card-header">
+          <div class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>
+            Bytecode &amp; Java Version Compatibility Matrix
+          </div>
+        </div>
+        <div class="card-body">
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px;">
+            Minecraft versions require specific Java Virtual Machine runtime major versions. Running a newer class on an older JVM results in <code>java.lang.UnsupportedClassVersionError</code>.
+          </p>
+          <div style="overflow-x: auto;">
+            <table class="bytecode-matrix">
+              <thead>
+                <tr>
+                  <th>Class Major</th>
+                  <th>Required JDK</th>
+                  <th>Minecraft Version Target</th>
+                  <th>Launcher Guidance (Pojav / PC)</th>
+                </tr>
+              </thead>
+              <tbody id="bytecodeTableBody">
+                <tr id="row-61">
+                  <td><strong>61.0</strong></td>
+                  <td><span class="badge-pill" style="background:#1e3a8a; color:#93c5fd; border:none;">JDK 17</span></td>
+                  <td>Minecraft 1.18 – 1.20.4</td>
+                  <td>Select Java 17 in Pojav/Launcher Settings.</td>
+                </tr>
+                <tr id="row-65">
+                  <td><strong>65.0</strong></td>
+                  <td><span class="badge-pill" style="background:#312e81; color:#c7d2fe; border:none;">JDK 21</span></td>
+                  <td>Minecraft 1.20.5 – 1.21.11</td>
+                  <td>Select Java 21 in Pojav/Launcher Settings.</td>
+                </tr>
+                <tr id="row-69">
+                  <td><strong>69.0</strong></td>
+                  <td><span class="badge-pill" style="background:#581c87; color:#f5d0fe; border:none;">JDK 25</span></td>
+                  <td>Minecraft 26.1 – 26.4+</td>
+                  <td>Select Java 25 runtime in Launcher Settings.</td>
+                </tr>
+                <tr id="row-52">
+                  <td><strong>52.0</strong></td>
+                  <td><span class="badge-pill" style="background:#14532d; color:#86efac; border:none;">Java 8</span></td>
+                  <td>Minecraft 1.7.10 – 1.16.5</td>
+                  <td>Legacy Forge / OptiFine era. Use Java 8.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loaded Mods Card -->
+      <div class="card" id="modsCard">
+        <div class="card-header">
+          <div class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            Installed Mod List
+          </div>
+          <span id="modsBadge" class="badge-pill">0 Mods Found</span>
+        </div>
+        <div class="card-body">
+          <div class="mods-bar">
+            <input type="text" id="modSearch" class="search-input" placeholder="Search mods by ID or name...">
+            <span style="font-size: 0.75rem; color: var(--text-dim);" id="modsFilteredCount">Showing 0 mods</span>
+          </div>
+          <div class="mods-grid" id="modsGrid">
+            <!-- Mod pills injected here -->
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Redacted Report Modal -->
+  <div class="modal-backdrop" id="reportModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">Privacy-Redacted Diagnostic Report</div>
+        <button type="button" class="modal-close" id="modalClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">
+          Local file paths, user account names, session tokens, and IP addresses have been redacted.
+        </p>
+        <pre class="diag-code" id="modalReportText" style="max-height: 480px;"></pre>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="modalCloseBtn">Close</button>
+        <button type="button" class="btn btn-primary" id="modalCopyBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          Copy Markdown
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <span><strong>LibreCrash</strong> &mdash; Minecraft Mod Crash &amp; Log Analyzer</span>
+      <span>Supports Fabric, Quilt, NeoForge, Forge, PojavLauncher &amp; Libre Launcher</span>
+    </div>
+  </footer>
+
+  <!-- Core JavaScript Engine -->
+  <script>
+    (function () {
+      'use strict';
+
+      // ==========================================
+      // Built-in Sample Crash Logs for Instant Testing
+      // ==========================================
+      const SAMPLE_LOGS = {
+        mixin: `---- Minecraft Crash Report ----
+// You should try our sister game, Minceraft!
+
+Time: 2026-11-19 12:00:00
+Description: Initializing game
+
+org.spongepowered.asm.mixin.transformer.throwables.MixinTransformerError: An unexpected critical error was encountered
+\tat org.spongepowered.asm.mixin.transformer.MixinProcessor.applyMixins(MixinProcessor.java:392)
+\tat org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClass(MixinTransformer.java:234)
+Caused by: org.spongepowered.asm.mixin.injection.throwables.InvalidInjectionException: Critical injection failure: @Inject annotation on injectGameRenderer could not find any targets matching 'renderWorld' in net.minecraft.client.render.GameRenderer. Using refmap sodium.mixins.refmap.json [Render Phase: transform -> Apply Phase: apply -> Failing Mixin: sodium.mixins.json:features.render.GameRendererMixin -> Failing Handler: injectGameRenderer(Lnet/minecraft/client/util/math/MatrixStack;FJZ)V]
+\tat org.spongepowered.asm.mixin.injection.struct.InjectionInfo.findTargets(InjectionInfo.java:612)
+\tat org.spongepowered.asm.mixin.injection.struct.InjectionInfo.readAnnotation(InjectionInfo.java:330)
+\tat org.spongepowered.asm.mixin.injection.struct.InjectionInfo.<init>(InjectionInfo.java:316)
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+-- Head --
+Thread: Render thread
+Stacktrace:
+\tat net.minecraft.client.render.GameRenderer.render(GameRenderer.java:820)
+-- System Details --
+Minecraft Version: 1.20.1
+Operating System: Linux (aarch64) version 5.10.198-android
+Java Version: 17.0.10, Eclipse Adoptium
+Java VM Version: OpenJDK 64-Bit Server VM (build 17.0.10+7), Eclipse Adoptium
+Memory: 1048576000 bytes (999 MiB) / 2147483648 bytes (2048 MiB) up to 2147483648 bytes (2048 MiB)
+JVM Flags: 2 total; -Xms512M -Xmx2048M
+Fabric Mods:
+\t- fabricloader 0.15.11
+\t- minecraft 1.20.1
+\t- sodium 0.5.8+mc1.20.1
+\t- iris 1.6.11
+\t- indium 1.0.30+mc1.20.1
+\t- fabric-api 0.92.0+1.20.1`,
+
+        jdk21: `---- Minecraft Crash Report ----
+// I bet Oops! was what you said.
+
+Time: 2026-11-19 12:10:00
+Description: Initializing game
+
+java.lang.RuntimeException: Could not execute entrypoint stage 'main' due to errors, provided by 'cobblemon'!
+\tat net.fabricmc.loader.impl.FabricLoaderImpl.load(FabricLoaderImpl.java:204)
+\tat net.fabricmc.loader.impl.launch.knot.Knot.init(Knot.java:146)
+\tat net.fabricmc.loader.impl.launch.knot.Knot.launch(Knot.java:68)
+Caused by: java.lang.UnsupportedClassVersionError: com/cobblemon/mod/common/Cobblemon has been compiled by a more recent version of the Java Runtime (class file version 65.0), this version of the Java Runtime only recognizes class file versions up to 61.0
+\tat java.lang.ClassLoader.defineClass1(Native Method)
+\tat java.lang.ClassLoader.defineClass(ClassLoader.java:1012)
+\tat java.security.SecureClassLoader.defineClass(SecureClassLoader.java:150)
+\tat net.fabricmc.loader.impl.launch.knot.KnotClassLoader.loadClass(KnotClassLoader.java:174)
+
+-- System Details --
+Minecraft Version: 1.20.6
+Operating System: Windows 11 (amd64) version 10.0
+Java Version: 17.0.9, Oracle Corporation
+Java VM Version: Java HotSpot(TM) 64-Bit Server VM (build 17.0.9+11-LTS-201), Oracle Corporation
+Fabric Mods:
+\t- fabricloader 0.15.11
+\t- minecraft 1.20.6
+\t- cobblemon 1.5.2+1.20.6
+\t- fabric-api 0.98.0+1.20.6`,
+
+        jdk25: `---- Minecraft Crash Report ----
+// Class file 69.0 mismatch
+
+Time: 2026-11-19 12:15:00
+Description: Initializing game
+
+java.lang.UnsupportedClassVersionError: net/minecraft/client/main/Main has been compiled by a more recent version of the Java Runtime (class file version 69.0), this version of the Java Runtime only recognizes class file versions up to 65.0
+\tat java.lang.ClassLoader.defineClass1(Native Method)
+\tat java.lang.ClassLoader.defineClass(ClassLoader.java:1017)
+\tat java.security.SecureClassLoader.defineClass(SecureClassLoader.java:150)
+
+-- System Details --
+Minecraft Version: 26.1
+Operating System: Linux (x86_64)
+Java Version: 21.0.3, Eclipse Adoptium
+Java VM Version: OpenJDK 64-Bit Server VM (build 21.0.3+9), Eclipse Adoptium
+Fabric Mods:
+\t- fabricloader 0.17.2
+\t- minecraft 26.1`,
+
+        missing_dep: `[12:20:00] [main/FATAL] [net.fabricmc.loader.impl.discovery.ModResolutionException]: Mod resolution failed
+net.fabricmc.loader.impl.discovery.ModResolutionException: Incompatible mods found!
+net.fabricmc.loader.impl.FormattedException: Some of your mods are incompatible with the work or missing required dependencies:
+ - Mod 'Create Fabric' (create) 0.5.1-f-build.1417+mc1.20.1 requires version 0.92.0 or later of 'fabric-api', which is missing!
+ - Mod 'Create Fabric' (create) 0.5.1-f-build.1417+mc1.20.1 requires version 0.88.0 or later of 'cloth-config', which is missing!
+Please install the required dependencies to proceed.
+\tat net.fabricmc.loader.impl.discovery.ModResolver.findCompatibleSet(ModResolver.java:170)
+\tat net.fabricmc.loader.impl.FabricLoaderImpl.setup(FabricLoaderImpl.java:200)
+
+-- System Details --
+Minecraft Version: 1.20.1
+Operating System: Linux (x86_64)
+Java Version: 17.0.10, Eclipse Temurin
+Fabric Mods:
+\t- fabricloader 0.16.0
+\t- minecraft 1.20.1
+\t- create 0.5.1-f-build.1417+mc1.20.1`,
+
+        wrong_loader: `---- Minecraft Crash Report ----
+Time: 2026-11-19 12:30:00
+Description: Initializing game
+
+java.lang.NoClassDefFoundError: net/minecraftforge/fml/common/Mod
+\tat java.lang.Class.getDeclaredMethods0(Native Method)
+\tat java.lang.Class.privateGetDeclaredMethods(Class.java:3402)
+\tat net.fabricmc.loader.impl.entrypoint.EntrypointUtils.invoke0(EntrypointUtils.java:47)
+Caused by: java.lang.ClassNotFoundException: net.minecraftforge.fml.common.Mod
+\tat jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)
+\tat net.fabricmc.loader.impl.launch.knot.KnotClassLoader.loadClass(KnotClassLoader.java:174)
+
+-- System Details --
+Minecraft Version: 1.20.1
+Operating System: Windows 10 (amd64)
+Java Version: 17.0.8, Microsoft
+Fabric Mods:
+\t- fabricloader 0.15.10
+\t- minecraft 1.20.1
+\t- biomesoplenty-forge-1.20.1-18.0.0.592.jar
+\t- fabric-api 0.92.0+1.20.1`,
+
+        duplicate: `[12:35:00] [main/ERROR] [net.fabricmc.loader.impl.FabricLoaderImpl]: A critical error occurred
+net.fabricmc.loader.impl.discovery.ModResolutionException: Duplicate mods found!
+ - Duplicate mod ID 'jei' found in files:
+   - /storage/emulated/0/Android/data/net.kdt.pojavlaunch/files/.minecraft/mods/jei-1.20.1-fabric-15.3.0.4.jar
+   - /storage/emulated/0/Android/data/net.kdt.pojavlaunch/files/.minecraft/mods/jei-1.20.1-fabric-15.2.0.27.jar
+Please remove one of the conflicting jar files.
+\tat net.fabricmc.loader.impl.discovery.ModResolver.findCompatibleSet(ModResolver.java:125)
+
+-- System Details --
+Minecraft Version: 1.20.1
+Operating System: Android (PojavLauncher 3.3.1.1)
+Java Version: 17.0.10`,
+
+        pojav_driver: `#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00000078a1bc4000, pid=24501, tid=24580
+#
+# JRE version: OpenJDK Runtime Environment (17.0.10) (build 17.0.10-pojav)
+# Java VM: OpenJDK 64-Bit Server VM (build 17.0.10-pojav, mixed mode, tiered, compressed oops, g1 gc, linux-aarch64)
+# Problematic frame:
+# C  [libvulkan_freedreno.so+0x184000]  tu_draw_common+0x310
+#
+# Core dump will not be written.
+#
+---------------  T H R E A D  ---------------
+Current thread (0x0000007880023400):  JavaThread "Render thread" [_thread_in_native, id=24580, stack(0x00000078a0800000,0x00000078a0a00000)]
+
+Stack: [0x00000078a0800000,0x00000078a0a00000],  sp=0x00000078a09fcf10,  free space=2035k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+C  [libvulkan_freedreno.so+0x184000]  tu_draw_common+0x310
+C  [libvulkan_freedreno.so+0x187200]  tu_CmdDraw+0x44
+C  [libzink_dri.so+0x92100]  zink_draw_vbo+0x180
+C  [libGL.so.1+0x35400]  glDrawElements+0x60
+J 12908 c2 org.lwjgl.opengl.GL11C.nglDrawElements(IIJJ)V (0 bytes) @ 0x0000007901235abc
+
+Command Line: -Dorg.lwjgl.opengl.libname=/storage/emulated/0/Android/data/net.kdt.pojavlaunch/files/renderer/libgl4es.so -Xms1024M -Xmx2048M
+Operating System: Linux 5.15.78-android13-9-ge928a (aarch64)
+Host: Qualcomm Snapdragon 8 Gen 2 (Adreno 740)`,
+
+        oom: `---- Minecraft Crash Report ----
+// My bad.
+
+Time: 2026-11-19 12:45:00
+Description: Exception in server tick loop
+
+java.lang.OutOfMemoryError: Java heap space
+\tat java.util.HashMap.resize(HashMap.java:704)
+\tat java.util.HashMap.putVal(HashMap.java:629)
+\tat java.util.HashMap.put(HashMap.java:612)
+\tat net.minecraft.world.chunk.ChunkSection.getBlockState(ChunkSection.java:75)
+\tat net.minecraft.world.chunk.WorldChunk.getBlockState(WorldChunk.java:230)
+
+-- System Details --
+Minecraft Version: 1.20.1
+Operating System: Windows 10 (amd64) version 10.0
+Java Version: 17.0.10, Eclipse Adoptium
+Java VM Version: OpenJDK 64-Bit Server VM (build 17.0.10+7), Eclipse Adoptium
+Memory: 35120 bytes (0 MiB) / 1073741824 bytes (1024 MiB) up to 1073741824 bytes (1024 MiB)
+JVM Flags: 2 total; -Xms512M -Xmx1024M
+Mod Count: 242 loaded mods`
+      };
+
+      // ==========================================
+      // UI Elements
+      // ==========================================
+      const logInput = document.getElementById('logInput');
+      const charCount = document.getElementById('charCount');
+      const dropzone = document.getElementById('dropzone');
+      const fileInput = document.getElementById('fileInput');
+      const btnAnalyze = document.getElementById('btnAnalyze');
+      const btnPrivacyRedact = document.getElementById('btnPrivacyRedact');
+      const btnViewRedacted = document.getElementById('btnViewRedacted');
+      const btnClear = document.getElementById('btnClear');
+      const resultsSection = document.getElementById('resultsSection');
+      const envGrid = document.getElementById('envGrid');
+      const detectedStatusBadge = document.getElementById('detectedStatusBadge');
+      const findingsCount = document.getElementById('findingsCount');
+      const diagnosticsList = document.getElementById('diagnosticsList');
+      const modsBadge = document.getElementById('modsBadge');
+      const modsFilteredCount = document.getElementById('modsFilteredCount');
+      const modsGrid = document.getElementById('modsGrid');
+      const modSearch = document.getElementById('modSearch');
+      const reportModal = document.getElementById('reportModal');
+      const modalReportText = document.getElementById('modalReportText');
+      const modalClose = document.getElementById('modalClose');
+      const modalCloseBtn = document.getElementById('modalCloseBtn');
+      const modalCopyBtn = document.getElementById('modalCopyBtn');
+      const toastContainer = document.getElementById('toastContainer');
+
+      let currentAnalysis = null;
+      let loadedModsCache = [];
+
+      // ==========================================
+      // Notification Toast Helper
+      // ==========================================
+      function showToast(message, type = 'info') {
+        const toast = document.createElement('div');
+        toast.className = `toast ${type === 'success' ? 'toast-success' : ''}`;
+        toast.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            ${type === 'success' ? '<polyline points="20 6 9 17 4 12"></polyline>' : '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>'}
+          </svg>
+          <span>${message}</span>
+        `;
+        toastContainer.appendChild(toast);
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(8px)';
+          toast.style.transition = 'all 0.2s ease';
+          setTimeout(() => toast.remove(), 250);
+        }, 3200);
+      }
+
+      // ==========================================
+      // Textarea Stats
+      // ==========================================
+      function updateTextareaStats() {
+        const text = logInput.value;
+        const chars = text.length;
+        const lines = text ? text.split(/\r\n|\r|\n/).length : 0;
+        charCount.textContent = `${chars.toLocaleString()} characters • ${lines.toLocaleString()} lines`;
+      }
+      logInput.addEventListener('input', updateTextareaStats);
+
+      // ==========================================
+      // File Handling (Supports .log, .txt, .gz)
+      // ==========================================
+      async function handleFile(file) {
+        if (!file) return;
+        showToast(`Loading ${file.name}...`);
+        try {
+          let text = '';
+          const isGz = file.name.endsWith('.gz') || file.type.includes('gzip');
+          if (isGz) {
+            if (typeof DecompressionStream !== 'undefined') {
+              const stream = file.stream().pipeThrough(new DecompressionStream('gzip'));
+              text = await new Response(stream).text();
+            } else {
+              throw new Error('Browser does not support native DecompressionStream for .gz files. Please unzip the log first.');
+            }
+          } else {
+            text = await file.text();
+          }
+          logInput.value = text;
+          updateTextareaStats();
+          analyzeCurrentLog();
+          showToast(`Successfully loaded ${file.name}`, 'success');
+        } catch (err) {
+          showToast(`Failed to read file: ${err.message}`, 'error');
+        }
+      }
+
+      dropzone.addEventListener('click', () => fileInput.click());
+      fileInput.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files[0]) {
+          handleFile(e.target.files[0]);
+        }
+      });
+
+      dropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropzone.classList.add('dragover');
+      });
+
+      dropzone.addEventListener('dragleave', () => {
+        dropzone.classList.remove('dragover');
+      });
+
+      dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+          handleFile(e.dataTransfer.files[0]);
+        }
+      });
+
+      // ==========================================
+      // Sample Buttons Wiring
+      // ==========================================
+      document.querySelectorAll('.sample-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const sampleKey = btn.getAttribute('data-sample');
+          if (SAMPLE_LOGS[sampleKey]) {
+            logInput.value = SAMPLE_LOGS[sampleKey];
+            updateTextareaStats();
+            analyzeCurrentLog();
+            showToast(`Loaded sample: ${btn.textContent}`, 'success');
+          }
+        });
+      });
+
+      btnClear.addEventListener('click', () => {
+        logInput.value = '';
+        updateTextareaStats();
+        resultsSection.style.display = 'none';
+        currentAnalysis = null;
+        showToast('Cleared input');
+      });
+
+      // ==========================================
+      // Privacy Redaction Engine
+      // ==========================================
+      function redactPrivacy(rawText) {
+        if (!rawText) return '';
+        let clean = rawText;
+
+        // 1. Redact Android internal and external storage paths
+        clean = clean.replace(/\/storage\/emulated\/0\/Android\/data\/[a-zA-Z0-9._-]+\/files\S*/g, '<ANDROID_POJAV_DIR>');
+        clean = clean.replace(/\/storage\/emulated\/0\/\S*/g, '<ANDROID_STORAGE_PATH>');
+        clean = clean.replace(/\/data\/data\/[a-zA-Z0-9._-]+\/\S*/g, '<ANDROID_APP_DATA>');
+        clean = clean.replace(/\/data\/user\/0\/[a-zA-Z0-9._-]+\/\S*/g, '<ANDROID_APP_DATA>');
+
+        // 2. Redact Windows User Paths (handles both single and double backslashes and forward slashes)
+        clean = clean.replace(/[A-Za-z]:(?:\\+|\/+)[Uu]sers(?:\\+|\/+)[^\s\n\r\\/]+/g, 'C:\\Users\\<USER>');
+
+        // 3. Redact Linux & macOS User Paths
+        clean = clean.replace(/\/home\/[a-zA-Z0-9._-]+/g, '/home/<USER>');
+        clean = clean.replace(/\/Users\/[a-zA-Z0-9._-]+/g, '/Users/<USER>');
+
+        // 4. Redact Session Tokens, UUIDs & Auth Flags
+        clean = clean.replace(/--accessToken\s+[^\s\n\r"']+/gi, '--accessToken [REDACTED_TOKEN]');
+        clean = clean.replace(/--uuid\s+[a-f0-9-]{32,36}/gi, '--uuid [REDACTED_UUID]');
+        clean = clean.replace(/session[:\s]+[a-f0-9-]{32,36}/gi, 'session: [REDACTED_SESSION]');
+        clean = clean.replace(/Bearer\s+[a-zA-Z0-9._~+/-]+=*/gi, 'Bearer [REDACTED_TOKEN]');
+        clean = clean.replace(/(?:token|auth_token|clientToken|accessToken)\s*[:=]\s*[^\s\n\r"',;]+/gi, '$1: [REDACTED_TOKEN]');
+        clean = clean.replace(/X-Auth-Token\s*[:=]\s*[^\s\n\r"';]+/gi, 'X-Auth-Token: [REDACTED_TOKEN]');
+
+        // 5. Redact Public IPv4 Addresses (keep loopback 127.0.0.1 and 0.0.0.0 for diagnostics)
+        clean = clean.replace(/\b(?!127\.0\.0\.1\b|0\.0\.0\.0\b)(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\b/g, '[REDACTED_IP]');
+
+        return clean;
+      }
+
+      // ==========================================
+      // Environment & Runtime Parser
+      // ==========================================
+      function parseEnvironment(log) {
+        const env = {
+          loader: 'Unknown',
+          loaderVersion: null,
+          mcVersion: 'Unknown',
+          javaVersion: 'Unknown',
+          javaMajor: null,
+          javaVendor: null,
+          javaArch: 'Unknown',
+          osName: 'Unknown',
+          isMobileLauncher: false,
+          mobileLauncherName: null,
+          memoryMax: null,
+          jvmArgs: null
+        };
+
+        // 1. Detect Mod Loader
+        if (/org\.quiltmc\.loader|Quilt Loader/i.test(log)) {
+          env.loader = 'Quilt';
+          const match = log.match(/quiltloader\s+([0-9a-zA-Z._-]+)/i) || log.match(/Quilt Loader\s+([0-9a-zA-Z._-]+)/i);
+          if (match) env.loaderVersion = match[1];
+        } else if (/net\.fabricmc\.loader|Fabric Loader|Fabric Mods:/i.test(log)) {
+          env.loader = 'Fabric';
+          const match = log.match(/fabricloader\s+([0-9a-zA-Z._-]+)/i) || log.match(/Loading Fabric Loader\s+([0-9a-zA-Z._-]+)/i);
+          if (match) env.loaderVersion = match[1];
+        } else if (/net\.neoforged|neoforge/i.test(log)) {
+          env.loader = 'NeoForge';
+          const match = log.match(/neoforge\s*[:\s]\s*([0-9a-zA-Z._-]+)/i) || log.match(/NeoForge\s+version\s+([0-9a-zA-Z._-]+)/i);
+          if (match) env.loaderVersion = match[1];
+        } else if (/net\.minecraftforge|Forge Mod Loader|MinecraftForge/i.test(log)) {
+          env.loader = 'Forge';
+          const match = log.match(/forge\s*[:\s]\s*([0-9a-zA-Z._-]+)/i) || log.match(/MinecraftForge\s+v?([0-9a-zA-Z._-]+)/i);
+          if (match) env.loaderVersion = match[1];
+        } else if (/PaperSpigot|Spigot|Purpur/i.test(log)) {
+          env.loader = 'Paper/Spigot';
+        } else if (/Minecraft Version:/i.test(log)) {
+          env.loader = 'Vanilla / Unmodded';
+        }
+
+        // 2. Detect Minecraft Version
+        const mcMatch = log.match(/Minecraft Version:\s*([0-9a-zA-Z._-]+)/i) ||
+                        log.match(/Loading Minecraft\s+([0-9a-zA-Z._-]+)/i) ||
+                        log.match(/minecraft\s+([0-9]+\.[0-9]+(?:\.[0-9]+)?)/i) ||
+                        log.match(/minecraft\s+([0-9]+(?:\.[0-9]+)+)/i) ||
+                        log.match(/Client brand:\s*([^\s\n\r]+)/i);
+        if (mcMatch) {
+          env.mcVersion = mcMatch[1];
+        }
+
+        // 3. Detect Java Version & Architecture
+        const jvmMatch = log.match(/Java Version:\s*([^\n\r,]+)/i) ||
+                         log.match(/Java is version\s*([^\n\r,]+)/i) ||
+                         log.match(/JRE version:\s*([^\n\r]+)/i) ||
+                         log.match(/java\.version:\s*([^\n\r,]+)/i);
+        if (jvmMatch) {
+          env.javaVersion = jvmMatch[1].trim();
+          // Extract major number: e.g. 17.0.10 -> 17, 1.8.0 -> 8, 21.0.2 -> 21, 25-ea -> 25
+          const majorMatch = env.javaVersion.match(/^(?:1\.)?(\d+)/) || env.javaVersion.match(/\b(\d+)\.\d+\.\d+/);
+          if (majorMatch) {
+            env.javaMajor = parseInt(majorMatch[1], 10);
+          }
+        }
+
+        // Arch & Vendor
+        if (/aarch64|arm64/i.test(log)) {
+          env.javaArch = 'ARM64 (aarch64)';
+        } else if (/x86_64|amd64/i.test(log)) {
+          env.javaArch = 'x86_64 (amd64)';
+        } else if (/armv7|armeabi/i.test(log)) {
+          env.javaArch = 'ARM32 (armv7)';
+        }
+
+        if (/Adoptium|Temurin/i.test(log)) env.javaVendor = 'Adoptium Temurin';
+        else if (/Oracle/i.test(log)) env.javaVendor = 'Oracle';
+        else if (/Microsoft/i.test(log)) env.javaVendor = 'Microsoft';
+        else if (/Zulu|Azul/i.test(log)) env.javaVendor = 'Azul Zulu';
+        else if (/pojav/i.test(log)) env.javaVendor = 'Pojav Runtime';
+
+        // 4. Detect OS & Mobile Launcher
+        if (/pojavlaunch|net\.kdt\.pojavlaunch|pojav/i.test(log)) {
+          env.isMobileLauncher = true;
+          env.mobileLauncherName = 'PojavLauncher';
+          env.osName = 'Android (PojavLauncher)';
+        } else if (/librelauncher/i.test(log)) {
+          env.isMobileLauncher = true;
+          env.mobileLauncherName = 'Libre Launcher';
+          env.osName = 'Android (Libre Launcher)';
+        } else if (/amethyst/i.test(log)) {
+          env.isMobileLauncher = true;
+          env.mobileLauncherName = 'Amethyst Launcher';
+          env.osName = 'Android (Amethyst)';
+        } else if (/\/storage\/emulated\/0|android/i.test(log)) {
+          env.isMobileLauncher = true;
+          env.mobileLauncherName = 'Android Mobile Launcher';
+          env.osName = 'Android';
+        } else if (/Windows 11/i.test(log)) {
+          env.osName = 'Windows 11';
+        } else if (/Windows 10/i.test(log)) {
+          env.osName = 'Windows 10';
+        } else if (/Windows/i.test(log)) {
+          env.osName = 'Windows';
+        } else if (/Mac OS X|Darwin/i.test(log)) {
+          env.osName = 'macOS';
+        } else if (/Linux/i.test(log)) {
+          env.osName = 'Linux';
+        }
+
+        // 5. Memory & JVM Flags
+        const memMatch = log.match(/Memory:\s*([^\n\r]+)/i);
+        if (memMatch) {
+          env.memoryMax = memMatch[1].trim();
+        }
+        const jvmFlagsMatch = log.match(/JVM Flags:\s*([^\n\r]+)/i) || log.match(/Command Line:\s*([^\n\r]+)/i);
+        if (jvmFlagsMatch) {
+          env.jvmArgs = jvmFlagsMatch[1].trim();
+        }
+
+        return env;
+      }
+
+      // ==========================================
+      // Mod List Extractor
+      // ==========================================
+      function extractModList(log) {
+        const mods = [];
+        const seen = new Set();
+
+        // Check for Fabric / Quilt mod table
+        const fabricSection = log.match(/(?:Fabric Mods|Loaded Mods):\s*([\s\S]*?)(?:\n\s*-- System Details --|\n\s*Loaded Shaderpack:|\n\s*Player Count:|\n\s*Data Packs:|\n\s*Current Language:|\n\s*Logs:|$)/i);
+        if (fabricSection) {
+          const lines = fabricSection[1].split(/\r\n|\r|\n/);
+          for (const line of lines) {
+            const m = line.match(/^\s*[-*]\s*([a-zA-Z0-9_.-]+)\s+([^\s\n\r]+)(?:\s+from\s+([^\n\r]+))?/);
+            if (m) {
+              const id = m[1].trim();
+              const ver = m[2].trim();
+              const file = m[3] ? m[3].trim() : null;
+              if (!seen.has(id.toLowerCase())) {
+                seen.add(id.toLowerCase());
+                mods.push({ id, version: ver, file });
+              }
+            }
+          }
+        }
+
+        // Check for Forge / NeoForge mod table
+        const forgeSection = log.match(/(?:Mod List:|Mods:)\s*([\s\S]*?)(?:\n\s*Crash Report UUID:|\n\s*JVM Flags:|\n\s*-- System Details --|$)/i);
+        if (forgeSection && mods.length === 0) {
+          const lines = forgeSection[1].split(/\r\n|\r|\n/);
+          for (const line of lines) {
+            const m = line.match(/^\s*([a-zA-Z0-9_.-]+(?:\.jar)?)\s*\|\s*([a-zA-Z0-9_.-]+)\s*\|\s*([^\s|]+)/i) ||
+                      line.match(/^\s*[-*]\s*([a-zA-Z0-9_.-]+)\s*\(([^)]+)\)/);
+            if (m) {
+              const id = m[2] ? m[2].trim() : m[1].trim();
+              const ver = m[3] ? m[3].trim() : (m[2] ? m[2].trim() : 'Unknown');
+              if (!seen.has(id.toLowerCase())) {
+                seen.add(id.toLowerCase());
+                mods.push({ id, version: ver, file: m[1] });
+              }
+            }
+          }
+        }
+
+        // Fallback: search for jar files mentioned in mods folder
+        if (mods.length === 0) {
+          const jarMatches = log.matchAll(/\/mods\/([a-zA-Z0-9_.-]+\.jar)/gi);
+          for (const match of jarMatches) {
+            const jarName = match[1];
+            if (!seen.has(jarName.toLowerCase())) {
+              seen.add(jarName.toLowerCase());
+              mods.push({ id: jarName.replace(/\.jar$/i, ''), version: 'jar file', file: jarName });
+            }
+          }
+        }
+
+        return mods;
+      }
+
+      // ==========================================
+      // Bytecode Diagnostic Engine
+      // ==========================================
+      function analyzeBytecode(log, env) {
+        // Regex to parse UnsupportedClassVersionError
+        const classVerMatch = log.match(/java\.lang\.UnsupportedClassVersionError:\s*([^\s]+)\s+has been compiled by a more recent version of the Java Runtime \(class file version\s*([0-9.]+)\),\s*this version of the Java Runtime only recognizes class file versions up to\s*([0-9.]+)/i);
+
+        const result = {
+          hasBytecodeError: false,
+          failingClass: null,
+          requiredClassMajor: null,
+          requiredJdk: null,
+          currentClassMajor: null,
+          currentJdk: null,
+          mcVersionMismatch: false,
+          recommendedJdk: null,
+          instructions: []
+        };
+
+        const classToJdk = {
+          69: { jdk: 25, label: 'JDK 25', mc: 'Minecraft 26.1 – 26.4+' },
+          68: { jdk: 24, label: 'JDK 24', mc: 'Java 24' },
+          67: { jdk: 23, label: 'JDK 23', mc: 'Java 23' },
+          66: { jdk: 22, label: 'JDK 22', mc: 'Java 22' },
+          65: { jdk: 21, label: 'JDK 21', mc: 'Minecraft 1.20.5 – 1.21.11' },
+          61: { jdk: 17, label: 'JDK 17', mc: 'Minecraft 1.18 – 1.20.4' },
+          60: { jdk: 16, label: 'JDK 16', mc: 'Minecraft 1.17' },
+          52: { jdk: 8, label: 'Java 8', mc: 'Minecraft 1.7.10 – 1.16.5' }
+        };
+
+        if (classVerMatch) {
+          result.hasBytecodeError = true;
+          result.failingClass = classVerMatch[1].replace(/\//g, '.');
+          result.requiredClassMajor = parseFloat(classVerMatch[2]);
+          result.currentClassMajor = parseFloat(classVerMatch[3]);
+
+          const reqInfo = classToJdk[Math.floor(result.requiredClassMajor)] || { jdk: Math.floor(result.requiredClassMajor) - 44, label: `JDK ${Math.floor(result.requiredClassMajor) - 44}` };
+          const curInfo = classToJdk[Math.floor(result.currentClassMajor)] || { jdk: Math.floor(result.currentClassMajor) - 44, label: `JDK ${Math.floor(result.currentClassMajor) - 44}` };
+
+          result.requiredJdk = reqInfo.jdk;
+          result.currentJdk = curInfo.jdk;
+          result.recommendedJdk = reqInfo.label;
+        }
+
+        // Also check if Minecraft version requires a newer JDK even without explicit UnsupportedClassVersionError
+        if (env.mcVersion && env.javaMajor) {
+          const mcSub = env.mcVersion.match(/^1\.(\d+)(?:\.(\d+))?/);
+          const mc26 = env.mcVersion.match(/^26(?:\.(\d+))?/);
+
+          if (mc26 && env.javaMajor < 25) {
+            result.mcVersionMismatch = true;
+            result.recommendedJdk = 'JDK 25';
+            result.requiredClassMajor = 69.0;
+          } else if (mcSub) {
+            const minor = parseInt(mcSub[1], 10);
+            const patch = mcSub[2] ? parseInt(mcSub[2], 10) : 0;
+
+            if (minor >= 21 || (minor === 20 && patch >= 5)) {
+              if (env.javaMajor < 21) {
+                result.mcVersionMismatch = true;
+                result.recommendedJdk = 'JDK 21';
+                result.requiredClassMajor = 65.0;
+              }
+            } else if (minor >= 18) {
+              if (env.javaMajor < 17) {
+                result.mcVersionMismatch = true;
+                result.recommendedJdk = 'JDK 17';
+                result.requiredClassMajor = 61.0;
+              }
+            }
+          }
+        }
+
+        return result;
+      }
+
+      // ==========================================
+      // Comprehensive Crash Rule Engine
+      // ==========================================
+      function runDiagnosticRules(log, env, mods, bytecode) {
+        const diagnostics = [];
+
+        // ------------------------------------------
+        // Rule 1: UnsupportedClassVersionError & JDK Mismatch
+        // ------------------------------------------
+        if (bytecode.hasBytecodeError || bytecode.mcVersionMismatch) {
+          const targetJdk = bytecode.recommendedJdk || 'JDK 21';
+          const instructions = [];
+
+          if (env.isMobileLauncher) {
+            instructions.push(`Open <strong>${env.mobileLauncherName || 'Pojav / Libre Launcher'}</strong> settings.`);
+            instructions.push(`Go to <strong>Java Runtime</strong> or <strong>Select Java Version</strong>.`);
+            instructions.push(`Switch the active runtime to <strong>${targetJdk}</strong>. (If ${targetJdk} is not installed, install it via the launcher's Java manager).`);
+            instructions.push(`Restart the launcher and re-launch your instance.`);
+          } else {
+            instructions.push(`Open your launcher instance settings (Prism Launcher / Modrinth / CurseForge / Official).`);
+            instructions.push(`Navigate to <strong>Java Settings</strong> or <strong>Edit Instance &rarr; Settings &rarr; Java</strong>.`);
+            instructions.push(`Ensure the Java executable is set to <strong>${targetJdk}</strong> (64-bit).`);
+            instructions.push(`If ${targetJdk} is not installed, install it from <a href="https://adoptium.net" target="_blank" rel="noopener">Adoptium Temurin</a>.`);
+          }
+
+          diagnostics.push({
+            severity: 'CRITICAL',
+            category: 'JDK Bytecode Mismatch',
+            title: `Java Runtime Incompatibility: Requires ${targetJdk}`,
+            cause: bytecode.hasBytecodeError
+              ? `A mod or core dependency was compiled targeting <strong>class file version ${bytecode.requiredClassMajor} (${targetJdk})</strong>, but your launcher is running on <strong>class file version ${bytecode.currentClassMajor} (Java ${bytecode.currentJdk || env.javaMajor || 'older'})</strong>.`
+              : `Minecraft ${env.mcVersion} strictly requires <strong>${targetJdk}</strong>, but your instance is running on <strong>Java ${env.javaMajor}</strong>.`,
+            culpritType: 'JDK Version Mismatch',
+            culprit: bytecode.failingClass || `Requires ${targetJdk} for MC ${env.mcVersion}`,
+            instructions,
+            snippet: log.match(/java\.lang\.UnsupportedClassVersionError:[^\n\r]+(?:\n\s+at [^\n\r]+){1,5}/i)?.[0] || null
+          });
+        }
+
+        // ------------------------------------------
+        // Rule 2: Mixin Injection Failures
+        // ------------------------------------------
+        const mixinMatch = log.match(/org\.spongepowered\.asm\.mixin\.(?:transformer|injection)\.throwables\.(?:InvalidInjectionException|MixinApplyError|MixinTransformerError|InjectionError):[^\n\r]+/i) ||
+                           log.match(/Critical injection failure:\s*([^\n\r]+)/i);
+
+        if (mixinMatch) {
+          const targetClassMatch = log.match(/in target\s+([a-zA-Z0-9/$_.]+)/i) ||
+                                  log.match(/matching '[^']+' in\s+([a-zA-Z0-9/$_.]+)/i) ||
+                                  log.match(/Target class:\s*([^\s\n\r]+)/i);
+          const failingMixinMatch = log.match(/Failing Mixin:\s*([^\s\n\r\]]+)/i) ||
+                                   log.match(/failing mixin config:\s*([^\s\n\r]+)/i) ||
+                                   log.match(/([a-zA-Z0-9._-]+\.mixins\.json:[a-zA-Z0-9._$]+)/i);
+          const methodMatch = log.match(/Failing Handler:\s*([^\s\n\r]+)/i) ||
+                              log.match(/@Inject annotation on\s*([^\s\n\r(]+)/i);
+
+          const targetClass = targetClassMatch ? targetClassMatch[1].replace(/\//g, '.') : 'Unknown Minecraft Target Class';
+          const failingMixin = failingMixinMatch ? failingMixinMatch[1] : 'Unknown Mixin Config';
+          const failingMethod = methodMatch ? methodMatch[1] : null;
+
+          let culpritMod = 'Unknown Mod';
+          const mixinConfigName = failingMixin.split(':')[0];
+          const modPrefix = mixinConfigName.replace(/\.mixins\.json$/i, '');
+          if (modPrefix) {
+            culpritMod = modPrefix;
+          }
+
+          diagnostics.push({
+            severity: 'CRITICAL',
+            category: 'Mixin Injection Conflict',
+            title: `Mixin Conflict in ${culpritMod}`,
+            cause: `The mod <strong>${culpritMod}</strong> failed to inject code into target class <code>${targetClass}</code>${failingMethod ? ` at handler <code>${failingMethod}</code>` : ''}. This usually happens when two mods modify the exact same bytecode method, or when running a mod built for a different minor Minecraft version.`,
+            culpritType: 'Offending Mixin / Mod',
+            culprit: `${culpritMod} (${failingMixin})`,
+            instructions: [
+              `Check if there is an updated version of <strong>${culpritMod}</strong> specifically built for Minecraft <strong>${env.mcVersion || 'your version'}</strong>.`,
+              `If you recently added graphics/optimization mods (such as Sodium, Iris, Indium, Embeddium, or Canvas), verify that their versions match each other.`,
+              `Temporarily move the <code>${culpritMod}</code> .jar out of your <code>mods</code> folder and test launching to confirm it is the sole culprit.`,
+              `If <code>${culpritMod}</code> is essential, report this crash trace to the mod's GitHub issue tracker.`
+            ],
+            snippet: mixinMatch[0] + (log.match(/(?:\n\s+at [^\n\r]+){1,6}/i)?.[0] || '')
+          });
+        }
+
+        // ------------------------------------------
+        // Rule 3: Duplicate Mod IDs Found (Prioritized before missing deps)
+        // ------------------------------------------
+        const dupMatch = log.match(/DuplicateModsFoundException|Duplicate mod ID '([^']+)'|Duplicate key ([^\s\n\r]+)|Found duplicate mods: \[([^\]]+)\]|Duplicate mods found!/i);
+        const isDuplicate = !!dupMatch;
+
+        if (isDuplicate) {
+          const dupId = (dupMatch[1] || dupMatch[2] || dupMatch[3] || 'Multiple versions of same mod').trim();
+          const jarMatches = [...log.matchAll(/([a-zA-Z0-9_.-]+\.jar)/g)].map(m => m[1]);
+          const uniqueJars = [...new Set(jarMatches)].slice(0, 4);
+
+          diagnostics.push({
+            severity: 'ERROR',
+            category: 'Duplicate Mod Files',
+            title: `Duplicate Mod ID Detected: '${dupId}'`,
+            cause: `Your <code>mods</code> folder contains multiple <code>.jar</code> files that register the same mod identifier (<code>${dupId}</code>). The mod loader refuses to load when conflicting versions coexist.`,
+            culpritType: 'Duplicate Jar Files',
+            culprit: uniqueJars.length > 0 ? uniqueJars.join(' & ') : dupId,
+            instructions: [
+              `Open your <code>.minecraft/mods</code> folder.`,
+              `Search for files containing <code>${dupId}</code>.`,
+              `Delete the older or duplicate version, keeping only the single newest <code>.jar</code> file.`,
+              `Restart the launcher.`
+            ],
+            snippet: log.match(/Duplicate mods found![\s\S]*?(?=\tat net\.fabricmc|\tat net\.minecraftforge|$)/i)?.[0] || dupMatch[0]
+          });
+        }
+
+        // ------------------------------------------
+        // Rule 4: Missing or Incompatible Dependencies
+        // ------------------------------------------
+        if (!isDuplicate) {
+          const depMatch = log.match(/(?:ModResolutionException|FormattedException):(?:\s*Incompatible mods found!|\s*Some of your mods are incompatible)?([\s\S]*?)(?:\tat net\.fabricmc|\tat net\.neoforged|\tat net\.minecraftforge|Please install|$)/i) ||
+                           log.match(/Missing mandatory dependencies:\s*([^\n\r]+)/i) ||
+                           log.match(/ModLoadingException:[^\n\r]+requires[^\n\r]+/i);
+
+          if (depMatch) {
+            const rawDeps = depMatch[1] || depMatch[0];
+            const depLines = rawDeps.split(/\r\n|\r|\n/).filter(l => /requires|missing|unsupported/i.test(l));
+
+            if (depLines.length > 0 || /requires|missing/i.test(rawDeps)) {
+              const missingItems = [];
+              for (const line of depLines) {
+                const cleanLine = line.replace(/^\s*[-*]\s*/, '').trim();
+                if (cleanLine) missingItems.push(cleanLine);
+              }
+
+              diagnostics.push({
+                severity: 'ERROR',
+                category: 'Missing Dependencies',
+                title: 'Required Mod Dependencies Missing or Incompatible',
+                cause: 'The mod loader halted initialization because one or more installed mods declare strict dependencies on other libraries or mods that are not currently in your <code>mods</code> folder.',
+                culpritType: 'Unmet Dependencies',
+                culprit: missingItems.length > 0 ? missingItems.slice(0, 3).join('; ') : 'Mandatory library / mod missing',
+                instructions: [
+                  `Review the required dependency list below.`,
+                  `Download the required version of each missing dependency specifically for <strong>${env.loader}</strong> and Minecraft <strong>${env.mcVersion}</strong>:`,
+                  ...missingItems.map(item => `Install: <code>${item}</code>`),
+                  `Place the downloaded <code>.jar</code> files directly inside your <code>.minecraft/mods</code> folder and restart the game.`
+                ],
+                snippet: depMatch[0].trim().slice(0, 500)
+              });
+            }
+          }
+        }
+
+        // ------------------------------------------
+        // Rule 5: Wrong Loader Mod Dropped In (e.g. Forge on Fabric, Fabric on Forge)
+        // ------------------------------------------
+        const forgeOnFabric = (env.loader === 'Fabric' || env.loader === 'Quilt') &&
+                              (/net\/minecraftforge\/fml|net\.minecraftforge\.fml|cpw\.mods\.fml/i.test(log) || /biomesoplenty-forge|forge\.jar/i.test(log));
+        const fabricOnForge = (env.loader === 'Forge' || env.loader === 'NeoForge') &&
+                              (/net\/fabricmc\/api|net\.fabricmc\.loader/i.test(log));
+        const forgeOnNeoForge = (env.loader === 'NeoForge') &&
+                                (/net\.minecraftforge\.fml\.ModLoadingException/i.test(log) || /Requires forge but running neoforge/i.test(log));
+
+        if (forgeOnFabric || fabricOnForge || forgeOnNeoForge) {
+          let wrongModInfo = 'Incompatible loader jar';
+          let jarMatch = log.match(/([a-zA-Z0-9_.-]+(?:forge|fabric|neoforge)[a-zA-Z0-9_.-]*\.jar)/i);
+          if (jarMatch) wrongModInfo = jarMatch[1];
+
+          diagnostics.push({
+            severity: 'CRITICAL',
+            category: 'Wrong Loader Jar',
+            title: `Wrong Mod Loader Version Installed (${wrongModInfo})`,
+            cause: forgeOnFabric
+              ? `You are running the <strong>${env.loader}</strong> mod loader, but installed a mod compiled specifically for <strong>Minecraft Forge</strong>. Forge mods cannot execute under Fabric/Quilt.`
+              : fabricOnForge
+              ? `You are running <strong>${env.loader}</strong>, but installed a mod compiled specifically for <strong>Fabric</strong>. Fabric mods cannot execute under Forge/NeoForge.`
+              : `You are running <strong>NeoForge</strong>, but installed a legacy Forge mod that does not support NeoForge's revised package structure.`,
+            culpritType: 'Incompatible Jar',
+            culprit: wrongModInfo,
+            instructions: [
+              `Locate and delete the offending jar (<code>${wrongModInfo}</code>) from your <code>mods</code> directory.`,
+              `Visit Modrinth or CurseForge and download the build compiled specifically for <strong>${env.loader}</strong> and Minecraft <strong>${env.mcVersion}</strong>.`,
+              `Ensure every downloaded mod file has "<code>${env.loader.toLowerCase()}</code>" in its filename.`
+            ],
+            snippet: log.match(/(?:java\.lang\.NoClassDefFoundError|java\.lang\.ClassNotFoundException):\s*(?:net\/minecraftforge|net\/fabricmc)[^\n\r]+(?:\n\s+at [^\n\r]+){1,5}/i)?.[0] || null
+          });
+        }
+
+        // ------------------------------------------
+        // Rule 6: Renderer / OpenGL / Mobile Driver Crashes (Checks first before general JVM SIGSEGV)
+        // ------------------------------------------
+        const glMatch = log.match(/(?:org\.lwjgl\.opengl\.OpenGLException|GLFW error 6554[0-9]|Failed to find a suitable pixel format|libvulkan_freedreno\.so|libgl4es\.so|tu_draw_common|zink_draw_vbo|WGL: The driver does not appear to support OpenGL)/i);
+
+        if (glMatch) {
+          const isZinkTurnip = /libvulkan_freedreno|tu_draw|zink/i.test(log);
+          diagnostics.push({
+            severity: 'CRITICAL',
+            category: 'Renderer & Graphics Driver Crash',
+            title: isZinkTurnip ? 'Mobile GPU Driver Crash (Zink / Turnip Freedreno)' : 'OpenGL / GLFW Renderer Failure',
+            cause: isZinkTurnip
+              ? 'The Turnip Vulkan driver or Zink OpenGL-to-Vulkan translation layer crashed during a draw call on your mobile device (Adreno GPU). This is often triggered by unsupported shader operations or driver version bugs.'
+              : 'The graphics subsystem failed to initialize or execute OpenGL calls. This indicates missing graphics drivers, an incompatible shaderpack, or conflicting rendering mods.',
+            culpritType: 'Graphics Driver / Renderer',
+            culprit: isZinkTurnip ? 'libvulkan_freedreno.so / Zink' : 'OpenGL / GLFW Pipeline',
+            instructions: env.isMobileLauncher ? [
+              `In <strong>${env.mobileLauncherName || 'Pojav / Libre Launcher'}</strong> Settings &rarr; <strong>Video and Renderer</strong>:`,
+              `Switch the active renderer from <strong>Zink</strong> to <strong>Holy GL4ES</strong> or <strong>GL4ES 1.1.4</strong>.`,
+              `If using an Adreno GPU (Snapdragon), try switching or updating your <strong>Turnip Driver</strong> in Driver Manager.`,
+              `If you installed Iris or shaderpacks, disable shaders by deleting <code>config/iris.properties</code> or renaming your <code>shaderpacks</code> folder to <code>shaderpacks_disabled</code>.`
+            ] : [
+              `Update your graphics card drivers (NVIDIA, AMD, or Intel) to the latest version.`,
+              `If you are on a laptop with dual GPUs, force Minecraft / Java to run on the <strong>High-Performance Dedicated GPU</strong> in Windows Graphics Settings.`,
+              `If using shaders (Iris/Oculus), delete <code>config/iris.properties</code> to disable shaders and test if the game launches.`
+            ],
+            snippet: glMatch[0] + (log.match(/(?:\n\s+at org\.lwjgl[^\n\r]+){1,4}/i)?.[0] || '')
+          });
+        }
+
+        // ------------------------------------------
+        // Rule 7: Memory & JVM Crashes (OOM / Android LMK / Metaspace)
+        // ------------------------------------------
+        const oomMatch = log.match(/java\.lang\.OutOfMemoryError:\s*(Java heap space|Metaspace|GC overhead limit exceeded)/i);
+        const lmkMatch = !glMatch && env.isMobileLauncher && log.match(/(?:Process killed by LMK|exit code 137|SIGKILL \(signal 9\)|SIGSEGV \(0xb\))/i);
+
+        if (oomMatch || lmkMatch) {
+          const isMetaspace = oomMatch && /Metaspace/i.test(oomMatch[1]);
+          diagnostics.push({
+            severity: 'CRITICAL',
+            category: 'Memory & JVM Exhaustion',
+            title: oomMatch ? `Out of Memory: ${oomMatch[1]}` : 'Android Low Memory Killer (LMK) / Native Crash',
+            cause: oomMatch
+              ? (isMetaspace
+                ? 'The Java Virtual Machine exceeded its allocated class metadata space (Metaspace). This typically happens with large modpacks (150+ mods).'
+                : 'The Java Virtual Machine ran out of heap RAM. The game required more memory than currently allocated via the <code>-Xmx</code> parameter.')
+              : 'Android OS killed the game process because either total system RAM was exhausted or the mobile launcher allocated more RAM than the Linux kernel allows for background apps.',
+            culpritType: 'Memory Allocation',
+            culprit: env.isMobileLauncher ? 'Mobile RAM Limit / Heavy Modpack' : '-Xmx Heap Parameter',
+            instructions: env.isMobileLauncher ? [
+              `In <strong>${env.mobileLauncherName || 'Pojav / Libre Launcher'}</strong> settings, adjust the Allocated Memory slider to between <strong>1800 MB and 2500 MB</strong>. (Allocating >3000 MB on Android often triggers Android's Low Memory Killer, crashing the app).`,
+              `Lower render distance to <strong>6–8 chunks</strong> and simulation distance to <strong>4 chunks</strong>.`,
+              `Install mobile-friendly optimization mods: <strong>FerriteCore</strong>, <strong>ModernFix</strong>, <strong>ImmediatelyFast</strong>, and <strong>Sodium/Embeddium</strong>.`,
+              `Close all background Android apps before launching Minecraft.`
+            ] : [
+              `Open your launcher instance settings (Prism Launcher / Modrinth / CurseForge).`,
+              `Navigate to <strong>Java Arguments / Memory</strong>.`,
+              `Increase Maximum Memory Allocation (<code>-Xmx</code>) to at least <strong>4096MB (4G)</strong> or <strong>6144MB (6G)</strong>.`,
+              isMetaspace ? `Add the JVM argument: <code>-XX:MaxMetaspaceSize=512M</code> to prevent Metaspace exhaustion.` : `Do not allocate more than 75% of your computer's total physical RAM.`
+            ],
+            snippet: oomMatch ? oomMatch[0] : (log.match(/# Problematic frame:[\s\S]*?(?=\n#|$)/)?.[0] || 'SIGSEGV in native library')
+          });
+        }
+
+        // ------------------------------------------
+        // Rule 8: Fallback Smart Stacktrace Extractor
+        // ------------------------------------------
+        if (diagnostics.length === 0) {
+          const causedByMatches = [...log.matchAll(/Caused by:\s*([a-zA-Z0-9._$]+)(?::\s*([^\n\r]+))?([\s\S]*?)(?=(?:Caused by:|\n-- |$))/g)];
+
+          if (causedByMatches.length > 0) {
+            const deepest = causedByMatches[causedByMatches.length - 1];
+            const exClass = deepest[1];
+            const exMsg = deepest[2] || 'No error message provided';
+            const stackLines = deepest[3].split(/\r\n|\r|\n/).map(l => l.trim()).filter(l => l.startsWith('at '));
+
+            let culpritPackage = 'vanilla / unknown';
+            let culpritLine = stackLines[0] || 'Unknown stack location';
+
+            const ignoredPackages = [
+              'net.minecraft.', 'com.mojang.', 'java.', 'sun.', 'jdk.', 'org.spongepowered.asm.',
+              'org.lwjgl.', 'net.fabricmc.loader.', 'net.minecraftforge.fml.', 'net.neoforged.fml.'
+            ];
+
+            for (const line of stackLines) {
+              const cleaned = line.replace(/^at\s+/, '');
+              const isIgnored = ignoredPackages.some(pkg => cleaned.startsWith(pkg));
+              if (!isIgnored) {
+                culpritLine = cleaned;
+                const pkgMatch = cleaned.match(/^([a-zA-Z0-9_]+(?:\.[a-zA-Z0-9_]+)+)/);
+                if (pkgMatch) culpritPackage = pkgMatch[1];
+                break;
+              }
+            }
+
+            diagnostics.push({
+              severity: 'ERROR',
+              category: 'Uncaught Exception',
+              title: `Crash in ${exClass.split('.').pop()}: ${exMsg.slice(0, 80)}`,
+              cause: `The game crashed due to an uncaught exception (<code>${exClass}</code>). The deepest error origin appears in package <code>${culpritPackage}</code>.`,
+              culpritType: 'Suspected Package / Method',
+              culprit: culpritLine,
+              instructions: [
+                `Check if you have any mods that belong to or match package <code>${culpritPackage}</code>.`,
+                `Verify that all installed mods match Minecraft <strong>${env.mcVersion}</strong> and <strong>${env.loader}</strong>.`,
+                `Try temporarily removing mods associated with <code>${culpritPackage}</code> to isolate the issue.`,
+                `Review the full crash log excerpt below for additional context.`
+              ],
+              snippet: `Caused by: ${exClass}: ${exMsg}\n\t${stackLines.slice(0, 6).join('\n\t')}`
+            });
+          } else {
+            diagnostics.push({
+              severity: 'CONFIG',
+              category: 'General Diagnostic',
+              title: 'No Explicit Crash Signature Detected',
+              cause: 'The pasted text did not match any fatal crash or exception signatures. It may be an incomplete log snippet, a successful launch log, or an unhandled log format.',
+              culpritType: 'Log Status',
+              culprit: 'Incomplete / Clean Log',
+              instructions: [
+                `Ensure you copy the <strong>entire</strong> log file from top to bottom.`,
+                `Look inside your <code>.minecraft/crash-reports/</code> directory for the most recent <code>crash-*.txt</code> file.`,
+                `If the game closed without a crash-report, look for <code>hs_err_pid*.log</code> in the main Minecraft folder.`
+              ],
+              snippet: log.slice(0, 300)
+            });
+          }
+        }
+
+        return diagnostics;
+      }
+
+      // ==========================================
+      // UI Renderers
+      // ==========================================
+      function renderEnvironment(env) {
+        envGrid.innerHTML = `
+          <div class="env-item">
+            <span class="env-label">Mod Loader</span>
+            <span class="env-value">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+              ${env.loader} ${env.loaderVersion ? `<span class="env-chip">${env.loaderVersion}</span>` : ''}
+            </span>
+          </div>
+          <div class="env-item">
+            <span class="env-label">Minecraft Version</span>
+            <span class="env-value">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+              ${env.mcVersion}
+            </span>
+          </div>
+          <div class="env-item">
+            <span class="env-label">Active Java Runtime</span>
+            <span class="env-value">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>
+              ${env.javaVersion !== 'Unknown' ? env.javaVersion : 'Undetected'}
+            </span>
+          </div>
+          <div class="env-item">
+            <span class="env-label">OS / Platform</span>
+            <span class="env-value">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="9" y="9" width="6" height="6"></rect></svg>
+              ${env.osName} ${env.javaArch !== 'Unknown' ? `<span class="env-chip">${env.javaArch}</span>` : ''}
+            </span>
+          </div>
+        `;
+
+        detectedStatusBadge.textContent = `${env.loader} • MC ${env.mcVersion}`;
+        detectedStatusBadge.className = 'badge-pill';
+        if (env.loader === 'Fabric' || env.loader === 'Quilt') {
+          detectedStatusBadge.style.color = '#93c5fd';
+        } else if (env.loader === 'Forge' || env.loader === 'NeoForge') {
+          detectedStatusBadge.style.color = '#fdba74';
+        }
+      }
+
+      function renderDiagnostics(diagnostics) {
+        findingsCount.textContent = `${diagnostics.length} ${diagnostics.length === 1 ? 'Issue' : 'Issues'} Detected`;
+        diagnosticsList.innerHTML = '';
+
+        diagnostics.forEach(diag => {
+          const sevClass = diag.severity === 'CRITICAL' ? 'sev-critical' :
+                           diag.severity === 'ERROR' ? 'sev-error' :
+                           diag.severity === 'COMPATIBILITY' ? 'sev-compat' : 'sev-config';
+
+          const card = document.createElement('div');
+          card.className = `diag-card ${sevClass}`;
+
+          card.innerHTML = `
+            <div class="diag-header">
+              <div class="diag-title-wrap">
+                <span class="sev-badge ${sevClass}">${diag.severity}</span>
+                <span class="diag-title">${diag.title}</span>
+              </div>
+              <span style="font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase;">${diag.category}</span>
+            </div>
+            <div class="diag-body">
+              <div class="diag-section">
+                <span class="diag-section-title">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                  Root Cause
+                </span>
+                <div class="diag-cause">${diag.cause}</div>
+              </div>
+
+              <div class="diag-section">
+                <span class="diag-section-title">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                  ${diag.culpritType}
+                </span>
+                <div class="culprit-box">
+                  <span class="culprit-tag">CULPRIT</span>
+                  <span>${diag.culprit}</span>
+                </div>
+              </div>
+
+              <div class="diag-section">
+                <span class="diag-section-title">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                  Step-by-Step Fix Instructions
+                </span>
+                <ol class="fix-list">
+                  ${diag.instructions.map(inst => `<li class="fix-item"><div>${inst}</div></li>`).join('')}
+                </ol>
+              </div>
+
+              ${diag.snippet ? `
+                <details class="diag-details">
+                  <summary>View Technical Log Snippet</summary>
+                  <pre class="diag-code">${escapeHtml(diag.snippet)}</pre>
+                </details>
+              ` : ''}
+            </div>
+          `;
+
+          diagnosticsList.appendChild(card);
+        });
+      }
+
+      function highlightBytecodeRow(requiredMajor) {
+        ['row-61', 'row-65', 'row-69', 'row-52'].forEach(id => {
+          const row = document.getElementById(id);
+          if (row) row.classList.remove('active-target');
+        });
+
+        if (requiredMajor) {
+          const targetId = `row-${Math.floor(requiredMajor)}`;
+          const row = document.getElementById(targetId);
+          if (row) {
+            row.classList.add('active-target');
+          }
+        }
+      }
+
+      function renderMods(mods) {
+        loadedModsCache = mods;
+        modsBadge.textContent = `${mods.length} Mods Detected`;
+        filterAndDisplayMods('');
+      }
+
+      function filterAndDisplayMods(searchTerm) {
+        const term = searchTerm.toLowerCase().trim();
+        const filtered = loadedModsCache.filter(m => {
+          return m.id.toLowerCase().includes(term) || (m.version && m.version.toLowerCase().includes(term));
+        });
+
+        modsFilteredCount.textContent = `Showing ${filtered.length} of ${loadedModsCache.length} mods`;
+        modsGrid.innerHTML = '';
+
+        if (filtered.length === 0) {
+          modsGrid.innerHTML = `<div style="grid-column: 1/-1; color: var(--text-dim); padding: 12px; text-align: center;">No matching mods found in log.</div>`;
+          return;
+        }
+
+        filtered.forEach(m => {
+          const pill = document.createElement('div');
+          pill.className = 'mod-pill';
+          pill.innerHTML = `
+            <span class="mod-id" title="${escapeHtml(m.id)}">${escapeHtml(m.id)}</span>
+            <span class="mod-ver">${escapeHtml(m.version || 'unknown')}</span>
+          `;
+          modsGrid.appendChild(pill);
+        });
+      }
+
+      modSearch.addEventListener('input', (e) => {
+        filterAndDisplayMods(e.target.value);
+      });
+
+      function escapeHtml(str) {
+        if (!str) return '';
+        return str
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+      // ==========================================
+      // Markdown Report Generator
+      // ==========================================
+      function generateMarkdownReport(analysis, redactedLog) {
+        const { env, diagnostics, mods } = analysis;
+        const timestamp = new Date().toISOString().replace('T', ' ').slice(0, 19);
+
+        let md = `# LibreCrash Diagnostic Report\n`;
+        md += `*Timestamp: ${timestamp} UTC*\n\n`;
+
+        md += `## System & Environment\n`;
+        md += `- **Mod Loader:** ${env.loader} ${env.loaderVersion ? `(${env.loaderVersion})` : ''}\n`;
+        md += `- **Minecraft Version:** ${env.mcVersion}\n`;
+        md += `- **Java Runtime:** ${env.javaVersion} (${env.javaArch})\n`;
+        md += `- **Platform / OS:** ${env.osName}\n`;
+        if (env.memoryMax) md += `- **Memory Config:** ${env.memoryMax}\n`;
+        md += `\n`;
+
+        md += `## Diagnostic Findings (${diagnostics.length})\n\n`;
+        diagnostics.forEach((diag, index) => {
+          md += `### ${index + 1}. [${diag.severity}] ${diag.title}\n`;
+          md += `- **Category:** ${diag.category}\n`;
+          md += `- **Culprit:** \`${diag.culprit}\`\n`;
+          md += `- **Root Cause:** ${diag.cause.replace(/<[^>]*>/g, '')}\n\n`;
+          md += `**Fix Instructions:**\n`;
+          diag.instructions.forEach((step, sIdx) => {
+            md += `${sIdx + 1}. ${step.replace(/<[^>]*>/g, '')}\n`;
+          });
+          if (diag.snippet) {
+            md += `\n\`\`\`text\n${diag.snippet.slice(0, 500)}\n\`\`\`\n`;
+          }
+          md += `\n---\n\n`;
+        });
+
+        if (mods && mods.length > 0) {
+          md += `## Installed Mods (${mods.length})\n`;
+          md += `<details>\n<summary>View mod list</summary>\n\n`;
+          md += `| Mod ID | Version |\n`;
+          md += `| :--- | :--- |\n`;
+          mods.slice(0, 150).forEach(m => {
+            md += `| \`${m.id}\` | \`${m.version || 'N/A'}\` |\n`;
+          });
+          if (mods.length > 150) {
+            md += `\n*(Truncated: ${mods.length - 150} more mods loaded)*\n`;
+          }
+          md += `\n</details>\n\n`;
+        }
+
+        md += `## Sanitized Log Excerpt\n`;
+        md += `\`\`\`text\n`;
+        md += redactedLog ? redactedLog.slice(0, 3000) : 'No log content available.';
+        md += `\n\`\`\`\n`;
+
+        return md;
+      }
+
+      // ==========================================
+      // Main Analysis Orchestration
+      // ==========================================
+      function analyzeCurrentLog() {
+        const rawLog = logInput.value.trim();
+        if (!rawLog) {
+          showToast('Please paste a log or choose a sample first!', 'error');
+          return;
+        }
+
+        const env = parseEnvironment(rawLog);
+        const mods = extractModList(rawLog);
+        const bytecode = analyzeBytecode(rawLog, env);
+        const diagnostics = runDiagnosticRules(rawLog, env, mods, bytecode);
+
+        currentAnalysis = {
+          rawLog,
+          env,
+          mods,
+          bytecode,
+          diagnostics
+        };
+
+        // Render sections
+        renderEnvironment(env);
+        renderDiagnostics(diagnostics);
+        renderMods(mods);
+        highlightBytecodeRow(bytecode.requiredClassMajor);
+
+        resultsSection.style.display = 'flex';
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        showToast('Crash analysis complete!', 'success');
+      }
+
+      btnAnalyze.addEventListener('click', analyzeCurrentLog);
+
+      // ==========================================
+      // Privacy Redact & Copy Report Handler
+      // ==========================================
+      btnPrivacyRedact.addEventListener('click', async () => {
+        if (!currentAnalysis) {
+          analyzeCurrentLog();
+          if (!currentAnalysis) return;
+        }
+
+        const redacted = redactPrivacy(currentAnalysis.rawLog);
+        const markdownReport = generateMarkdownReport(currentAnalysis, redacted);
+
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(markdownReport);
+            showToast('Privacy-redacted report copied to clipboard!', 'success');
+          } else {
+            const ta = document.createElement('textarea');
+            ta.value = markdownReport;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            showToast('Privacy-redacted report copied to clipboard!', 'success');
+          }
+        } catch (err) {
+          modalReportText.textContent = markdownReport;
+          reportModal.classList.add('active');
+          showToast('Opened preview (clipboard permission required)');
+        }
+      });
+
+      // Preview Redacted Report Modal
+      btnViewRedacted.addEventListener('click', () => {
+        if (!currentAnalysis) {
+          analyzeCurrentLog();
+          if (!currentAnalysis) return;
+        }
+        const redacted = redactPrivacy(currentAnalysis.rawLog);
+        const markdownReport = generateMarkdownReport(currentAnalysis, redacted);
+        modalReportText.textContent = markdownReport;
+        reportModal.classList.add('active');
+      });
+
+      modalClose.addEventListener('click', () => reportModal.classList.remove('active'));
+      modalCloseBtn.addEventListener('click', () => reportModal.classList.remove('active'));
+      reportModal.addEventListener('click', (e) => {
+        if (e.target === reportModal) reportModal.classList.remove('active');
+      });
+
+      modalCopyBtn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(modalReportText.textContent);
+          showToast('Markdown report copied!', 'success');
+          reportModal.classList.remove('active');
+        } catch (err) {
+          showToast('Failed to copy: ' + err.message, 'error');
+        }
+      });
+
+    })();
+  </script>
+</body>
+</html>
