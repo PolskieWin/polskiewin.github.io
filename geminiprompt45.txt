@@ -1,0 +1,23 @@
+CRITICAL VERSION RULE: DO NOT bump `versionName` or `versionCode`! Keep `versionName` locked strictly at `"3.00"` (and `versionCode` unchanged). We are freezing version bumps at `v3.00` so we can fix every remaining bug and ship `v3.00` as our first completely bug-free release.
+
+In `PolskieWin/libre-launcher` (`v3.00`), `libshaderc.so` and `libspirv-cross-c-shared.so` now load and resolve properly via `LWJGL linkerhook`, Turnip Adreno 730 initializes, and SDL creates the Android window!
+However, `Shaderc$Functions.<clinit>` throws ONE final missing symbol error because our NDK `shaderc` version predates LWJGL 3.4.3's `shaderc_compile_options_set_preserve_bindings`:
+`LWJGL linkerhook: shaderc symbol lookup failed for shaderc_compile_options_set_preserve_bindings`
+`java.lang.NullPointerException: A required function is missing: shaderc_compile_options_set_preserve_bindings`
+
+Fix this cleanly while keeping the build locked on `v3.00` (100% source-built with ZERO prebuilt `.so` files in `src/` for F-Droid compliance):
+
+1. Export Missing LWJGL 3.4.3 `shaderc_*` C API Entrypoints in Our CMake `libshaderc` Target:
+   - Inspect `org.lwjgl.util.shaderc.Shaderc$Functions` (all 44 `shaderc_*` symbols required by LWJGL 3.4.3-snapshot) vs `nm -D` on our CMake-built `libshaderc.so`.
+   - Add a C/C++ compatibility shim source file (`shaderc_lwj343_compat.cpp`) compiled directly into the CMake `shaderc` shared library target (`-fvisibility=default`) implementing any newer LWJGL 3.4.3 `shaderc_*` C functions absent in the NDK `shaderc` version:
+     * `extern "C" void shaderc_compile_options_set_preserve_bindings(void* options, bool preserve_bindings)` -> delegates safely to `shaderc_compile_options_set_auto_bind_uniforms` / `shaderc_compile_options_set_auto_map_locations` or configures the compiler options without crashing.
+     * Audit every single symbol in `Shaderc$Functions` (`shaderc_compile_options_set_preserve_bindings`, `shaderc_compile_options_set_max_id_bound`, `shaderc_compile_options_set_vulkan_rules_relaxed`, etc.) and `Spvc$Functions` against `nm -D` of both CMake-built `.so` libraries so ZERO `APIUtil.requiredFunctionMissing` `NullPointerException`s can occur.
+
+2. Polish `v3.00` Stability & Clean Up Startup Warnings:
+   - Ensure `LWJGL linkerhook` logs clear diagnostics if any `shaderc_*` or `spvc_*` symbol fails `dlsym`, and verify `libspirv-cross-c-shared.so` exports all required `spvc_*` C API symbols as global `T` symbols in `.dynsym`.
+   - Ensure `fake_proc/stat`, `fake_proc/version`, and `options.txt` (`fullscreen:false` instead of `"off"`) are cleanly initialized before launch so Minecraft 26.3 boots without startup option parse warnings.
+   - Confirm `versionName` remains `"3.00"`, `git status` has ZERO prebuilt `.so` binaries inside `src/`, and `noruntimeRelease` has `debuggable false` for F-Droid MR `!58168`.
+
+3. Build & Verify `v3.00`:
+   - Build `assembleStrippedRelease` and `assembleNoruntimeRelease` (still on `v3.00`) and run `nm -D` on both `libshaderc.so` and `libspirv-cross-c-shared.so` to confirm 100% of LWJGL 3.4.3's `shaderc_*` and `spvc_*` symbols are present as global `T` exports.
+

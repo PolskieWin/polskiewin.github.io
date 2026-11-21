@@ -14,8 +14,8 @@
   // Constants & Fallbacks
   const GITHUB_REPO_API = 'https://api.github.com/repos/PolskieWin/libre-launcher/releases/latest';
   const FALLBACK_RELEASE_URL = 'https://github.com/PolskieWin/libre-launcher/releases/latest';
-  const FALLBACK_VERSION = 'v2.90';
-  const FALLBACK_STRIPPED_SIZE = '21 MB';
+  const FALLBACK_VERSION = 'v3.00';
+  const FALLBACK_STRIPPED_SIZE = '31 MB';
 
   // DOM Elements
   const tabButtons = document.querySelectorAll('.nav-tab-btn');
