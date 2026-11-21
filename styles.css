@@ -1575,6 +1575,23 @@ img {
   .comparison-cards-mobile {
     display: flex;
   }
+  .matrix-row {
+    flex-wrap: wrap;
+  }
+  .matrix-row.libre-highlight {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .matrix-val,
+  .matrix-row .badge-tag-libre,
+  .matrix-row .badge-tag-alt {
+    white-space: normal;
+    text-align: left;
+    max-width: 100%;
+    font-size: 0.76rem;
+    line-height: 1.35;
+  }
 }
 
 /* ==========================================================================
