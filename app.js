@@ -14,7 +14,7 @@
   // Constants & Fallbacks
   const GITHUB_REPO_API = 'https://api.github.com/repos/PolskieWin/libre-launcher/releases/latest';
   const FALLBACK_RELEASE_URL = 'https://github.com/PolskieWin/libre-launcher/releases/latest';
-  const FALLBACK_VERSION = 'v3.50';
+  const FALLBACK_VERSION = 'v3.60';
   const FALLBACK_STRIPPED_SIZE = '31 MB';
 
   // DOM Elements
@@ -123,9 +123,9 @@
       const assets = Array.isArray(releaseData.assets) ? releaseData.assets : [];
 
       // Locate key assets
-      const strippedAsset = assets.find(a => a.name === 'LibreLauncher-stripped-release.apk');
-      const fullAsset = assets.find(a => a.name === 'LibreLauncher-release.apk');
-      const noRuntimeAsset = assets.find(a => a.name === 'LibreLauncher-noruntime-release.apk');
+      const strippedAsset = assets.find(a => (a.name.includes('stripped') || a.name === 'LibreLauncher-stripped-release.apk') && a.name.endsWith('.apk'));
+      const fullAsset = assets.find(a => (a.name.includes('full') || a.name.includes('release')) && !a.name.includes('stripped') && !a.name.includes('noruntime') && a.name.endsWith('.apk'));
+      const noRuntimeAsset = assets.find(a => a.name.includes('noruntime') && a.name.endsWith('.apk'));
 
       // Update Primary Stripped Button
       if (strippedAsset && strippedAsset.browser_download_url) {
