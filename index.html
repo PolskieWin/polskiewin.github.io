@@ -44,18 +44,24 @@
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "SoftwareApplication",
+        "@type": ["SoftwareApplication", "MobileApplication"],
         "name": "Libre Launcher",
         "alternateName": [
           "LibreLauncher",
-          "Libre Launcher Android"
+          "Libre Launcher Android",
+          "Libre Launcher Mobile",
+          "Libre Launcher Minecraft Java Android",
+          "LibreLauncher APK",
+          "Libre Minecraft Launcher"
         ],
-        "operatingSystem": "Android 8.0+",
+        "disambiguatingDescription": "Libre Launcher is an open-source, mobile-first Minecraft: Java Edition launcher built specifically for Android smartphones and tablets (arm64-v8a) by PolskieWin. It is independent and distinct from legacy desktop PC launchers.",
+        "operatingSystem": "Android 8.0+, Android 9, Android 10, Android 11, Android 12, Android 13, Android 14, Android 15, Android 16",
         "applicationCategory": "GameApplication",
+        "applicationSubCategory": "Game Helper",
         "softwareVersion": "3.70",
         "license": "https://www.gnu.org/licenses/lgpl-3.0.html",
         "url": "https://polskiewin.github.io/",
-        "downloadUrl": "https://github.com/PolskieWin/libre-launcher/releases/latest",
+        "downloadUrl": "https://github.com/PolskieWin/libre-launcher/releases/tag/v3.70",
         "codeRepository": "https://github.com/PolskieWin/libre-launcher",
         "author": {
           "@type": "Person",
@@ -67,7 +73,7 @@
           "price": "0",
           "priceCurrency": "USD"
         },
-        "featureList": "31 MB stripped APK (without bundled runtime) or 109 MB full APK (bundled Java 21 & Java 25 runtimes), LibreMobile Vulkan/Turnip renderer, native Rust touch controls (<2 ms latency), Fabric/Forge/NeoForge mod support, Material You dynamic widgets, F-Droid LGPLv3 open-source",
+        "featureList": "31 MB stripped APK (without bundled runtime) or 109 MB full APK (bundled Java 21 & Java 25 runtimes), LibreMobile Vulkan/Turnip renderer, native Rust touch controls (<2 ms latency), Fabric/Forge/NeoForge mod support with pre-boot JSON scanner, Material You dynamic widgets, F-Droid LGPLv3 open-source",
         "description": "Libre Launcher on Android (also known as LibreLauncher) is a free, open-source (LGPLv3) Minecraft: Java Edition launcher built by PolskieWin. Engineered specifically for arm64-v8a Android devices, it combines a 31 MB stripped footprint (or 109 MB with bundled Java 21 & Java 25 runtimes), the LibreMobile Vulkan/Turnip renderer, and native Rust touch controls (<2 ms latency) with zero telemetry."
       },
       {
@@ -83,10 +89,26 @@
           },
           {
             "@type": "Question",
+            "name": "Is Libre Launcher for Android or PC?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Libre Launcher by PolskieWin is engineered specifically for Android mobile devices (smartphones and tablets running Android 8.0 through Android 16). It is an independent mobile application and completely unrelated to legacy desktop PC Minecraft launchers that share the name. On Android, Libre Launcher delivers native mobile touch controls (libre_controls in Rust), mobile GPU driver loading (Turnip/Zink), and battery-saving AFK hibernate."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does Libre Launcher support Fabric, NeoForge, and Quilt mods on Android?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes! In the latest v3.70 release, Libre Launcher upgraded its pre-boot mod compatibility scanner to full native JSON parsing, eliminating crashes and ensuring seamless compatibility for Fabric (fabric.mod.json), NeoForge (neoforge.mods.toml), Quilt, and Forge modpacks directly on Android."
+            }
+          },
+          {
+            "@type": "Question",
             "name": "How do I download Libre Launcher APK for Android?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "You can download the latest Libre Launcher APK directly from GitHub Releases (https://github.com/PolskieWin/libre-launcher/releases/latest) or install it via Obtainium (https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22org.libre.launcher%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2FPolskieWin%2Flibre-launcher%22%2C%22author%22%3A%22PolskieWin%22%2C%22name%22%3A%22Libre%20Launcher%22%2C%22additionalSettings%22%3A%22%7B%5C%22apkFilterRegEx%5C%22%3A%5C%22stripped%5C%22%2C%5C%22invertAPKFilter%5C%22%3Afalse%7D%22%7D) for automatic one-tap updates. Multiple build flavors are available, including the 31 MB Stripped APK (no bundled runtime), Full Release with bundled Java 21 & 25 (109 MB), and F-Droid No-Runtime build (downloads runtime on first launch)."
+              "text": "You can download the latest Libre Launcher APK directly from GitHub Releases (https://github.com/PolskieWin/libre-launcher/releases/latest), GitLab Releases (https://gitlab.com/libre-group2305847/Libre-project/-/releases/v3.70), or install it via Obtainium for automatic one-tap updates. Multiple build flavors are available: 31 MB Stripped APK, Full Release with bundled Java 21 & 25 (109 MB), and F-Droid No-Runtime build."
             }
           },
           {
@@ -975,6 +997,30 @@
             </div>
             <p class="faq-answer">
               Libre Launcher on Android (also known as LibreLauncher) is a free, open-source (LGPLv3) Minecraft: Java Edition launcher built by PolskieWin. Engineered specifically for arm64-v8a Android devices, it combines a 31 MB stripped footprint (or 109 MB with bundled Java 21 &amp; Java 25), the LibreMobile Vulkan/Turnip renderer, and native Rust touch controls (&lt;2 ms latency) with zero telemetry.
+            </p>
+          </article>
+
+          <article class="faq-card">
+            <div class="faq-card-header">
+              <div class="faq-icon-wrap">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
+              </div>
+              <h3 class="faq-question">Is Libre Launcher for Android or PC?</h3>
+            </div>
+            <p class="faq-answer">
+              Libre Launcher by PolskieWin is engineered specifically for Android mobile devices (smartphones, tablets, and handheld consoles running Android 8.0+). It is an independent mobile project and completely distinct from legacy desktop PC Minecraft launchers that share the name. On Android, Libre Launcher delivers native mobile touch controls (libre_controls in Rust), mobile GPU driver loading (Turnip/Zink), and battery-saving AFK hibernate.
+            </p>
+          </article>
+
+          <article class="faq-card">
+            <div class="faq-card-header">
+              <div class="faq-icon-wrap">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11H19V7c0-1.1-.9-2-2-2h-4V3.5C13 2.12 11.88 1 10.5 1S8 2.12 8 3.5V5H4c-1.1 0-1.99.9-1.99 2v3.8H3.5c1.49 0 2.7 1.21 2.7 2.7s-1.21 2.7-2.7 2.7H2V20c0 1.1.9 2 2 2h3.8v-1.5c0-1.49 1.21-2.7 2.7-2.7 1.49 0 2.7 1.21 2.7 2.7V22H17c1.1 0 2-.9 2-2v-4h1.5c1.38 0 2.5-1.12 2.5-2.5s-1.12-2.5-2.5-2.5z"/></svg>
+              </div>
+              <h3 class="faq-question">Does Libre Launcher support Fabric, NeoForge, and Quilt mods?</h3>
+            </div>
+            <p class="faq-answer">
+              Yes! In the latest v3.70 release, Libre Launcher upgraded its pre-boot mod compatibility scanner to full native JSON parsing, eliminating crashes and ensuring seamless compatibility for Fabric (fabric.mod.json), NeoForge (neoforge.mods.toml), Quilt, and Forge modpacks directly on Android.
             </p>
           </article>
 
