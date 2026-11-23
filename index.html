@@ -118,6 +118,14 @@
               "@type": "Answer",
               "text": "Yes, Libre Launcher fully supports modern Minecraft: Java Edition snapshots (including 26.3 and 26.4) with built-in shaderc SPIR-V compilation and hot-swappable Mesa Turnip Vulkan drivers tailored for Qualcomm Snapdragon GPUs, as well as Zink and standard GLES renderers."
             }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is Libre Launcher rewriting components in Rust and moving away from PojavLauncher?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Libre Launcher is actively executing a Hybrid Tiny Rewrite to eliminate legacy overhead and provide a fully standalone, native Android experience. We are progressively rewriting critical performance bottlenecks—including touch controls (libre_controls), mod/file scanning, cache validation, and native runtime bindings—in pure Rust. This roadmap allows Libre Launcher to move away from the legacy PojavLauncher base, slashing cold startup times from ~60s down toward ~15s, hardening driver stability, and shrinking the stripped APK footprint toward ~16 MB."
+            }
           }
         ]
       }
@@ -1046,6 +1054,18 @@
             </div>
             <p class="faq-answer">
               Yes, Libre Launcher fully supports modern Minecraft: Java Edition snapshots (including 26.3 and 26.4) with built-in shaderc SPIR-V compilation and hot-swappable Mesa Turnip Vulkan drivers tailored for Qualcomm Snapdragon GPUs, as well as Zink and standard GLES renderers.
+            </p>
+          </article>
+
+          <article class="faq-card">
+            <div class="faq-card-header">
+              <div class="faq-icon-wrap">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
+              </div>
+              <h3 class="faq-question">Why is Libre Launcher rewriting components in Rust and moving away from PojavLauncher?</h3>
+            </div>
+            <p class="faq-answer">
+              Libre Launcher is actively executing a <strong>Hybrid Tiny Rewrite</strong> to eliminate legacy overhead and provide a fully standalone, native Android experience. We are progressively rewriting critical performance bottlenecks—including touch controls (<code>libre_controls</code>), mod/file scanning, cache validation, and native runtime bindings—in pure <strong>Rust</strong>. This roadmap allows Libre Launcher to move away from the legacy PojavLauncher base, slashing cold startup times from ~60s down toward ~15s, hardening driver stability, and shrinking the stripped APK footprint toward ~16 MB.
             </p>
           </article>
         </div>

@@ -108,6 +108,14 @@
               "@type": "Answer",
               "text": "Libre Launcher provides three APK flavors: 1) Stripped APK (~32 MB) without bundled runtime for minimal install footprint, 2) No-Runtime APK (~84 MB) conforming to F-Droid guidelines with dynamic runtime download on initial launch, and 3) Full Release APK (~113 MB) with pre-bundled Java 21 and Java 25 runtimes for immediate offline readiness."
             }
+          },
+          {
+            "@type": "Question",
+            "name": "Is Libre Launcher rewriting components in Rust and moving away from PojavLauncher?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Libre Launcher is in the middle of a Hybrid Tiny Rewrite. We are porting performance-critical subsystems—such as touch input (libre_controls), file/mod indexing, and native dispatch—into pure Rust, while systematically transitioning away from the legacy PojavLauncher architecture to achieve ~15s boot times, a leaner ~16 MB stripped APK target, and direct Vulkan/Turnip driver reliability."
+            }
           }
         ]
       }
@@ -472,6 +480,12 @@
             <h3>Does Libre Launcher support mods on Android?</h3>
             <p>
               Yes! Version 3.70 resolves mod detection and loading bugs with an upgraded native JSON mod scanner supporting Fabric, NeoForge, Quilt, and Forge modpacks directly on Android.
+            </p>
+          </div>
+          <div class="faq-card">
+            <h3>Is Libre Launcher moving away from PojavLauncher and rewriting in Rust?</h3>
+            <p>
+              Yes. Libre Launcher is executing an active <strong>Hybrid Tiny Rewrite</strong>. We are progressively porting performance-critical subsystems—such as touch input (<a href="https://github.com/PolskieWin/libre-launcher" target="_blank" rel="noopener noreferrer">libre_controls</a>), mod/file scanning, cache validation, and native runtime bindings—into pure Rust, while systematically transitioning away from the legacy PojavLauncher architecture to achieve ~15s cold boot times, a leaner ~16 MB stripped APK target, and direct Vulkan/Turnip driver reliability.
             </p>
           </div>
         </div>
