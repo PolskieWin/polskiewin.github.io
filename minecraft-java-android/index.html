@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#14110F">
+  <title>How to Play Minecraft Java on Android (Step-by-Step Guide)</title>
+  <meta name="description" content="Learn how to play Minecraft Java Edition on your Android phone easily using LibreLauncher. Step-by-step tutorial with no lag.">
+  <meta name="keywords" content="minecraft java android, minecraft java edition android, play minecraft java on android, minecraft java android tutorial, LibreLauncher tutorial">
+  <link rel="canonical" href="https://polskiewin.github.io/minecraft-java-android/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://polskiewin.github.io/minecraft-java-android/">
+  <meta property="og:title" content="How to Play Minecraft Java on Android (Step-by-Step)">
+  <meta property="og:description" content="Install LibreLauncher and start playing Minecraft Java Edition on Android in under 5 minutes.">
+  <meta property="og:site_name" content="Libre Launcher">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="How to Play Minecraft Java on Android">
+  <meta name="twitter:description" content="Step-by-step guide using LibreLauncher — the free, open-source Minecraft Java launcher for Android.">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=optional">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"How to Play Minecraft Java Edition on Android","description":"A step-by-step guide to installing and playing Minecraft Java Edition on an Android phone using LibreLauncher.","totalTime":"PT5M","step":[{"@type":"HowToStep","position":1,"name":"Download LibreLauncher","text":"Visit the LibreLauncher GitHub Releases page and download the latest APK file to your Android device."},{"@type":"HowToStep","position":2,"name":"Install the APK","text":"Open the downloaded APK and enable 'Install from unknown sources' if prompted, then complete the installation."},{"@type":"HowToStep","position":3,"name":"Log in with Microsoft","text":"Open LibreLauncher and sign in with your Microsoft account that owns Minecraft Java Edition."},{"@type":"HowToStep","position":4,"name":"Allocate RAM and select version","text":"In the launcher settings, allocate RAM (2-4 GB recommended) and choose your Minecraft Java version."},{"@type":"HowToStep","position":5,"name":"Hit Play","text":"Press the Play button. Minecraft Java Edition will launch on your Android device."}]}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://polskiewin.github.io/"},{"@type":"ListItem","position":2,"name":"Guide","item":"https://polskiewin.github.io/minecraft-java-android/"}]}
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-bg:           #14110F;
+      --color-surface:      #1C1915;
+      --color-surface-high: #252018;
+      --color-surface-top:  #2E2820;
+      --color-primary:      #FFB870;
+      --color-primary-dim:  rgba(255,184,112,0.15);
+      --color-on-primary:   #2A1800;
+      --color-on-surface:   #EDE0D4;
+      --color-on-surface-v: #9E8E7E;
+      --color-outline:      rgba(255,255,255,0.08);
+      --font-display:       'Plus Jakarta Sans', system-ui, sans-serif;
+      --font-body:          'Inter', system-ui, sans-serif;
+      --font-mono:          'JetBrains Mono', monospace;
+      --radius-pill:        999px;
+      --radius-squircle:    16px;
+      --radius-md:          10px;
+      --motion-quick:       0.15s cubic-bezier(0.2,0,0,1);
+      --motion-std:         0.25s cubic-bezier(0.2,0,0,1);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--color-bg); color: var(--color-on-surface); font-size: 1rem; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    .site-nav { position: sticky; top: 0; z-index: 100; background: rgba(20,17,15,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--color-outline); padding: 0 1.25rem; }
+    .nav-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-brand img { width: 24px; height: 24px; border-radius: 6px; }
+    .nav-brand-name { font-family: var(--font-display); font-weight: 800; font-size: 1rem; color: var(--color-on-surface); }
+    .nav-brand-badge { font-size: 0.65rem; font-weight: 700; background: var(--color-primary-dim); color: var(--color-primary); padding: 2px 8px; border-radius: var(--radius-pill); border: 1px solid rgba(255,184,112,0.2); }
+    .nav-links { display: flex; gap: 0.25rem; }
+    .nav-links a { color: var(--color-on-surface-v); text-decoration: none; font-size: 0.85rem; font-weight: 500; padding: 6px 12px; border-radius: var(--radius-pill); transition: color var(--motion-quick), background var(--motion-quick); }
+    .nav-links a:hover { color: var(--color-on-surface); background: var(--color-outline); }
+    .nav-links a[aria-current="page"] { color: var(--color-primary); background: var(--color-primary-dim); }
+    .content { max-width: 740px; margin: 0 auto; padding: 3rem 1.25rem 4rem; }
+    .breadcrumb { display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; color: var(--color-on-surface-v); margin-bottom: 1.5rem; }
+    .breadcrumb a { color: var(--color-on-surface-v); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--color-primary); }
+    .breadcrumb svg { width: 14px; height: 14px; fill: currentColor; }
+    h1 { font-family: var(--font-display); font-size: clamp(1.75rem, 5vw, 2.6rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.5px; margin-bottom: 1rem; color: var(--color-on-surface); }
+    .gradient-text { background: linear-gradient(135deg, var(--color-primary), #FFA742); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .meta-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+    .meta-chip { font-family: var(--font-mono); font-size: 0.72rem; background: var(--color-surface); border: 1px solid var(--color-outline); border-radius: var(--radius-pill); padding: 4px 10px; color: var(--color-on-surface-v); }
+    .hero-p { color: var(--color-on-surface-v); font-size: 1rem; margin-bottom: 2.5rem; line-height: 1.65; }
+    .hero-p strong { color: var(--color-on-surface); }
+    .section-tag { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-primary); display: block; margin-bottom: 0.5rem; }
+    h2 { font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; color: var(--color-on-surface); margin-bottom: 1.5rem; }
+    .steps { display: flex; flex-direction: column; gap: 1px; position: relative; }
+    .step { display: flex; gap: 1.25rem; padding: 1.5rem; background: var(--color-surface); border: 1px solid var(--color-outline); border-radius: var(--radius-squircle); position: relative; transition: border-color var(--motion-std); }
+    .step:hover { border-color: rgba(255,184,112,0.3); }
+    .step + .step { margin-top: 0.75rem; }
+    .step-num { flex-shrink: 0; width: 40px; height: 40px; background: linear-gradient(135deg, var(--color-primary), #FFA742); color: var(--color-on-primary); font-family: var(--font-display); font-size: 1rem; font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .step-body { flex: 1; }
+    .step-body h3 { font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--color-on-surface); margin-bottom: 0.4rem; }
+    .step-body p { font-size: 0.9rem; color: var(--color-on-surface-v); line-height: 1.6; }
+    .step-tip { margin-top: 0.75rem; background: var(--color-surface-high); border-left: 3px solid var(--color-primary); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: 0.6rem 0.9rem; font-size: 0.82rem; color: var(--color-on-surface-v); }
+    .step-tip strong { color: var(--color-primary); }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: var(--radius-pill); font-family: var(--font-body); font-size: 0.95rem; font-weight: 700; text-decoration: none; border: none; cursor: pointer; transition: transform var(--motion-quick), background var(--motion-quick), box-shadow var(--motion-quick); }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary { background: linear-gradient(135deg, var(--color-primary), #FFA742); color: var(--color-on-primary); box-shadow: 0 4px 20px rgba(255,184,112,0.25); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,184,112,0.35); }
+    .btn-secondary { background: var(--color-surface-high); color: var(--color-on-surface); border: 1px solid var(--color-outline); }
+    .btn-secondary:hover { transform: translateY(-2px); border-color: rgba(255,184,112,0.4); color: var(--color-primary); }
+    .btn svg { width: 18px; height: 18px; fill: currentColor; }
+    .cta-card { margin: 2.5rem 0; background: var(--color-surface); border: 1px solid var(--color-outline); border-radius: var(--radius-squircle); padding: 2.5rem; text-align: center; }
+    .cta-card h2 { margin-bottom: 0.5rem; }
+    .cta-card p { color: var(--color-on-surface-v); margin-bottom: 1.5rem; }
+    .tips-section { margin-top: 2.5rem; padding-top: 2.5rem; border-top: 1px solid var(--color-outline); }
+    .tips-list { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
+    .tip-item { display: flex; gap: 0.75rem; align-items: flex-start; background: var(--color-surface); border: 1px solid var(--color-outline); border-radius: var(--radius-md); padding: 1rem; }
+    .tip-icon { flex-shrink: 0; width: 32px; height: 32px; background: var(--color-surface-high); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--color-primary); }
+    .tip-icon svg { width: 16px; height: 16px; fill: currentColor; }
+    .tip-text { font-size: 0.875rem; color: var(--color-on-surface-v); line-height: 1.5; }
+    .tip-text strong { color: var(--color-on-surface); }
+    .site-footer { border-top: 1px solid var(--color-outline); padding: 2rem 1.25rem; text-align: center; }
+    .site-footer p { color: var(--color-on-surface-v); font-size: 0.82rem; }
+    .site-footer a { color: var(--color-on-surface-v); text-decoration: none; }
+    .site-footer a:hover { color: var(--color-primary); }
+  </style>
+</head>
+<body>
+
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-brand">
+        <img src="/assets/libre-launcher-icon.png" alt="Libre Launcher" width="24" height="24">
+        <span class="nav-brand-name">Libre Launcher</span>
+        <span class="nav-brand-badge">Android</span>
+      </a>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/libre-launcher/">Launcher</a>
+        <a href="/minecraft-java-android/" aria-current="page">Guide</a>
+        <a href="/libre-launcher-features/">Features</a>
+        <a href="/why-libre-launcher/">Why Us</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="content">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+      <span>Minecraft Java on Android Guide</span>
+    </nav>
+
+    <h1>How to Play <span class="gradient-text">Minecraft Java</span> on Android (Step-by-Step)</h1>
+
+    <div class="meta-row">
+      <span class="meta-chip">5 minutes</span>
+      <span class="meta-chip">Android 8.0+</span>
+      <span class="meta-chip">Free</span>
+      <span class="meta-chip">Microsoft Account Required</span>
+      <span class="meta-chip">Updated 2026</span>
+    </div>
+
+    <p class="hero-p">
+      This guide walks you through every step to run full <strong>Minecraft Java Edition</strong> on your Android phone using <strong>LibreLauncher</strong>, a free open-source launcher. No emulators, no lag tricks — just the real game.
+    </p>
+
+    <span class="section-tag">Installation Guide</span>
+    <h2>5 Steps to Minecraft Java on Android</h2>
+
+    <div class="steps">
+      <div class="step" id="step-1">
+        <div class="step-num" aria-label="Step 1">1</div>
+        <div class="step-body">
+          <h3>Download LibreLauncher from GitHub</h3>
+          <p>Open your browser and go to the LibreLauncher GitHub Releases page. Tap the latest <code style="font-family:var(--font-mono);font-size:0.85em;background:var(--color-surface-high);padding:1px 5px;border-radius:4px;">.apk</code> file to start the download directly on your phone.</p>
+          <div class="step-tip"><strong>Tip:</strong> Download directly onto your phone — no PC required.</div>
+          <a href="https://github.com/PolskieWin/libre-launcher/releases" class="btn btn-primary" style="margin-top:1rem;" rel="noopener noreferrer" target="_blank">
+            <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+            Go to GitHub Releases
+          </a>
+        </div>
+      </div>
+
+      <div class="step" id="step-2">
+        <div class="step-num" aria-label="Step 2">2</div>
+        <div class="step-body">
+          <h3>Install the APK on Your Android Device</h3>
+          <p>Open the downloaded <code style="font-family:var(--font-mono);font-size:0.85em;background:var(--color-surface-high);padding:1px 5px;border-radius:4px;">.apk</code> file from your notifications or file manager. Android will ask you to allow installation from unknown sources.</p>
+          <div class="step-tip"><strong>How to allow:</strong> Go to Settings &rarr; Apps &rarr; Special app access &rarr; Install unknown apps, find your browser, and enable it. You can disable this again after installing.</div>
+        </div>
+      </div>
+
+      <div class="step" id="step-3">
+        <div class="step-num" aria-label="Step 3">3</div>
+        <div class="step-body">
+          <h3>Log In with Your Microsoft Account</h3>
+          <p>Open LibreLauncher. Tap Log In and sign in with the Microsoft account linked to your purchased copy of Minecraft Java Edition.</p>
+          <div class="step-tip"><strong>Note:</strong> You must own Minecraft Java Edition. LibreLauncher does not provide or pirate the game.</div>
+        </div>
+      </div>
+
+      <div class="step" id="step-4">
+        <div class="step-num" aria-label="Step 4">4</div>
+        <div class="step-body">
+          <h3>Allocate RAM and Select Your Minecraft Version</h3>
+          <p>In the launcher settings, choose how much RAM to allocate. 2–3 GB works well for most devices. Then pick the Minecraft Java version you want to play, or add Fabric or Forge.</p>
+          <div class="step-tip"><strong>Performance tip:</strong> Avoid allocating more than 70% of your device's total RAM to prevent system stutters.</div>
+        </div>
+      </div>
+
+      <div class="step" id="step-5">
+        <div class="step-num" aria-label="Step 5">5</div>
+        <div class="step-body">
+          <h3>Hit Play</h3>
+          <p>Tap the Play button. LibreLauncher will download the game assets on first launch, then start Minecraft Java Edition. That is it — you are in.</p>
+          <div class="step-tip"><strong>First launch:</strong> Asset download may take a few minutes depending on your connection. Subsequent launches are instant.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-card">
+      <h2>Ready to Download?</h2>
+      <p>LibreLauncher is free, open-source, and takes under a minute to install.</p>
+      <a href="/libre-launcher/" class="btn btn-primary">
+        <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+        Download LibreLauncher Here
+      </a>
+    </div>
+
+    <div class="tips-section">
+      <span class="section-tag">Pro Tips</span>
+      <h2>Tips for the Best Experience</h2>
+      <div class="tips-list">
+        <div class="tip-item">
+          <div class="tip-icon"><svg viewBox="0 0 24 24"><path d="M15 7.5V2H9v5.5l3 3 3-3zM7.5 9H2v6h5.5l3-3-3-3zM9 16.5V22h6v-5.5l-3-3-3 3zM16.5 9l-3 3 3 3H22V9h-5.5z"/></svg></div>
+          <p class="tip-text"><strong>Use a controller.</strong> Bluetooth gamepads work great for Minecraft Java on Android.</p>
+        </div>
+        <div class="tip-item">
+          <div class="tip-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H7v-4h5v4zm0-6H7V7h5v4zm5 6h-4v-8h4v8z"/></svg></div>
+          <p class="tip-text"><strong>Install Sodium or OptiFine.</strong> These performance mods dramatically improve FPS.</p>
+        </div>
+        <div class="tip-item">
+          <div class="tip-icon"><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg></div>
+          <p class="tip-text"><strong>Enable Wi-Fi.</strong> A stable network connection prevents lag when playing multiplayer.</p>
+        </div>
+        <div class="tip-item">
+          <div class="tip-icon"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div>
+          <p class="tip-text"><strong>Keep LibreLauncher updated.</strong> Check GitHub Releases regularly for performance and stability improvements.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div style="max-width:900px;margin:0 auto;">
+      <p>LibreLauncher is not affiliated with Mojang or Microsoft. You must own Minecraft Java Edition.</p>
+      <p style="margin-top:0.5rem;">
+        <a href="https://github.com/PolskieWin/libre-launcher" rel="noopener" target="_blank">GitHub</a> &nbsp;&middot;&nbsp;
+        <a href="/libre-launcher/">Launcher</a> &nbsp;&middot;&nbsp;
+        <a href="/libre-launcher-features/">Features</a> &nbsp;&middot;&nbsp;
+        <a href="/">Home</a>
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
