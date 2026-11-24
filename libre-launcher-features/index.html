@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0a0a">
+
+  <!-- Primary SEO -->
+  <title>LibreLauncher Features: The Best Minecraft Java Launcher for Android</title>
+  <meta name="description" content="Discover the powerful features of LibreLauncher. Experience high FPS, full mod support, custom RAM allocation, and a free open-source Minecraft Java experience on your Android phone.">
+  <meta name="keywords" content="LibreLauncher features, Minecraft Java Android launcher, Minecraft mod support Android, high FPS Minecraft Android, open source Minecraft launcher">
+  <link rel="canonical" href="https://polskiewin.github.io/libre-launcher-features/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://polskiewin.github.io/libre-launcher-features/">
+  <meta property="og:title" content="LibreLauncher Features: Best Minecraft Java Launcher for Android">
+  <meta property="og:description" content="High FPS, full mod support, free, open-source. Discover why LibreLauncher is the best way to play Minecraft Java on Android.">
+  <meta property="og:site_name" content="LibreLauncher">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="LibreLauncher Features — Minecraft Java on Android">
+  <meta name="twitter:description" content="High FPS, Forge/Fabric mods, controller support, free and open-source. LibreLauncher for Android.">
+
+  <!-- JSON-LD: ItemList of features (rich result eligible) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "LibreLauncher Features",
+    "description": "Key features of LibreLauncher, the open-source Minecraft Java launcher for Android.",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "High Performance / High FPS" },
+      { "@type": "ListItem", "position": 2, "name": "Full Mod Support (Forge, Fabric, OptiFine)" },
+      { "@type": "ListItem", "position": 3, "name": "Open Source and Free" },
+      { "@type": "ListItem", "position": 4, "name": "Custom RAM Allocation" },
+      { "@type": "ListItem", "position": 5, "name": "Microsoft Account Support" },
+      { "@type": "ListItem", "position": 6, "name": "Controller / Gamepad Support" }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is LibreLauncher safe?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. LibreLauncher is fully open-source on GitHub. Every line of code can be audited by anyone. It is also submitted to F-Droid, which performs independent reproducible-build verification."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does LibreLauncher cost money?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. LibreLauncher is completely free — no subscriptions, no premium tier, no ads, no in-app purchases. You only need a legitimate copy of Minecraft Java Edition."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can my phone run LibreLauncher?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "LibreLauncher runs on Android 8.0 and above. For the best experience, a device with at least 4 GB of RAM is recommended. The launcher lets you adjust RAM allocation to match your device's capabilities."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://polskiewin.github.io/" },
+      { "@type": "ListItem", "position": 2, "name": "Launcher", "item": "https://polskiewin.github.io/libre-launcher/" },
+      { "@type": "ListItem", "position": 3, "name": "Features", "item": "https://polskiewin.github.io/libre-launcher-features/" }
+    ]
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:   #5cb85c;
+      --green-d: #3d8b3d;
+      --green-g: #4cae4c;
+      --bg:      #0a0a0a;
+      --bg2:     #111111;
+      --bg3:     #181818;
+      --txt:     #e8e8e8;
+      --txt2:    #999;
+      --border:  #252525;
+      --radius:  10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--txt);
+      line-height: 1.65;
+      font-size: 1rem;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ──────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,10,10,0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.25rem;
+      height: 52px;
+    }
+    nav .logo {
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--green);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+    nav ul { list-style: none; display: flex; gap: 1.5rem; }
+    nav ul a {
+      color: var(--txt2);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: color 0.2s;
+    }
+    nav ul a:hover, nav ul a[aria-current="page"] { color: var(--green); }
+
+    /* ── HERO ─────────────────────────────── */
+    .hero {
+      text-align: center;
+      padding: 4rem 1.25rem 3rem;
+      background: linear-gradient(180deg, #0d1f0d 0%, var(--bg) 100%);
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      background: rgba(92,184,92,0.12);
+      border: 1px solid rgba(92,184,92,0.3);
+      color: var(--green);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.3rem 0.9rem;
+      border-radius: 20px;
+      margin-bottom: 1.25rem;
+    }
+    h1 {
+      font-size: clamp(1.8rem, 5.5vw, 2.9rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+      margin-bottom: 1rem;
+    }
+    h1 em { color: var(--green); font-style: normal; }
+    .hero-sub {
+      color: var(--txt2);
+      font-size: 1.05rem;
+      max-width: 500px;
+      margin: 0 auto 2.5rem;
+    }
+
+    /* ── INLINE CTA BUTTON ────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-height: 54px;
+      padding: 0 2rem;
+      border-radius: var(--radius);
+      font-size: 1.05rem;
+      font-weight: 800;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.15s, background 0.2s;
+      letter-spacing: -0.2px;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary {
+      background: var(--green);
+      color: #fff;
+      box-shadow: 0 4px 24px rgba(92,184,92,0.3);
+    }
+    .btn-primary:hover { background: var(--green-d); }
+
+    /* ── FEATURES GRID ────────────────────── */
+    .features-section {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 1.25rem;
+    }
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--green);
+      margin-bottom: 0.6rem;
+    }
+    h2 {
+      font-size: 1.55rem;
+      font-weight: 800;
+      margin-bottom: 1.75rem;
+      letter-spacing: -0.3px;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .feature-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem 1.25rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .feature-card:hover {
+      border-color: var(--green-d);
+      transform: translateY(-2px);
+    }
+    .feature-icon {
+      font-size: 1.75rem;
+      margin-bottom: 0.65rem;
+      display: block;
+    }
+    .feature-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      line-height: 1.3;
+    }
+    .feature-card p {
+      font-size: 0.84rem;
+      color: var(--txt2);
+      line-height: 1.5;
+    }
+    .feature-card .badge {
+      display: inline-block;
+      margin-top: 0.6rem;
+      background: rgba(92,184,92,0.1);
+      border: 1px solid rgba(92,184,92,0.25);
+      color: var(--green);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.15rem 0.55rem;
+      border-radius: 20px;
+    }
+
+    /* ── COMPARISON TABLE ─────────────────── */
+    .comparison-section {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 1.25rem 3rem;
+    }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    .comparison-table th, .comparison-table td {
+      padding: 0.75rem 1rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .comparison-table th:first-child,
+    .comparison-table td:first-child {
+      text-align: left;
+      color: var(--txt2);
+    }
+    .comparison-table thead th {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--txt2);
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+    }
+    .comparison-table thead th.hl {
+      color: var(--green);
+      background: rgba(92,184,92,0.08);
+    }
+    .comparison-table tbody tr:hover td { background: var(--bg2); }
+    .yes { color: var(--green); font-size: 1.1rem; }
+    .no  { color: #666; font-size: 1.1rem; }
+
+    /* ── BIG CTA SECTION ──────────────────── */
+    .big-cta {
+      text-align: center;
+      padding: 3.5rem 1.25rem;
+      background: linear-gradient(180deg, var(--bg) 0%, #0d1f0d 50%, var(--bg) 100%);
+    }
+    .big-cta p {
+      color: var(--txt2);
+      max-width: 420px;
+      margin: 0 auto 2rem;
+      font-size: 1rem;
+    }
+    .big-cta-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      min-height: 60px;
+      padding: 0 2.5rem;
+      border-radius: var(--radius);
+      font-size: 1.15rem;
+      font-weight: 800;
+      text-decoration: none;
+      background: var(--green);
+      color: #fff;
+      box-shadow: 0 6px 32px rgba(92,184,92,0.4);
+      max-width: 340px;
+      margin: 0 auto;
+      letter-spacing: -0.2px;
+      transition: transform 0.15s, background 0.2s, box-shadow 0.2s;
+    }
+    .big-cta-btn:hover {
+      background: var(--green-d);
+      box-shadow: 0 8px 40px rgba(92,184,92,0.5);
+    }
+    .big-cta-btn:active { transform: scale(0.97); }
+
+    /* ── FAQ ──────────────────────────────── */
+    .faq-section {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 1.25rem 4rem;
+    }
+    details {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 0.6rem;
+      background: var(--bg2);
+    }
+    summary {
+      list-style: none;
+      padding: 1rem 1.1rem;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      user-select: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; color: var(--green); font-size: 1.3rem; flex-shrink: 0; }
+    details[open] summary::after { content: "−"; }
+    details p { padding: 0 1.1rem 1rem; color: var(--txt2); font-size: 0.9rem; line-height: 1.6; }
+
+    /* ── FOOTER ───────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 2rem 1.25rem;
+      color: var(--txt2);
+      font-size: 0.82rem;
+    }
+    footer a { color: var(--txt2); }
+    footer a:hover { color: var(--green); }
+
+    /* ── RESPONSIVE ───────────────────────── */
+    @media (max-width: 480px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .comparison-table th, .comparison-table td { padding: 0.6rem 0.5rem; font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="logo">LibreLauncher</a>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/libre-launcher/">Launcher</a></li>
+      <li><a href="/minecraft-java-android/">Guide</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-eyebrow">Feature Overview</div>
+    <h1>Powerful Features of<br><em>LibreLauncher</em></h1>
+    <p class="hero-sub">Why LibreLauncher is the ultimate way to play Minecraft Java Edition on Android.</p>
+    <a href="/libre-launcher/" class="btn btn-primary">⬇ Download LibreLauncher Now</a>
+  </header>
+
+  <!-- FEATURES GRID -->
+  <section class="features-section" aria-labelledby="features-title">
+    <div class="section-label">What You Get</div>
+    <h2 id="features-title">Everything You Need to Play</h2>
+    <div class="features-grid">
+
+      <div class="feature-card">
+        <span class="feature-icon">⚡</span>
+        <h3>High Performance &amp; High FPS</h3>
+        <p>Optimised JVM flags and native ARM memory tuning reduce lag and maximise frame rates on mobile processors.</p>
+        <span class="badge">Mobile-Optimised</span>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon">🧩</span>
+        <h3>Full Mod Support</h3>
+        <p>Easily install Forge, Fabric, and OptiFine. Run your favourite Minecraft mods on Android just like on a PC.</p>
+        <span class="badge">Forge · Fabric · OptiFine</span>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon">🔓</span>
+        <h3>Open Source &amp; Free</h3>
+        <p>100% transparent code on GitHub. No ads, no hidden paywalls, no telemetry. Free now and always.</p>
+        <span class="badge">MIT Licensed</span>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon">🧠</span>
+        <h3>Custom RAM Allocation</h3>
+        <p>Slide to adjust memory between 1 GB and your device's max. Dial in the perfect balance of stability and speed.</p>
+        <span class="badge">Per-Device Tuning</span>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon">🔑</span>
+        <h3>Microsoft Account Support</h3>
+        <p>Secure OAuth login with your official Minecraft / Microsoft account. Play on official servers safely.</p>
+        <span class="badge">Official Auth</span>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon">🎮</span>
+        <h3>Controller Support</h3>
+        <p>Connect any Bluetooth or USB gamepad for a full console-like Minecraft experience on your phone or tablet.</p>
+        <span class="badge">Bluetooth &amp; USB</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- COMPARISON TABLE -->
+  <section class="comparison-section" aria-labelledby="compare-title">
+    <div class="section-label">How We Compare</div>
+    <h2 id="compare-title">LibreLauncher vs. the Rest</h2>
+    <div style="overflow-x:auto;">
+      <table class="comparison-table" role="table" aria-label="Feature comparison">
+        <thead>
+          <tr>
+            <th scope="col">Feature</th>
+            <th scope="col" class="hl">LibreLauncher</th>
+            <th scope="col">Paid Launchers</th>
+            <th scope="col">Other Free</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Completely Free</td><td class="yes">✓</td><td class="no">✗</td><td class="yes">✓</td></tr>
+          <tr><td>Open Source</td><td class="yes">✓</td><td class="no">✗</td><td class="no">✗</td></tr>
+          <tr><td>Forge / Fabric Mods</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">✗</td></tr>
+          <tr><td>Custom RAM Allocation</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">✗</td></tr>
+          <tr><td>Controller Support</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">✗</td></tr>
+          <tr><td>No Ads</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">✗</td></tr>
+          <tr><td>F-Droid Verified</td><td class="yes">✓</td><td class="no">✗</td><td class="no">✗</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- BIG CTA -->
+  <div class="big-cta" aria-label="Download call to action">
+    <h2 style="font-size:clamp(1.5rem,4.5vw,2.2rem); margin-bottom:0.75rem;">Start Playing in 5 Minutes</h2>
+    <p>Free download. No sign-up. Just install and play Minecraft Java on Android.</p>
+    <a href="/libre-launcher/" class="big-cta-btn">
+      ⬇ Download LibreLauncher Now
+    </a>
+    <p style="margin-top:1.25rem; font-size:0.8rem;">
+      Or read the <a href="/minecraft-java-android/" style="color:var(--green); text-decoration:none;">step-by-step installation guide →</a>
+    </p>
+  </div>
+
+  <!-- FAQ -->
+  <section class="faq-section" aria-labelledby="faq-title">
+    <div class="section-label">Common Questions</div>
+    <h2 id="faq-title">FAQ</h2>
+
+    <details>
+      <summary>Is LibreLauncher safe?</summary>
+      <p>Yes. LibreLauncher is fully open-source on GitHub — every line of code is publicly auditable. It is also submitted to F-Droid, which performs independent reproducible-build verification before listing any app.</p>
+    </details>
+
+    <details>
+      <summary>Does LibreLauncher cost money?</summary>
+      <p>No. LibreLauncher is completely free — no subscriptions, no premium tier, no ads, and no in-app purchases. The only requirement is that you own a legitimate copy of Minecraft Java Edition.</p>
+    </details>
+
+    <details>
+      <summary>Can my phone run LibreLauncher?</summary>
+      <p>LibreLauncher supports Android 8.0 and above. For the smoothest experience, a device with at least 4 GB of RAM is recommended. The launcher's RAM slider lets you adjust memory usage to fit any device.</p>
+    </details>
+  </section>
+
+  <footer>
+    <p>
+      LibreLauncher is not affiliated with Mojang or Microsoft. Minecraft is a trademark of Mojang AB.<br>
+      <a href="https://github.com/polskiewin/LibreLauncher" rel="noopener noreferrer" target="_blank">GitHub</a> ·
+      <a href="/libre-launcher/">Download</a> ·
+      <a href="/minecraft-java-android/">Guide</a> ·
+      <a href="/">Home</a>
+    </p>
+  </footer>
+
+</body>
+</html>
