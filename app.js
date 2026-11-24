@@ -15,7 +15,7 @@
   const GITHUB_REPO_API = 'https://api.github.com/repos/PolskieWin/libre-launcher/releases/latest';
   const FALLBACK_RELEASE_URL = 'https://github.com/PolskieWin/libre-launcher/releases/latest';
   const FALLBACK_VERSION = 'v3.70';
-  const FALLBACK_STRIPPED_SIZE = '31 MB';
+  const FALLBACK_STRIPPED_SIZE = '30.5 MB';
 
   // DOM Elements
   const tabButtons = document.querySelectorAll('.nav-tab-btn');
@@ -62,14 +62,18 @@
     // Update Tab Buttons
     tabButtons.forEach(btn => {
       const isCurrent = btn.dataset.tab === activeTab;
-      btn.classList.toggle('active', isCurrent);
-      btn.setAttribute('aria-selected', isCurrent ? 'true' : 'false');
+      if (btn.classList.contains('active') !== isCurrent) {
+        btn.classList.toggle('active', isCurrent);
+        btn.setAttribute('aria-selected', isCurrent ? 'true' : 'false');
+      }
     });
 
     // Update Tab Panels
     tabPanels.forEach(panel => {
       const isCurrent = panel.id === `panel-${activeTab}`;
-      panel.classList.toggle('active', isCurrent);
+      if (panel.classList.contains('active') !== isCurrent) {
+        panel.classList.toggle('active', isCurrent);
+      }
     });
 
     // Animate benchmark bars if switching to comparison
@@ -284,12 +288,10 @@
   function init() {
     initEventListeners();
 
-    // Determine initial tab from URL hash
+    // Determine initial tab from URL hash (panel-overview is already active in markup)
     const initialHash = window.location.hash.replace('#', '');
-    if (initialHash && ['overview', 'comparison', 'ecosystem'].includes(initialHash)) {
+    if (initialHash && ['comparison', 'ecosystem'].includes(initialHash)) {
       switchTab(initialHash, false);
-    } else {
-      switchTab('overview', false);
     }
 
     // Auto-fetch latest GitHub release
