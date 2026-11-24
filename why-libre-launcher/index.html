@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0a0a">
+
+  <!-- Primary SEO -->
+  <title>Why Use LibreLauncher? The #1 Minecraft Java Launcher for Android</title>
+  <meta name="description" content="Discover why LibreLauncher is the best choice for playing Minecraft Java on Android. Free, open-source, mod-ready, and faster than every alternative.">
+  <meta name="keywords" content="why LibreLauncher, best Minecraft Java Android launcher, LibreLauncher vs other launchers, should I use LibreLauncher, Minecraft Java Android free launcher">
+  <link rel="canonical" href="https://polskiewin.github.io/why-libre-launcher/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://polskiewin.github.io/why-libre-launcher/">
+  <meta property="og:title" content="Why Use LibreLauncher? The #1 Minecraft Java Launcher for Android">
+  <meta property="og:description" content="Free, open-source, mod-ready, and faster than every alternative. Here is exactly why LibreLauncher is the right choice.">
+  <meta property="og:site_name" content="LibreLauncher">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Why Use LibreLauncher?">
+  <meta name="twitter:description" content="Free, open-source Minecraft Java launcher for Android. No paywalls, no bloat, full mod support.">
+
+  <!-- JSON-LD: WebPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Why Use LibreLauncher?",
+    "description": "A persuasive breakdown of why LibreLauncher is the best Minecraft Java launcher for Android — covering cost, transparency, performance, mod support, and community trust.",
+    "url": "https://polskiewin.github.io/why-libre-launcher/",
+    "isPartOf": { "@type": "WebSite", "name": "LibreLauncher", "url": "https://polskiewin.github.io/" }
+  }
+  </script>
+
+  <!-- JSON-LD: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Why should I use LibreLauncher instead of a paid launcher?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "LibreLauncher is completely free, open-source, and delivers the same features as paid alternatives — including mod support, custom RAM allocation, and controller support — without any cost or subscription."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is LibreLauncher better than other free Minecraft Android launchers?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Most free launchers lack mod support, show ads, or have closed-source code you cannot audit. LibreLauncher is fully open-source, ad-free, and supports Forge and Fabric out of the box."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does LibreLauncher work with all Minecraft Java versions?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "LibreLauncher supports a wide range of Minecraft Java versions. You can select your preferred version directly inside the launcher before launching."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://polskiewin.github.io/" },
+      { "@type": "ListItem", "position": 2, "name": "Why LibreLauncher", "item": "https://polskiewin.github.io/why-libre-launcher/" }
+    ]
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:    #5cb85c;
+      --green-d:  #3d8b3d;
+      --green-xd: #2a6b2a;
+      --bg:       #0a0a0a;
+      --bg2:      #111111;
+      --bg3:      #181818;
+      --txt:      #e8e8e8;
+      --txt2:     #999999;
+      --border:   #242424;
+      --radius:   10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--txt);
+      line-height: 1.65;
+      font-size: 1rem;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ──────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,10,10,0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.25rem;
+      height: 52px;
+    }
+    nav .logo {
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--green);
+      text-decoration: none;
+    }
+    nav ul { list-style: none; display: flex; gap: 1.4rem; }
+    nav ul a {
+      color: var(--txt2);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: color 0.2s;
+    }
+    nav ul a:hover, nav ul a[aria-current="page"] { color: var(--green); }
+
+    /* ── HERO ─────────────────────────────── */
+    .hero {
+      text-align: center;
+      padding: 4.5rem 1.25rem 3.5rem;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(92,184,92,0.08) 0%, transparent 70%),
+                  linear-gradient(180deg, #0d1f0d 0%, var(--bg) 100%);
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      background: rgba(92,184,92,0.1);
+      border: 1px solid rgba(92,184,92,0.28);
+      color: var(--green);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.3rem 0.9rem;
+      border-radius: 20px;
+      margin-bottom: 1.25rem;
+    }
+    h1 {
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 1rem;
+    }
+    h1 .accent { color: var(--green); }
+    .hero-sub {
+      color: var(--txt2);
+      font-size: 1.08rem;
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.6;
+    }
+    .hero-cta-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    /* ── BUTTONS ──────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-height: 54px;
+      padding: 0 2rem;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 800;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.15s, background 0.2s;
+      width: 100%;
+      max-width: 320px;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary {
+      background: var(--green);
+      color: #fff;
+      box-shadow: 0 4px 24px rgba(92,184,92,0.28);
+    }
+    .btn-primary:hover { background: var(--green-d); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--txt2);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--green); color: var(--green); }
+
+    /* ── TRUST STRIP ──────────────────────── */
+    .trust-strip {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1.5rem 1.25rem;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    .trust-pill {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.8rem;
+      color: var(--txt2);
+      white-space: nowrap;
+    }
+    .trust-pill strong { color: var(--txt); }
+
+    /* ── SECTION WRAPPER ──────────────────── */
+    .content { max-width: 700px; margin: 0 auto; padding: 0 1.25rem; }
+
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--green);
+      margin-bottom: 0.5rem;
+    }
+    h2 {
+      font-size: 1.55rem;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── REASON CARDS ─────────────────────── */
+    .reasons { padding: 3.5rem 0; }
+    .reason {
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.25rem;
+      margin-bottom: 1rem;
+      transition: border-color 0.2s;
+    }
+    .reason:hover { border-color: var(--green-d); }
+    .reason-num {
+      flex-shrink: 0;
+      width: 42px;
+      height: 42px;
+      background: rgba(92,184,92,0.12);
+      border: 1px solid rgba(92,184,92,0.3);
+      color: var(--green);
+      font-size: 1.1rem;
+      font-weight: 800;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .reason-body { flex: 1; }
+    .reason-body h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .reason-body h3 .icon { font-size: 1.1rem; }
+    .reason-body p { color: var(--txt2); font-size: 0.9rem; line-height: 1.6; }
+    .reason-body .pull {
+      margin-top: 0.75rem;
+      border-left: 3px solid var(--green);
+      padding-left: 0.75rem;
+      font-size: 0.88rem;
+      color: var(--txt);
+      font-style: italic;
+    }
+
+    /* ── STORY SECTION ────────────────────── */
+    .story {
+      padding: 3rem 0;
+      border-top: 1px solid var(--border);
+    }
+    .story p {
+      color: var(--txt2);
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      line-height: 1.75;
+    }
+    .story p strong { color: var(--txt); }
+    .story blockquote {
+      margin: 1.5rem 0;
+      padding: 1.25rem 1.25rem;
+      background: rgba(92,184,92,0.05);
+      border-left: 4px solid var(--green);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-size: 1rem;
+      color: var(--txt);
+      font-style: italic;
+      line-height: 1.6;
+    }
+
+    /* ── BOTTOM CTA ───────────────────────── */
+    .bottom-cta {
+      text-align: center;
+      padding: 4rem 1.25rem;
+      background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(92,184,92,0.1) 0%, transparent 70%),
+                  linear-gradient(0deg, #0d1f0d 0%, var(--bg) 100%);
+    }
+    .bottom-cta h2 {
+      font-size: clamp(1.6rem, 5vw, 2.5rem);
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.5px;
+    }
+    .bottom-cta p {
+      color: var(--txt2);
+      max-width: 400px;
+      margin: 0 auto 2rem;
+      font-size: 0.95rem;
+    }
+    .mega-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      min-height: 62px;
+      padding: 0 2.5rem;
+      border-radius: var(--radius);
+      font-size: 1.15rem;
+      font-weight: 800;
+      text-decoration: none;
+      background: var(--green);
+      color: #fff;
+      box-shadow: 0 6px 40px rgba(92,184,92,0.4);
+      max-width: 340px;
+      margin: 0 auto;
+      letter-spacing: -0.2px;
+      transition: transform 0.15s, background 0.2s, box-shadow 0.2s;
+    }
+    .mega-btn:hover {
+      background: var(--green-d);
+      box-shadow: 0 10px 50px rgba(92,184,92,0.5);
+    }
+    .mega-btn:active { transform: scale(0.97); }
+
+    /* ── FAQ ──────────────────────────────── */
+    .faq { padding: 3rem 0 4rem; border-top: 1px solid var(--border); }
+    details {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 0.6rem;
+      background: var(--bg2);
+    }
+    summary {
+      list-style: none;
+      padding: 1rem 1.1rem;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      user-select: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; color: var(--green); font-size: 1.3rem; flex-shrink: 0; }
+    details[open] summary::after { content: "−"; }
+    details p { padding: 0 1.1rem 1rem; color: var(--txt2); font-size: 0.9rem; line-height: 1.65; }
+
+    /* ── FOOTER ───────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 2rem 1.25rem;
+      color: var(--txt2);
+      font-size: 0.82rem;
+    }
+    footer a { color: var(--txt2); }
+    footer a:hover { color: var(--green); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="logo">LibreLauncher</a>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/libre-launcher/">Launcher</a></li>
+      <li><a href="/minecraft-java-android/">Guide</a></li>
+      <li><a href="/libre-launcher-features/">Features</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-eyebrow">The Case for LibreLauncher</div>
+    <h1>This Is Why You Should<br>Use <span class="accent">LibreLauncher</span></h1>
+    <p class="hero-sub">
+      There are plenty of ways to run Minecraft Java on Android. Here is exactly why LibreLauncher is the right one — no marketing fluff, just the facts.
+    </p>
+    <div class="hero-cta-row">
+      <a href="/libre-launcher/" class="btn btn-primary">⬇ Download Free Now</a>
+      <a href="/minecraft-java-android/" class="btn btn-ghost">Read the Setup Guide</a>
+    </div>
+  </header>
+
+  <!-- TRUST STRIP -->
+  <div class="trust-strip" role="list" aria-label="Quick trust signals">
+    <span class="trust-pill" role="listitem"><strong>$0</strong> — Free Forever</span>
+    <span class="trust-pill" role="listitem"><strong>Open Source</strong> — Fully Auditable</span>
+    <span class="trust-pill" role="listitem"><strong>No Ads</strong> — Ever</span>
+    <span class="trust-pill" role="listitem"><strong>Forge &amp; Fabric</strong> — Full Mod Support</span>
+    <span class="trust-pill" role="listitem"><strong>F-Droid</strong> — Under Review</span>
+    <span class="trust-pill" role="listitem"><strong>Android 8.0+</strong></span>
+  </div>
+
+  <!-- REASONS -->
+  <div class="content">
+    <section class="reasons" aria-labelledby="reasons-title">
+      <div class="section-label">7 Reasons</div>
+      <h2 id="reasons-title">Why LibreLauncher Wins</h2>
+
+      <article class="reason">
+        <div class="reason-num" aria-hidden="true">1</div>
+        <div class="reason-body">
+          <h3><span class="icon">💸</span> It Is Completely Free — No Tricks</h3>
+          <p>
+            Most Minecraft Android launchers charge a one-time fee or lock the best features behind a subscription. LibreLauncher charges nothing. No freemium tier. No "Pro" upgrade. No expiry. The full experience is free on day one and will stay that way.
+          </p>
+          <p class="pull">"If you can play Minecraft Java on a PC for free with the launcher, you should be able to do the same on Android."</p>
+        </div>
+      </article>
+
+      <article class="reason">
+        <div class="reason-num" aria-hidden="true">2</div>
+        <div class="reason-body">
+          <h3><span class="icon">🔓</span> You Can See Every Line of Code</h3>
+          <p>
+            Closed-source launchers ask you to trust them blindly. LibreLauncher publishes its entire source code on GitHub. Any developer, security researcher, or curious user can audit exactly what the app does. No hidden network calls, no surprise data collection, no mystery.
+          </p>
+        </div>
+      </article>
+
+      <article class="reason">
+        <div class="reason-num" aria-hidden="true">3</div>
+        <div class="reason-body">
+          <h3><span class="icon">⚡</span> Built for Mobile Performance</h3>
+          <p>
+            LibreLauncher ships with JVM flags tuned specifically for ARM Android processors — the kind inside your phone. That means lower garbage-collection pauses, faster chunk loading, and better frame rates compared to launchers ported from desktop with zero mobile optimisation.
+          </p>
+          <p class="pull">Custom RAM allocation lets you squeeze every megabyte out of your device — without over-allocating and crashing your phone.</p>
+        </div>
+      </article>
+
+      <article class="reason">
+        <div class="reason-num" aria-hidden="true">4</div>
+        <div class="reason-body">
+          <h3><span class="icon">🧩</span> Real Mod Support Out of the Box</h3>
+          <p>
+            Forge, Fabric, OptiFine — all supported. This is a critical differentiator. The majority of free Android launchers either strip mod support entirely or only support vanilla Minecraft. With LibreLauncher you can install any mod just as you would on a desktop.
+          </p>
+        </div>
+      </article>
+
+      <article class="reason">
+        <div class="reason-num" aria-hidden="true">5</div>
+        <div class="reason-body">
+          <h3><span class="icon">🔑</span> Official Microsoft Account Login</h3>
+          <p>
+            LibreLauncher uses the official OAuth flow to authenticate with your Microsoft / Minecraft account. Your credentials never pass through any third-party server. You get the same legitimate login as the official desktop launcher — which also means you can play on any server without getting flagged or banned.
+          </p>
+        </div>
+      </article>
+
+      <article class="reason">
+        <div class="reason-num" aria-hidden="true">6</div>
+        <div class="reason-body">
+          <h3><span class="icon">🎮</span> Controller and Gamepad Support</h3>
+          <p>
+            Touchscreen Minecraft is awkward. LibreLauncher adds native Bluetooth and USB gamepad support, turning your phone or tablet into a proper Minecraft console — no extra apps, no remapping hacks, just plug in and play.
+          </p>
+        </div>
+      </article>
+
+      <article class="reason">
+        <div class="reason-num" aria-hidden="true">7</div>
+        <div class="reason-body">
+          <h3><span class="icon">🛡️</span> F-Droid Submission — Community Verification</h3>
+          <p>
+            LibreLauncher has been submitted to F-Droid, the gold standard for verified open-source Android apps. F-Droid performs its own reproducible-build checks — meaning the APK you install matches the public source code exactly. No other Minecraft Android launcher goes through this level of independent scrutiny.
+          </p>
+          <p class="pull">When F-Droid lists it, you can install directly from a trusted repository with no sideloading required.</p>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- THE STORY -->
+    <section class="story" aria-labelledby="story-title">
+      <div class="section-label">The Bigger Picture</div>
+      <h2 id="story-title">Why This Project Matters</h2>
+
+      <p>
+        Minecraft Java Edition is one of the most beloved games ever made. <strong>It runs on a Java virtual machine</strong>, which means it can run on any device that can run a JVM — including the Android phone in your pocket. The hardware is already capable. The only thing missing was a launcher that treated Android as a first-class platform.
+      </p>
+
+      <blockquote>
+        "LibreLauncher is proof that you do not need to pay, compromise your privacy, or install sketchy APKs to enjoy the full Minecraft Java experience on Android."
+      </blockquote>
+
+      <p>
+        Every design decision in LibreLauncher starts from the same question: <strong>what would a PC player expect?</strong> Full mod support. Official account login. Customisable performance settings. Controller input. That is the bar LibreLauncher is built to clear — for free, on a phone.
+      </p>
+
+      <p>
+        The source code is public because trust should be earned, not assumed. The app is free because access to great software should not depend on your budget. And the F-Droid submission is there because community verification matters.
+      </p>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq" aria-labelledby="faq-title">
+      <div class="section-label">Common Questions</div>
+      <h2 id="faq-title">Still On the Fence?</h2>
+
+      <details>
+        <summary>Why should I use LibreLauncher instead of a paid launcher?</summary>
+        <p>LibreLauncher is completely free, open-source, and delivers the same features as paid alternatives — including mod support, custom RAM allocation, and controller support — without any cost or subscription. You keep your money and get a better-audited app.</p>
+      </details>
+
+      <details>
+        <summary>Is LibreLauncher better than other free Minecraft Android launchers?</summary>
+        <p>Yes. Most free launchers lack mod support, display ads, or ship closed-source code you cannot audit. LibreLauncher is fully open-source, completely ad-free, and supports Forge and Fabric out of the box — a combination no other free launcher offers.</p>
+      </details>
+
+      <details>
+        <summary>Does LibreLauncher work with all Minecraft Java versions?</summary>
+        <p>LibreLauncher supports a wide range of Minecraft Java versions. You pick the version inside the launcher before each session, so you can switch between 1.8 PvP servers and the latest release without reinstalling anything.</p>
+      </details>
+    </section>
+  </div>
+
+  <!-- BIG BOTTOM CTA -->
+  <div class="bottom-cta">
+    <h2>Ready to Make the Switch?</h2>
+    <p>Free download. No account needed to install. Up and running in under five minutes.</p>
+    <a href="/libre-launcher/" class="mega-btn">⬇ Download LibreLauncher — Free</a>
+    <p style="margin-top:1.5rem; font-size:0.82rem; color:var(--txt2);">
+      Need help getting started?
+      <a href="/minecraft-java-android/" style="color:var(--green); text-decoration:none;">Read the step-by-step guide →</a>
+    </p>
+  </div>
+
+  <footer>
+    <p>
+      LibreLauncher is not affiliated with Mojang or Microsoft. Minecraft is a trademark of Mojang AB.<br>
+      <a href="https://github.com/polskiewin/LibreLauncher" rel="noopener noreferrer" target="_blank">GitHub</a> ·
+      <a href="/libre-launcher/">Download</a> ·
+      <a href="/libre-launcher-features/">Features</a> ·
+      <a href="/minecraft-java-android/">Guide</a> ·
+      <a href="/">Home</a>
+    </p>
+  </footer>
+
+</body>
+</html>
