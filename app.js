@@ -133,36 +133,58 @@
 
       // Update Primary Stripped Button
       if (strippedAsset && strippedAsset.browser_download_url) {
-        primaryDownloadBtn.href = strippedAsset.browser_download_url;
+        if (primaryDownloadBtn.href !== strippedAsset.browser_download_url) {
+          primaryDownloadBtn.href = strippedAsset.browser_download_url;
+        }
         const sizeStr = strippedAsset.size ? formatMegabytes(strippedAsset.size) : FALLBACK_STRIPPED_SIZE;
-        downloadBtnText.textContent = `Download ${tagName} • ${sizeStr} Stripped APK`;
+        const newText = `Download ${tagName} • ${sizeStr} Stripped APK`;
+        if (downloadBtnText && downloadBtnText.textContent !== newText) {
+          downloadBtnText.textContent = newText;
+        }
       } else {
-        primaryDownloadBtn.href = releaseData.html_url || FALLBACK_RELEASE_URL;
-        downloadBtnText.textContent = `Download ${tagName} • ${FALLBACK_STRIPPED_SIZE} Stripped APK`;
+        const fallbackUrl = releaseData.html_url || FALLBACK_RELEASE_URL;
+        if (primaryDownloadBtn.href !== fallbackUrl) {
+          primaryDownloadBtn.href = fallbackUrl;
+        }
+        const newText = `Download ${tagName} • ${FALLBACK_STRIPPED_SIZE} Stripped APK`;
+        if (downloadBtnText && downloadBtnText.textContent !== newText) {
+          downloadBtnText.textContent = newText;
+        }
       }
 
       // Update Full Release Variant
       if (fullAsset && fullAsset.browser_download_url && variantFull) {
-        variantFull.href = fullAsset.browser_download_url;
+        if (variantFull.href !== fullAsset.browser_download_url) {
+          variantFull.href = fullAsset.browser_download_url;
+        }
         if (fullAsset.size && variantFullSize) {
-          variantFullSize.textContent = `~${formatMegabytes(fullAsset.size)}`;
+          const newSize = `~${formatMegabytes(fullAsset.size)}`;
+          if (variantFullSize.textContent !== newSize) {
+            variantFullSize.textContent = newSize;
+          }
         }
       }
 
       // Update No-Runtime Variant
       if (noRuntimeAsset && noRuntimeAsset.browser_download_url && variantNoruntime) {
-        variantNoruntime.href = noRuntimeAsset.browser_download_url;
+        if (variantNoruntime.href !== noRuntimeAsset.browser_download_url) {
+          variantNoruntime.href = noRuntimeAsset.browser_download_url;
+        }
         if (noRuntimeAsset.size && variantNoruntimeSize) {
-          variantNoruntimeSize.textContent = `~${formatMegabytes(noRuntimeAsset.size)}`;
+          const newSize = `~${formatMegabytes(noRuntimeAsset.size)}`;
+          if (variantNoruntimeSize.textContent !== newSize) {
+            variantNoruntimeSize.textContent = newSize;
+          }
         }
       }
 
     } catch (err) {
-      if (primaryDownloadBtn) {
+      if (primaryDownloadBtn && primaryDownloadBtn.href !== FALLBACK_RELEASE_URL) {
         primaryDownloadBtn.href = FALLBACK_RELEASE_URL;
       }
-      if (downloadBtnText) {
-        downloadBtnText.textContent = `Download ${FALLBACK_VERSION} • ${FALLBACK_STRIPPED_SIZE} Stripped APK`;
+      const fallbackText = `Download ${FALLBACK_VERSION} • ${FALLBACK_STRIPPED_SIZE} Stripped APK`;
+      if (downloadBtnText && downloadBtnText.textContent !== fallbackText) {
+        downloadBtnText.textContent = fallbackText;
       }
     }
   }
