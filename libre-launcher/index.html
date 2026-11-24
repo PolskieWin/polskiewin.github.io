@@ -23,7 +23,7 @@
             margin: 0; 
             padding: 0; 
             line-height: 1.6; 
-            overflow-x: hidden; /* Prevents horizontal scroll bug */
+            overflow-x: hidden; 
             box-sizing: border-box;
         }
         
@@ -31,6 +31,7 @@
         nav { 
             display: flex; 
             align-items: center;
+            justify-content: center;
             gap: 12px; 
             padding: 15px 20px; 
             background-color: rgba(12, 10, 9, 0.9);
@@ -63,10 +64,18 @@
 
         .container { max-width: 800px; margin: 0 auto; padding: 20px; }
         
-        h1 { color: var(--text-main); font-size: 36px; text-align: center; margin-top: 20px; line-height: 1.2; }
+        /* Breadcrumbs */
+        .breadcrumbs { font-size: 14px; color: var(--text-muted); margin-top: 10px; margin-bottom: 20px; }
+        .breadcrumbs a { color: var(--accent-color); text-decoration: none; }
+
+        h1 { color: var(--text-main); font-size: 36px; text-align: center; margin-top: 10px; line-height: 1.2; }
         h1 span { color: var(--accent-color); text-shadow: 0 0 20px var(--accent-glow); }
         .subtitle { text-align: center; color: var(--text-muted); font-size: 18px; margin-bottom: 30px; }
         
+        /* Badges */
+        .badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 30px; }
+        .badge { background: var(--card-bg); border: 1px solid var(--card-border); padding: 6px 16px; border-radius: 999px; font-size: 14px; color: var(--text-muted); }
+
         /* The Glow Button */
         .btn { 
             display: block; 
@@ -87,10 +96,6 @@
             transform: translateY(-2px);
         }
 
-        /* Badges */
-        .badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 30px; }
-        .badge { background: var(--card-bg); border: 1px solid var(--card-border); padding: 6px 16px; border-radius: 999px; font-size: 14px; color: var(--text-muted); }
-        
         .feature-card { background: var(--card-bg); padding: 24px; margin-bottom: 20px; border-radius: 16px; border: 1px solid var(--card-border); }
         .feature-card h3 { margin: 0 0 10px 0; color: var(--text-main); }
         .feature-card p { color: var(--text-muted); margin: 0; }
@@ -104,6 +109,10 @@
     </nav>
     
     <div class="container">
+        <div class="breadcrumbs">
+            <a href="/">Home</a> &gt; LibreLauncher Overview
+        </div>
+
         <h1>LibreLauncher: <br><span>A New Era</span> of Minecraft Java</h1>
         <p class="subtitle">Experience the real Java Edition on your Android device.</p>
         
