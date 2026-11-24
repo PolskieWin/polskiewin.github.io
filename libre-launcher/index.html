@@ -96,6 +96,19 @@
             transform: translateY(-2px);
         }
 
+        /* New Features Header */
+        .section-label { 
+            color: var(--accent-color); 
+            font-size: 14px; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            margin-top: 40px; 
+            margin-bottom: 15px; 
+            display: block; 
+            text-align: center;
+        }
+
         .feature-card { background: var(--card-bg); padding: 24px; margin-bottom: 20px; border-radius: 16px; border: 1px solid var(--card-border); }
         .feature-card h3 { margin: 0 0 10px 0; color: var(--text-main); }
         .feature-card p { color: var(--text-muted); margin: 0; }
@@ -122,8 +135,10 @@
             <span class="badge">Open Source</span>
         </div>
 
-        <!-- Renamed Button -->
         <a href="https://github.com/polskiewin/libre-launcher/releases" class="btn">Download</a>
+        
+        <!-- Added Features Header Here -->
+        <span class="section-label">Features</span>
         
         <div class="feature-card">
             <h3>High Performance</h3>
@@ -133,8 +148,6 @@
             <h3>Mod Support</h3>
             <p>Install Fabric and NeoForge easily. Play with your favorite mods.</p>
         </div>
-        
-        <!-- Bottom button removed -->
     </div>
 </body>
 </html>
