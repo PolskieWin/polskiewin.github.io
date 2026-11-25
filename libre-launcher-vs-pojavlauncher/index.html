@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LibreLauncher vs PojavLauncher: Best Minecraft Java on Android</title>
+    <meta name="description" content="Comparing LibreLauncher Android and other launchers? Discover why LibreLauncher is the lightest, fastest, and best way to play Minecraft Java Edition on your phone.">
+    <style>
+        :root { 
+            --bg-color: #0c0a09; 
+            --text-main: #f5f5f5; 
+            --text-muted: #a8a29e; 
+            --accent-color: #d97706; 
+            --accent-glow: rgba(217, 119, 6, 0.4);
+            --card-bg: #1c1917; 
+            --card-border: #292524; 
+        }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; 
+            background-color: var(--bg-color); 
+            background-image: radial-gradient(circle at top, rgba(217, 119, 6, 0.08) 0%, transparent 60%);
+            color: var(--text-main); 
+            margin: 0; 
+            padding: 0; 
+            line-height: 1.6; 
+            overflow-x: hidden; 
+            box-sizing: border-box;
+        }
+        
+        /* Sticky Scrollable Nav */
+        nav { 
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+            gap: 12px; 
+            padding: 15px 20px; 
+            background-color: rgba(12, 10, 9, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--card-border);
+            overflow-x: auto; 
+            white-space: nowrap; 
+            box-sizing: border-box;
+            width: 100vw;
+        }
+        nav::-webkit-scrollbar { display: none; }
+        nav { -ms-overflow-style: none; scrollbar-width: none; }
+
+        nav a { 
+            color: var(--text-muted); 
+            text-decoration: none; 
+            font-weight: 600; 
+            font-size: 14px; 
+            padding: 8px 16px; 
+            border-radius: 999px; 
+            background-color: var(--card-bg); 
+            border: 1px solid var(--card-border); 
+            flex-shrink: 0;
+        }
+        nav a:hover, nav a.active { 
+            color: var(--accent-color); 
+            border-color: var(--accent-color); 
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        
+        /* Breadcrumbs */
+        .breadcrumbs { font-size: 14px; color: var(--text-muted); margin-top: 10px; margin-bottom: 20px; }
+        .breadcrumbs a { color: var(--accent-color); text-decoration: none; }
+
+        h1 { color: var(--text-main); font-size: 32px; text-align: left; margin-top: 10px; line-height: 1.2; }
+        h1 span { color: var(--accent-color); text-shadow: 0 0 15px var(--accent-glow); }
+        
+        .intro-text { font-size: 16px; color: var(--text-main); margin-bottom: 30px; line-height: 1.7; }
+
+        .section-label { color: var(--accent-color); font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-top: 30px; margin-bottom: 15px; display: block; }
+        
+        /* Comparison Table Styling */
+        .comparison-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid var(--card-border); }
+        .comparison-table th, .comparison-table td { padding: 15px; text-align: left; border-bottom: 1px solid var(--card-border); font-size: 15px; }
+        .comparison-table th { background-color: rgba(217, 119, 6, 0.1); color: var(--accent-color); font-weight: bold; }
+        .comparison-table td:first-child { font-weight: 600; color: var(--text-main); width: 35%; }
+        .comparison-table td { color: var(--text-muted); }
+        .comparison-table tr:last-child td { border-bottom: none; }
+        
+        /* Changed from Green to Amber Glow */
+        .win { color: var(--accent-color) !important; font-weight: bold; text-shadow: 0 0 8px var(--accent-glow); }
+
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/libre-launcher/">Launcher</a>
+        <a href="/minecraft-java-android/">Guide</a>
+    </nav>
+    
+    <div class="container">
+        <div class="breadcrumbs">
+            <a href="/">Home</a> &gt; Comparison Guide
+        </div>
+
+        <h1>LibreLauncher vs. Others: <span>The Best Choice</span> for Android</h1>
+        
+        <p class="intro-text">
+            If you are trying to play Minecraft Java Edition on your phone, you have probably heard of PojavLauncher or other PC-focused tools. But not all launchers are built for mobile. Here is why <strong>LibreLauncher Android</strong> is a completely different experience.
+        </p>
+        
+        <span class="section-label">Head-to-Head Comparison</span>
+        
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>LibreLauncher</th>
+                    <th>Other Launchers</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Platform Focus</td>
+                    <td class="win">Android Optimized</td>
+                    <td>PC / Mixed</td>
+                </tr>
+                <tr>
+                    <td>App Size</td>
+                    <td class="win">Ultra-light (31 MB)</td>
+                    <td>Heavy (100 MB+)</td>
+                </tr>
+                <tr>
+                    <td>Core Engine</td>
+                    <td class="win">Rust Core (Sub-15s boot)</td>
+                    <td>Standard Java</td>
+                </tr>
+                <tr>
+                    <td>Ads & Paywalls</td>
+                    <td class="win">100% Free & Open Source</td>
+                    <td>Often contains ads</td>
+                </tr>
+                <tr>
+                    <td>Touch Controls</td>
+                    <td class="win">Native (&lt;2ms latency)</td>
+                    <td>Clunky / Virtual Mouse</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <span class="section-label">Why Size Matters</span>
+        <p class="intro-text">
+            Many players confuse PC launchers with Android ones. If a developer makes a launcher for Windows, it will likely run terribly on a mobile phone. LibreLauncher strips away the bloat. At just 31 MB, it boots your game faster and uses less RAM, leaving more memory for the actual game to run smoothly.
+        </p>
+
+        <!-- Bottom Button Removed -->
+    </div>
+</body>
+</html>
